@@ -731,15 +731,19 @@
       position: relative;
       z-index: 1;
     }
+    .pricing-cards-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
     .mascot-pricing {
-      position: absolute;
-      left: 40px;
-      bottom: 40px;
-      height: 240px;
+      height: 280px;
       width: auto;
-      z-index: 0;
       pointer-events: none;
       animation: mascotFloatPlain 5s ease-in-out infinite;
+      flex-shrink: 0;
+      align-self: center;
     }
     .pricing .section-title { margin-bottom: 56px; }
     .pricing-toggle {
@@ -1271,13 +1275,14 @@
 
   <!-- PRICING -->
   <section class="pricing" id="pricing">
-    <img src="enjoying-removebg-preview.png" alt="pocket planter mascot enjoying" class="mascot-pricing" loading="lazy">
     <div class="pricing-inner">
       <h2 class="section-title reveal">start free, upgrade anytime</h2>
       <div class="pricing-toggle reveal">
         <button class="active" id="toggleMonthly" onclick="setPricing('monthly')">monthly</button>
         <button id="toggleYearly" onclick="setPricing('yearly')">yearly</button>
       </div>
+      <div class="pricing-cards-row">
+        <img src="escalando-removebg-preview.png" alt="pocket planter mascot climbing" class="mascot-pricing" loading="lazy">
       <div class="pricing-cards">
         <div class="pricing-card free reveal-left">
           <div class="pricing-plan">Free</div>
@@ -1310,6 +1315,7 @@
           </ul>
           <a href="#waitlist" class="btn-primary">start free trial &rarr;</a>
         </div>
+      </div>
       </div>
       <p class="pricing-fine-print reveal">Cancel anytime &middot; Prices in USD</p>
     </div>
