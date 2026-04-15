@@ -626,7 +626,7 @@
       padding: 120px 48px;
     }
     .beta-inner {
-      max-width: 1120px;
+      max-width: 1280px;
       margin: 0 auto;
       text-align: center;
     }
@@ -639,12 +639,30 @@
       margin: 0 auto 40px;
       line-height: 1.65;
     }
+    .beta-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .mascot-beta {
+      height: 260px;
+      width: auto;
+      transform: scaleX(-1);
+      animation: mascotFloatFlipped 5s ease-in-out infinite;
+      flex-shrink: 0;
+      align-self: center;
+      pointer-events: none;
+    }
     .beta-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: 48px;
+      gap: 20px;
       text-align: left;
+      width: 840px;
+      max-width: 100%;
+      flex-shrink: 0;
     }
     .beta-card {
       background: var(--white);
@@ -1022,10 +1040,13 @@
       .phone-showcase { gap: 16px; }
       .phone-showcase-item img { width: 140px; }
       .phone-showcase-item.center img { width: 150px; }
-      .beta-grid {
+      .beta-row { flex-direction: column; }
+      .mascot-beta { display: none; }
+      .pricing-cards-row .pricing-cards,
+      .beta-row .beta-grid {
+        width: 100% !important;
         grid-template-columns: 1fr;
         max-width: 480px;
-        margin: 0 auto 48px;
       }
       .pricing-cards {
         grid-template-columns: 1fr;
@@ -1256,6 +1277,8 @@
     <div class="beta-inner">
       <h2 class="section-title reveal">be our first reviewer</h2>
       <p class="beta-subtitle reveal">We're looking for plant parents to test pocket planter before launch. Your feedback shapes the app.</p>
+      <div class="beta-row">
+        <img src="escalando-removebg-preview.png" alt="pocket planter mascot climbing" class="mascot-beta" loading="lazy">
       <div class="beta-grid">
         <div class="beta-card reveal" style="transition-delay:0.1s">
           <span class="beta-card-emoji">&#127793;</span>
@@ -1272,6 +1295,7 @@
           <h3 class="beta-card-title">get rewarded</h3>
           <p class="beta-card-text">Beta testers get 6 months of Pro free when we launch. No credit card ever.</p>
         </div>
+      </div>
       </div>
       <a href="#waitlist" class="beta-cta reveal">apply for beta access &rarr;</a>
       <div class="beta-spots reveal">limited spots available</div>
