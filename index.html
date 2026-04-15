@@ -1551,6 +1551,10 @@
           body: JSON.stringify({ email: email })
         });
 
+        console.log('Supabase response status:', supabaseResponse.status);
+        const supabaseBodyText = await supabaseResponse.text();
+        console.log('Supabase response:', supabaseBodyText);
+
         // 409 means already exists — still a success UX
         if (supabaseResponse.status === 409) {
           form.style.display = 'none';
@@ -1561,7 +1565,8 @@
         }
 
         if (!supabaseResponse.ok) {
-          throw new Error('Failed to save email (status ' + supabaseResponse.status + ')');
+          console.error('Supabase error:', supabaseBodyText);
+          throw new Error('Failed to save email (status ' + supabaseResponse.status + '): ' + supabaseBodyText);
         }
 
         // Step 2: Send confirmation email via Resend (best-effort — ignore failures)
