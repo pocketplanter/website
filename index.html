@@ -273,29 +273,26 @@
       border-radius: 36px;
       border: 8px solid rgba(255,255,255,0.15);
       box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-      animation: mascotFloat 5s ease-in-out infinite;
     }
 
-    /* ---- MASCOT FLOAT ANIMATION (light bgs only) ---- */
-    @keyframes mascotFloat {
-      0%, 100% { transform: translateY(0) rotate(-2deg); }
-      50% { transform: translateY(-12px) rotate(2deg); }
-    }
-    .mascot-img {
-      pointer-events: none;
-      user-select: none;
-      animation: mascotFloat 5s ease-in-out infinite;
+    /* ---- MASCOT FLOAT (flipped, preserves scaleX(-1)) ---- */
+    @keyframes float {
+      0%, 100% { transform: scaleX(-1) translateY(0px); }
+      50% { transform: scaleX(-1) translateY(-10px); }
     }
 
     /* ---- STATS MASCOT (lime bg) ---- */
     .stats { position: relative; }
     .mascot-stats {
       position: absolute;
-      right: 40px;
+      right: 60px;
       bottom: 0;
-      height: 120px;
+      height: 130px;
       width: auto;
       z-index: 2;
+      pointer-events: none;
+      transform: scaleX(-1);
+      animation: float 5s ease-in-out infinite;
     }
 
     /* ---- FEATURES MASCOT + SPEECH (cream bg) ---- */
@@ -303,53 +300,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
-      margin-bottom: 40px;
+      gap: 16px;
+      margin-bottom: 48px;
     }
     .mascot-features {
-      height: 160px;
+      height: 140px;
       width: auto;
+      pointer-events: none;
+      transform: scaleX(-1);
+      animation: float 5s ease-in-out infinite;
     }
     .mascot-features-bubble {
       background: var(--white);
       color: var(--plum);
       font-family: var(--font-body);
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       font-style: italic;
-      padding: 12px 18px;
-      border-radius: 20px 20px 20px 4px;
+      padding: 14px 20px;
+      border-radius: 20px 20px 20px 6px;
       box-shadow: 0 4px 20px rgba(74,42,61,0.1);
+      border: 1px solid rgba(183,111,155,0.15);
       max-width: 280px;
-    }
-
-    /* ---- TESTIMONIALS MASCOT (cream bg) ---- */
-    .testimonials-inner { position: relative; }
-    @keyframes mascotFloatRotated {
-      0%, 100% { transform: translateY(0) rotate(-5deg); }
-      50% { transform: translateY(-12px) rotate(-2deg); }
-    }
-    .mascot-testimonials {
-      position: absolute;
-      left: 20px;
-      bottom: -20px;
-      height: 180px;
-      width: auto;
-      transform: rotate(-5deg);
-      z-index: 2;
-      pointer-events: none;
-      animation: mascotFloatRotated 5s ease-in-out infinite;
-    }
-
-    /* ---- PRICING MASCOT (lime bg) ---- */
-    .pricing { position: relative; }
-    .mascot-pricing {
-      position: absolute;
-      top: -60px;
-      right: 40px;
-      height: 200px;
-      width: auto;
-      z-index: 2;
-      pointer-events: none;
     }
 
     /* ---- PHONE SHOWCASE (features) ---- */
@@ -389,13 +360,13 @@
       letter-spacing: 0.03em;
     }
 
-    /* ---- FLOATING ANIMATION ---- */
-    @keyframes float {
+    /* ---- PHONE FLOATING ANIMATION ---- */
+    @keyframes phoneFloat {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-12px); }
     }
     .float-anim {
-      animation: float 4s ease-in-out infinite;
+      animation: phoneFloat 4s ease-in-out infinite;
     }
 
     /* ---- STATS BAR ---- */
@@ -925,9 +896,7 @@
         flex-direction: column;
       }
       .mascot-stats,
-      .mascot-features-row,
-      .mascot-testimonials,
-      .mascot-pricing { display: none; }
+      .mascot-features-row { display: none; }
       .hero-phone { width: 200px; }
       .footer { padding: 36px 24px; }
       .footer-inner { flex-direction: column; text-align: center; }
@@ -1006,7 +975,7 @@
         <div class="stat-label">coming soon</div>
       </div>
     </div>
-    <img src="surfando-removebg-preview.png" alt="pocket planter mascot surfing" class="mascot-img mascot-stats" loading="lazy">
+    <img src="surfando-removebg-preview.png" alt="pocket planter mascot" class="mascot-stats" loading="lazy">
   </section>
 
   <!-- FEATURES -->
@@ -1016,8 +985,8 @@
       <h2 class="section-title reveal">everything your plant needs</h2>
       <p class="features-subtitle reveal">pocket planter goes beyond basic reminders &mdash; it's a complete plant care system that adapts to your home, your climate, and your lifestyle.</p>
       <div class="mascot-features-row reveal">
-        <img src="surfando-removebg-preview.png" alt="pocket planter mascot" class="mascot-img mascot-features" loading="lazy">
-        <div class="mascot-features-bubble">I know everything your plants need. &#127804;</div>
+        <img src="pensando-removebg-preview.png" alt="pocket planter mascot thinking" class="mascot-features" loading="lazy">
+        <div class="mascot-features-bubble">I know exactly what every plant needs. Ask me anything! &#127804;</div>
       </div>
       <div class="features-grid">
         <div class="feature-card reveal" style="transition-delay:0.05s">
@@ -1122,13 +1091,11 @@
           <div class="testimonial-author">&mdash; Priya R.</div>
         </div>
       </div>
-      <img src="pensando-removebg-preview.png" alt="mascot thinking" class="mascot-testimonials" loading="lazy">
     </div>
   </section>
 
   <!-- PRICING -->
   <section class="pricing" id="pricing">
-    <img src="paraquedas-removebg-preview.png" alt="mascot celebrating" class="mascot-img mascot-pricing" loading="lazy">
     <div class="pricing-inner">
       <h2 class="section-title reveal">start free, upgrade anytime</h2>
       <div class="pricing-toggle reveal">
