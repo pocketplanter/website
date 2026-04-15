@@ -268,20 +268,72 @@
       align-items: center;
       gap: 32px;
     }
-    .hero-mascot {
-      height: 320px;
-      width: auto;
-      filter: drop-shadow(0 0 30px rgba(196,215,119,0.3));
+    /* ---- MASCOT SYSTEM ---- */
+    .mascot {
+      pointer-events: none;
+      user-select: none;
+    }
+    .mascot-dark {
       position: relative;
       z-index: 2;
-      margin-bottom: -60px;
+    }
+    .mascot-dark::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(240,244,216,0.13) 0%, rgba(196,215,119,0.06) 40%, transparent 70%);
+      z-index: -1;
+    }
+    .hero-mascot {
+      margin-bottom: -50px;
+    }
+    .hero-mascot img {
+      height: 300px;
+      width: auto;
     }
     .hero-phone {
       width: 260px;
       border-radius: 36px;
-      border: 8px solid var(--plum);
-      box-shadow: 0 30px 80px rgba(74,42,61,0.4);
+      border: 8px solid rgba(240,244,216,0.2);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
       display: block;
+    }
+    .mascot-features {
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      height: 180px;
+      width: auto;
+      opacity: 0.88;
+      z-index: 2;
+    }
+    .features-inner { position: relative; }
+    .mascot-how {
+      height: 160px;
+      width: auto;
+      margin: 0 auto;
+      display: block;
+    }
+    .mascot-testimonials {
+      position: absolute;
+      left: -40px;
+      bottom: -20px;
+      height: 170px;
+      width: auto;
+      opacity: 0.85;
+      z-index: 2;
+    }
+    .testimonials-inner { position: relative; }
+    .mascot-waitlist {
+      position: absolute;
+      bottom: 20px;
+      right: 40px;
+      height: 180px;
+      width: auto;
     }
 
     /* ---- PHONE SHOWCASE (features) ---- */
@@ -737,15 +789,6 @@
       margin-top: 24px;
     }
     .waitlist-success.show { display: block; }
-    .waitlist-mascot {
-      position: absolute;
-      bottom: 20px;
-      right: 40px;
-      height: 200px;
-      width: auto;
-      transform: rotate(10deg);
-      filter: drop-shadow(0 0 20px rgba(196,215,119,0.2));
-    }
 
     /* ---- FOOTER ---- */
     .footer {
@@ -859,7 +902,10 @@
       .waitlist-form {
         flex-direction: column;
       }
-      .waitlist-mascot { display: none; }
+      .mascot-waitlist { display: none; }
+      .mascot-features { display: none; }
+      .mascot-testimonials { display: none; }
+      .mascot-how { height: 120px; }
       .footer { padding: 36px 24px; }
       .footer-inner { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
@@ -870,7 +916,7 @@
       .hero-headline { font-size: clamp(2.5rem, 10vw, 3.5rem); }
       .hero-buttons { flex-direction: column; }
       .btn-primary, .btn-outline { text-align: center; }
-      .hero-mascot { height: 220px; }
+      .hero-mascot img { height: 200px; }
       .hero-phone { width: 200px; }
       .phone-showcase { flex-direction: column; gap: 24px; }
       .phone-showcase-item img { width: 180px !important; transform: none !important; }
@@ -913,7 +959,9 @@
         </div>
       </div>
       <div class="hero-right">
-        <img src="surfando-removebg-preview.png" alt="pocket planter mascot" class="hero-mascot" loading="lazy">
+        <div class="mascot mascot-dark hero-mascot">
+          <img src="surfando-removebg-preview.png" alt="pocket planter mascot surfing" height="300" loading="lazy">
+        </div>
         <img src="IMG_7374.png" alt="pocket planter home screen" class="hero-phone" loading="lazy">
       </div>
     </div>
@@ -982,6 +1030,7 @@
           <div class="phone-showcase-label">ask planter</div>
         </div>
       </div>
+      <img src="regando-removebg-preview.png" alt="mascot watering plants" class="mascot mascot-features" loading="lazy">
     </div>
   </section>
 
@@ -1003,8 +1052,8 @@
           <h3 class="step-title">get your care plan</h3>
           <p class="step-desc">Personalized schedules for watering, fertilizing, repotting &mdash; based on your home's light and climate.</p>
         </div>
-        <div style="display:flex;align-items:center;justify-content:center;">
-          <div style="width:1px;height:120px;background:rgba(240,244,216,0.1);"></div>
+        <div class="mascot mascot-dark" style="display:flex;align-items:center;justify-content:center;">
+          <img src="pensando-removebg-preview.png" alt="mascot thinking" class="mascot-how" loading="lazy">
         </div>
         <div class="step reveal" style="transition-delay:0.4s">
           <div class="step-number">03</div>
@@ -1039,6 +1088,7 @@
           <div class="testimonial-author">&mdash; Priya R.</div>
         </div>
       </div>
+      <img src="escalando-removebg-preview.png" alt="mascot climbing" class="mascot mascot-testimonials" loading="lazy">
     </div>
   </section>
 
@@ -1093,7 +1143,9 @@
       </form>
       <div class="waitlist-success" id="waitlistSuccess">you're on the list! &#127807;</div>
     </div>
-    <img src="surfando-removebg-preview.png" alt="pocket planter mascot" class="waitlist-mascot" loading="lazy">
+    <div class="mascot mascot-dark mascot-waitlist">
+      <img src="triste-removebg-preview.png" alt="sad mascot waiting for you to join" height="180" loading="lazy">
+    </div>
   </section>
 
   <!-- FOOTER -->
