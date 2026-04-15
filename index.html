@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>pocket planter — every plant, perfectly cared for.</title>
   <meta name="description" content="AI-powered plant care that actually works. Identify, diagnose, and care for every plant — backed by 2,502 species.">
+  <meta name="version" content="2.0.1">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1519,6 +1520,7 @@
 
     // ---- WAITLIST FORM ----
     async function handleWaitlistSubmit(e) {
+      console.log('Waitlist handler loaded v2.0.1');
       e.preventDefault();
 
       const emailInput = document.getElementById('waitlist-email');
