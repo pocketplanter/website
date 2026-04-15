@@ -410,16 +410,17 @@
       margin-top: 16px;
       letter-spacing: 0.01em;
     }
+    @keyframes mascotFloatPlain {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
     .mascot-showcase {
-      position: absolute;
-      left: -20px;
-      bottom: -20px;
-      height: 200px;
+      height: 300px;
       width: auto;
-      z-index: 2;
       pointer-events: none;
-      animation: mascotFloatFlipped 5s ease-in-out infinite;
-      transform: scaleX(-1);
+      animation: mascotFloatPlain 5s ease-in-out infinite;
+      align-self: center;
+      flex-shrink: 0;
     }
 
     /* ---- PHONE FLOATING ANIMATION ---- */
