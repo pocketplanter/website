@@ -130,6 +130,48 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(196,215,119,0.4);
     }
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      margin-right: 12px;
+      background: rgba(196,215,119,0.1);
+      border: 1px solid rgba(196,215,119,0.25);
+      border-radius: 100px;
+      padding: 3px;
+    }
+    .nav.scrolled .lang-switcher {
+      background: rgba(74,42,61,0.06);
+      border-color: rgba(74,42,61,0.15);
+    }
+    .lang-btn {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 100px;
+      background: transparent;
+      color: var(--lime);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav.scrolled .lang-btn { color: var(--plum); opacity: 0.6; }
+    .lang-btn.active {
+      background: var(--lime);
+      color: var(--plum);
+    }
+    .nav.scrolled .lang-btn.active {
+      background: var(--plum);
+      color: var(--cream);
+      opacity: 1;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
     .hamburger {
       display: none;
       flex-direction: column;
@@ -761,6 +803,11 @@
       max-width: 100%;
       flex-shrink: 0;
     }
+    .pricing-cards-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .mascot-pricing {
       height: 280px;
       width: auto;
@@ -880,6 +927,7 @@
       font-size: 0.6875rem;
       color: #8a8a8a;
       margin-top: 16px;
+      width: 100%;
     }
     .pricing-card .btn-primary { width: 100%; text-align: center; }
     .pricing-card.pro .btn-primary {
@@ -1117,19 +1165,26 @@
       </svg>
       <span>pocket planter</span>
     </a>
-    <a href="#waitlist" class="nav-cta desktop">join waitlist</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <div class="lang-switcher" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+        <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+      </div>
+      <a href="#waitlist" class="nav-cta desktop" data-i18n="nav.waitlist">join waitlist</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <button class="close-btn" id="closeMenu" aria-label="Close">&times;</button>
-    <a href="#features" onclick="closeMobileMenu()">features</a>
-    <a href="#how" onclick="closeMobileMenu()">how it works</a>
-    <a href="#pricing" onclick="closeMobileMenu()">pricing</a>
-    <a href="#waitlist" onclick="closeMobileMenu()">join waitlist</a>
+    <a href="#features" onclick="closeMobileMenu()" data-i18n="nav.features">features</a>
+    <a href="#how" onclick="closeMobileMenu()" data-i18n="nav.how">how it works</a>
+    <a href="#pricing" onclick="closeMobileMenu()" data-i18n="nav.pricing">pricing</a>
+    <a href="#waitlist" onclick="closeMobileMenu()" data-i18n="nav.waitlist">join waitlist</a>
   </div>
 
   <!-- HERO -->
@@ -1141,13 +1196,13 @@
       <div class="hero-content">
         <div class="coming-soon-badge">
           <span class="pulse-dot"></span>
-          <span>Coming Soon</span>
+          <span data-i18n="hero.badge">Coming Soon</span>
         </div>
-        <h1 class="hero-headline">every plant,<br>perfectly cared for.</h1>
-        <p class="hero-sub">Smart care schedules, AI plant identification, and expert advice. Everything a proud plant parent needs.</p>
+        <h1 class="hero-headline" data-i18n-html="hero.headline">every plant,<br>perfectly cared for.</h1>
+        <p class="hero-sub" data-i18n="hero.sub">Smart care schedules, AI plant identification, and expert advice. Everything a proud plant parent needs.</p>
         <div class="hero-buttons">
-          <a href="#waitlist" class="btn-primary">get early access &rarr;</a>
-          <a href="#features" class="btn-outline">see how it works &darr;</a>
+          <a href="#waitlist" class="btn-primary" data-i18n="hero.cta1">get early access &rarr;</a>
+          <a href="#features" class="btn-outline" data-i18n="hero.cta2">see how it works &darr;</a>
         </div>
       </div>
       <div class="hero-right">
@@ -1161,23 +1216,23 @@
     <div class="stats-inner">
       <div class="stat">
         <span class="stat-emoji">&#127968;</span>
-        <div class="stat-title">by room</div>
-        <div class="stat-label">ORGANIZED CARE</div>
+        <div class="stat-title" data-i18n="stats.1.title">by room</div>
+        <div class="stat-label" data-i18n="stats.1.label">ORGANIZED CARE</div>
       </div>
       <div class="stat">
         <span class="stat-emoji">&#127782;&#65039;</span>
-        <div class="stat-title">weather-smart</div>
-        <div class="stat-label">SCHEDULES</div>
+        <div class="stat-title" data-i18n="stats.2.title">weather-smart</div>
+        <div class="stat-label" data-i18n="stats.2.label">SCHEDULES</div>
       </div>
       <div class="stat">
         <span class="stat-emoji">&#128172;</span>
-        <div class="stat-title">AI expert</div>
-        <div class="stat-label">IN YOUR POCKET</div>
+        <div class="stat-title" data-i18n="stats.3.title">AI expert</div>
+        <div class="stat-label" data-i18n="stats.3.label">IN YOUR POCKET</div>
       </div>
       <div class="stat">
         <span class="stat-emoji">&#127379;</span>
-        <div class="stat-title">free to start</div>
-        <div class="stat-label">NO CREDIT CARD</div>
+        <div class="stat-title" data-i18n="stats.4.title">free to start</div>
+        <div class="stat-label" data-i18n="stats.4.label">NO CREDIT CARD</div>
       </div>
     </div>
     <img src="surfando-removebg-preview.png" alt="pocket planter mascot" class="mascot-stats" loading="lazy">
@@ -1186,58 +1241,58 @@
   <!-- FEATURES -->
   <section class="features" id="features">
     <div class="features-inner">
-      <div class="section-label reveal">what we do</div>
-      <h2 class="section-title reveal">everything your plant needs</h2>
-      <p class="features-subtitle reveal">pocket planter goes beyond basic reminders &mdash; it's a complete plant care system that adapts to your home, your climate, and your lifestyle.</p>
+      <div class="section-label reveal" data-i18n="features.label">what we do</div>
+      <h2 class="section-title reveal" data-i18n="features.title">everything your plant needs</h2>
+      <p class="features-subtitle reveal" data-i18n="features.subtitle">pocket planter goes beyond basic reminders &mdash; it's a complete plant care system that adapts to your home, your climate, and your lifestyle.</p>
       <div class="mascot-features-row reveal">
         <img src="paraquedas-removebg-preview.png" alt="pocket planter mascot parachuting" class="mascot-features" loading="lazy">
-        <div class="mascot-features-bubble">I know exactly what every plant needs. Ask me anything! &#127804;</div>
+        <div class="mascot-features-bubble" data-i18n="features.bubble">I know exactly what every plant needs. Ask me anything! &#127804;</div>
       </div>
       <div class="features-grid">
         <div class="feature-card reveal" style="transition-delay:0.05s">
           <div class="feature-icon" style="background:rgba(196,215,119,0.2)">&#127968;</div>
-          <h3 class="feature-name">Care by Room</h3>
-          <p class="feature-desc">Organize your plants by room &mdash; living room, bedroom, kitchen. Get tailored care reminders for each space in your home.</p>
+          <h3 class="feature-name" data-i18n="features.c1.name">Care by Room</h3>
+          <p class="feature-desc" data-i18n="features.c1.desc">Organize your plants by room &mdash; living room, bedroom, kitchen. Get tailored care reminders for each space in your home.</p>
         </div>
         <div class="feature-card reveal" style="transition-delay:0.1s">
           <div class="feature-icon" style="background:rgba(69,123,157,0.12)">&#128167;</div>
-          <h3 class="feature-name">Smart Watering Schedules</h3>
-          <p class="feature-desc">Never guess again. Personalized watering, fertilizing and repotting schedules based on each plant's needs &mdash; automatically adjusted as seasons change.</p>
+          <h3 class="feature-name" data-i18n="features.c2.name">Smart Watering Schedules</h3>
+          <p class="feature-desc" data-i18n="features.c2.desc">Never guess again. Personalized watering, fertilizing and repotting schedules based on each plant's needs &mdash; automatically adjusted as seasons change.</p>
         </div>
         <div class="feature-card reveal" style="transition-delay:0.15s">
           <div class="feature-icon" style="background:rgba(230,150,50,0.12)">&#9728;&#65039;</div>
-          <h3 class="feature-name">Light &amp; Climate Intelligence</h3>
-          <p class="feature-desc">Connects to your local weather and rainfall data. Your care schedule adapts automatically when it rains or when temperatures drop.</p>
+          <h3 class="feature-name" data-i18n="features.c3.name">Light &amp; Climate Intelligence</h3>
+          <p class="feature-desc" data-i18n="features.c3.desc">Connects to your local weather and rainfall data. Your care schedule adapts automatically when it rains or when temperatures drop.</p>
         </div>
         <div class="feature-card reveal" style="transition-delay:0.2s">
           <div class="feature-icon" style="background:rgba(183,111,155,0.12)">&#129658;</div>
-          <h3 class="feature-name">AI Problem Diagnosis</h3>
-          <p class="feature-desc">Yellow leaves? Brown tips? Wilting? Take a photo and our AI identifies the exact problem and gives you a step-by-step fix.</p>
+          <h3 class="feature-name" data-i18n="features.c4.name">AI Problem Diagnosis</h3>
+          <p class="feature-desc" data-i18n="features.c4.desc">Yellow leaves? Brown tips? Wilting? Take a photo and our AI identifies the exact problem and gives you a step-by-step fix.</p>
         </div>
         <div class="feature-card reveal" style="transition-delay:0.25s">
           <div class="feature-icon" style="background:rgba(74,42,61,0.08)">&#128172;</div>
-          <h3 class="feature-name">Ask Planter AI</h3>
-          <p class="feature-desc">Your personal plant expert available 24/7. Ask anything about your specific plants and get personalized advice based on their history.</p>
+          <h3 class="feature-name" data-i18n="features.c5.name">Ask Planter AI</h3>
+          <p class="feature-desc" data-i18n="features.c5.desc">Your personal plant expert available 24/7. Ask anything about your specific plants and get personalized advice based on their history.</p>
         </div>
         <div class="feature-card reveal" style="transition-delay:0.3s">
           <div class="feature-icon" style="background:rgba(100,180,80,0.12)">&#128722;</div>
-          <h3 class="feature-name">Product Recommendations</h3>
-          <p class="feature-desc">Get curated product suggestions &mdash; the right soil, fertilizer, and tools for each of your plants. Shop directly from the app.</p>
+          <h3 class="feature-name" data-i18n="features.c6.name">Product Recommendations</h3>
+          <p class="feature-desc" data-i18n="features.c6.desc">Get curated product suggestions &mdash; the right soil, fertilizer, and tools for each of your plants. Shop directly from the app.</p>
         </div>
       </div>
       <div class="phone-showcase reveal">
         <img src="correndo-removebg-preview.png" alt="pocket planter mascot running" class="mascot-showcase" loading="lazy">
         <div class="phone-showcase-item left">
           <img src="IMG_7375.png" alt="my garden screen" loading="lazy">
-          <div class="phone-showcase-label">my garden</div>
+          <div class="phone-showcase-label" data-i18n="showcase.garden">my garden</div>
         </div>
         <div class="phone-showcase-item center">
           <img src="IMG_7374.png" alt="today's tasks screen" loading="lazy">
-          <div class="phone-showcase-label">today's tasks</div>
+          <div class="phone-showcase-label" data-i18n="showcase.tasks">today's tasks</div>
         </div>
         <div class="phone-showcase-item right">
           <img src="IMG_7376.png" alt="ask planter screen" loading="lazy">
-          <div class="phone-showcase-label">ask planter</div>
+          <div class="phone-showcase-label" data-i18n="showcase.ask">ask planter</div>
         </div>
       </div>
     </div>
@@ -1246,28 +1301,28 @@
   <!-- HOW IT WORKS -->
   <section class="how" id="how">
     <div class="how-inner">
-      <h2 class="section-title reveal">three steps to thriving plants</h2>
+      <h2 class="section-title reveal" data-i18n="how.title">three steps to thriving plants</h2>
       <div class="steps">
         <div class="step reveal" style="transition-delay:0.1s">
           <div class="step-number">01</div>
-          <h3 class="step-title">add your plants</h3>
-          <p class="step-desc">Search our database of 2,502 species or snap a photo to identify instantly.</p>
+          <h3 class="step-title" data-i18n="how.s1.title">add your plants</h3>
+          <p class="step-desc" data-i18n="how.s1.desc">Search our database of 2,502 species or snap a photo to identify instantly.</p>
         </div>
         <div class="step-phone reveal-scale float-anim" style="transition-delay:0.2s">
           <img src="IMG_7374.png" alt="pocket planter app" loading="lazy">
         </div>
         <div class="step reveal" style="transition-delay:0.3s">
           <div class="step-number">02</div>
-          <h3 class="step-title">get your care plan</h3>
-          <p class="step-desc">Personalized schedules for watering, fertilizing, repotting &mdash; based on your home's light and climate.</p>
+          <h3 class="step-title" data-i18n="how.s2.title">get your care plan</h3>
+          <p class="step-desc" data-i18n="how.s2.desc">Personalized schedules for watering, fertilizing, repotting &mdash; based on your home's light and climate.</p>
         </div>
         <div class="step-phone reveal-scale float-anim" style="transition-delay:0.3s">
           <img src="IMG_7376.png" alt="ask planter screen" loading="lazy">
         </div>
         <div class="step reveal" style="transition-delay:0.4s">
           <div class="step-number">03</div>
-          <h3 class="step-title">watch them thrive</h3>
-          <p class="step-desc">Track growth with photos, diagnose problems early, and chat with your AI plant expert anytime.</p>
+          <h3 class="step-title" data-i18n="how.s3.title">watch them thrive</h3>
+          <p class="step-desc" data-i18n="how.s3.desc">Track growth with photos, diagnose problems early, and chat with your AI plant expert anytime.</p>
         </div>
       </div>
     </div>
@@ -1276,91 +1331,93 @@
   <!-- BETA -->
   <section class="beta" id="beta">
     <div class="beta-inner">
-      <h2 class="section-title reveal">be our first reviewer</h2>
-      <p class="beta-subtitle reveal">We're looking for plant parents to test pocket planter before launch. Your feedback shapes the app.</p>
+      <h2 class="section-title reveal" data-i18n="beta.title">be our first reviewer</h2>
+      <p class="beta-subtitle reveal" data-i18n="beta.subtitle">We're looking for plant parents to test pocket planter before launch. Your feedback shapes the app.</p>
       <div class="beta-row">
         <img src="escalando-removebg-preview.png" alt="pocket planter mascot climbing" class="mascot-beta" loading="lazy">
       <div class="beta-grid">
         <div class="beta-card reveal" style="transition-delay:0.1s">
           <span class="beta-card-emoji">&#127793;</span>
-          <h3 class="beta-card-title">beta tester</h3>
-          <p class="beta-card-text">Get early access before everyone else. Be the first to try every new feature.</p>
+          <h3 class="beta-card-title" data-i18n="beta.c1.title">beta tester</h3>
+          <p class="beta-card-text" data-i18n="beta.c1.text">Get early access before everyone else. Be the first to try every new feature.</p>
         </div>
         <div class="beta-card highlighted reveal" style="transition-delay:0.2s">
           <span class="beta-card-emoji">&#128172;</span>
-          <h3 class="beta-card-title">share feedback</h3>
-          <p class="beta-card-text">Tell us what works, what doesn't, and what you wish it could do.</p>
+          <h3 class="beta-card-title" data-i18n="beta.c2.title">share feedback</h3>
+          <p class="beta-card-text" data-i18n="beta.c2.text">Tell us what works, what doesn't, and what you wish it could do.</p>
         </div>
         <div class="beta-card reveal" style="transition-delay:0.3s">
           <span class="beta-card-emoji">&#127873;</span>
-          <h3 class="beta-card-title">get rewarded</h3>
-          <p class="beta-card-text">Beta testers get 6 months of Pro free when we launch. No credit card ever.</p>
+          <h3 class="beta-card-title" data-i18n="beta.c3.title">get rewarded</h3>
+          <p class="beta-card-text" data-i18n="beta.c3.text">Beta testers get 6 months of Pro free when we launch. No credit card ever.</p>
         </div>
       </div>
       </div>
-      <a href="#waitlist" class="beta-cta reveal">apply for beta access &rarr;</a>
-      <div class="beta-spots reveal">limited spots available</div>
+      <a href="#waitlist" class="beta-cta reveal" data-i18n="beta.cta">apply for beta access &rarr;</a>
+      <div class="beta-spots reveal" data-i18n="beta.spots">limited spots available</div>
     </div>
   </section>
 
   <!-- PRICING -->
   <section class="pricing" id="pricing">
     <div class="pricing-inner">
-      <h2 class="section-title reveal">start free, upgrade anytime</h2>
+      <h2 class="section-title reveal" data-i18n="pricing.title">start free, upgrade anytime</h2>
       <div class="pricing-toggle reveal">
-        <button class="active" id="toggleMonthly" onclick="setPricing('monthly')">monthly</button>
-        <button id="toggleYearly" onclick="setPricing('yearly')">yearly</button>
+        <button class="active" id="toggleMonthly" onclick="setPricing('monthly')" data-i18n="pricing.monthly">monthly</button>
+        <button id="toggleYearly" onclick="setPricing('yearly')" data-i18n="pricing.yearly">yearly</button>
       </div>
       <div class="pricing-cards-row">
         <img src="regando-removebg-preview.png" alt="pocket planter mascot watering" class="mascot-pricing" loading="lazy">
+      <div class="pricing-cards-col">
       <div class="pricing-cards">
         <div class="pricing-card free reveal-left">
-          <div class="pricing-plan">Free</div>
+          <div class="pricing-plan" data-i18n="pricing.free.plan">Free</div>
           <div class="pricing-price">$0</div>
-          <div class="pricing-period">forever</div>
+          <div class="pricing-period" data-i18n="pricing.free.period">forever</div>
           <ul class="pricing-features">
-            <li><span class="pricing-check">&#10003;</span> Up to 5 plants</li>
-            <li><span class="pricing-check">&#10003;</span> 5 AI chats per month</li>
-            <li><span class="pricing-check">&#10003;</span> 3 plant identifications per month</li>
-            <li><span class="pricing-check">&#10003;</span> Basic care guides</li>
-            <li><span class="pricing-check">&#10003;</span> Watering reminders</li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.free.f1">Up to 5 plants</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.free.f2">5 AI chats per month</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.free.f3">3 plant identifications per month</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.free.f4">Basic care guides</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.free.f5">Watering reminders</span></li>
           </ul>
-          <a href="#waitlist" class="btn-primary">get started &rarr;</a>
+          <a href="#waitlist" class="btn-primary" data-i18n="pricing.free.cta">get started &rarr;</a>
         </div>
         <div class="pricing-card pro reveal-right">
-          <div class="pricing-badge">best value</div>
-          <div class="pricing-plan">Pro</div>
+          <div class="pricing-badge" data-i18n="pricing.pro.badge">best value</div>
+          <div class="pricing-plan" data-i18n="pricing.pro.plan">Pro</div>
           <div class="pricing-price" id="proPrice">$4.99</div>
-          <div class="pricing-period" id="proPeriod">/ month</div>
-          <div class="pricing-save" id="proSave" style="display:none;">save 33%</div>
+          <div class="pricing-period" id="proPeriod" data-i18n="pricing.pro.periodMonthly">/ month</div>
+          <div class="pricing-save" id="proSave" style="display:none;" data-i18n="pricing.pro.save">save 33%</div>
           <ul class="pricing-features">
-            <li><span class="pricing-check">&#10003;</span> Unlimited plants</li>
-            <li><span class="pricing-check">&#10003;</span> Unlimited AI chats with Planter</li>
-            <li><span class="pricing-check">&#10003;</span> AI plant identification (unlimited)</li>
-            <li><span class="pricing-check">&#10003;</span> Disease diagnosis &amp; treatment plans</li>
-            <li><span class="pricing-check">&#10003;</span> Weather-smart care schedules</li>
-            <li><span class="pricing-check">&#10003;</span> Growth photo timeline</li>
-            <li><span class="pricing-check">&#10003;</span> Room-by-room organization</li>
-            <li><span class="pricing-check">&#10003;</span> Priority support</li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f1">Unlimited plants</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f2">Unlimited AI chats with Planter</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f3">AI plant identification (unlimited)</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f4">Disease diagnosis &amp; treatment plans</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f5">Weather-smart care schedules</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f6">Growth photo timeline</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f7">Room-by-room organization</span></li>
+            <li><span class="pricing-check">&#10003;</span> <span data-i18n="pricing.pro.f8">Priority support</span></li>
           </ul>
-          <a href="#waitlist" class="btn-primary">start free trial &rarr;</a>
+          <a href="#waitlist" class="btn-primary" data-i18n="pricing.pro.cta">start free trial &rarr;</a>
         </div>
       </div>
+      <p class="pricing-fine-print reveal" data-i18n="pricing.fine">Cancel anytime &middot; Prices in USD</p>
       </div>
-      <p class="pricing-fine-print reveal">Cancel anytime &middot; Prices in USD</p>
+      </div>
     </div>
   </section>
 
   <!-- WAITLIST -->
   <section class="waitlist" id="waitlist">
     <div class="waitlist-inner reveal-scale">
-      <h2 class="waitlist-title">join the proud plant parents.</h2>
-      <p class="waitlist-sub">We're launching soon. Join the waitlist and get 3 months of Pro free.</p>
+      <h2 class="waitlist-title" data-i18n="waitlist.title">join the proud plant parents.</h2>
+      <p class="waitlist-sub" data-i18n="waitlist.sub">We're launching soon. Join the waitlist and get 3 months of Pro free.</p>
       <form class="waitlist-form" id="waitlistForm">
-        <input type="email" class="waitlist-input" placeholder="your@email.com" required>
-        <button type="submit" class="btn-primary">join waitlist &rarr;</button>
+        <input type="email" class="waitlist-input" placeholder="your@email.com" data-i18n-attr="placeholder" data-i18n="waitlist.placeholder" required>
+        <button type="submit" class="btn-primary" data-i18n="waitlist.cta">join waitlist &rarr;</button>
       </form>
-      <div class="waitlist-success" id="waitlistSuccess">you're on the list! &#127807;</div>
+      <div class="waitlist-success" id="waitlistSuccess" data-i18n="waitlist.success">you're on the list! &#127807;</div>
     </div>
   </section>
 
@@ -1375,16 +1432,16 @@
         <span>pocket planter</span>
       </div>
       <div class="footer-links">
-        <a href="#">Privacy Policy</a>
+        <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
         <span>&middot;</span>
-        <a href="#">Terms of Service</a>
+        <a href="#" data-i18n="footer.terms">Terms of Service</a>
         <span>&middot;</span>
         <a href="mailto:hello@pocketplanter.app">hello@pocketplanter.app</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2025 pocket planter. growing together &#127807;</div>
-      <div class="footer-platforms">Available soon on iOS and Android</div>
+      <div class="footer-copy" data-i18n="footer.copy">&copy; 2025 pocket planter. growing together &#127807;</div>
+      <div class="footer-platforms" data-i18n="footer.platforms">Available soon on iOS and Android</div>
     </div>
   </footer>
 
@@ -1433,7 +1490,9 @@
     // Stats are now static text — no animation needed
 
     // ---- PRICING TOGGLE ----
+    let currentPricingType = 'monthly';
     function setPricing(type) {
+      currentPricingType = type;
       const priceEl = document.getElementById('proPrice');
       const periodEl = document.getElementById('proPeriod');
       const saveEl = document.getElementById('proSave');
@@ -1441,13 +1500,13 @@
       const yBtn = document.getElementById('toggleYearly');
       if (type === 'yearly') {
         priceEl.textContent = '$39.99';
-        periodEl.textContent = '/ year ($3.33/month)';
+        periodEl.textContent = t('pricing.pro.periodYearly');
         saveEl.style.display = 'inline-block';
         yBtn.classList.add('active');
         mBtn.classList.remove('active');
       } else {
         priceEl.textContent = '$4.99';
-        periodEl.textContent = '/ month';
+        periodEl.textContent = t('pricing.pro.periodMonthly');
         saveEl.style.display = 'none';
         mBtn.classList.add('active');
         yBtn.classList.remove('active');
@@ -1460,6 +1519,322 @@
       this.style.display = 'none';
       document.getElementById('waitlistSuccess').classList.add('show');
     });
+
+    // ---- I18N ----
+    const translations = {
+      en: {
+        "nav.waitlist": "join waitlist",
+        "nav.features": "features",
+        "nav.how": "how it works",
+        "nav.pricing": "pricing",
+        "hero.badge": "Coming Soon",
+        "hero.headline": "every plant,<br>perfectly cared for.",
+        "hero.sub": "Smart care schedules, AI plant identification, and expert advice. Everything a proud plant parent needs.",
+        "hero.cta1": "get early access \u2192",
+        "hero.cta2": "see how it works \u2193",
+        "stats.1.title": "by room",
+        "stats.1.label": "ORGANIZED CARE",
+        "stats.2.title": "weather-smart",
+        "stats.2.label": "SCHEDULES",
+        "stats.3.title": "AI expert",
+        "stats.3.label": "IN YOUR POCKET",
+        "stats.4.title": "free to start",
+        "stats.4.label": "NO CREDIT CARD",
+        "features.label": "what we do",
+        "features.title": "everything your plant needs",
+        "features.subtitle": "pocket planter goes beyond basic reminders \u2014 it's a complete plant care system that adapts to your home, your climate, and your lifestyle.",
+        "features.bubble": "I know exactly what every plant needs. Ask me anything! \ud83c\udf3c",
+        "features.c1.name": "Care by Room",
+        "features.c1.desc": "Organize your plants by room \u2014 living room, bedroom, kitchen. Get tailored care reminders for each space in your home.",
+        "features.c2.name": "Smart Watering Schedules",
+        "features.c2.desc": "Never guess again. Personalized watering, fertilizing and repotting schedules based on each plant's needs \u2014 automatically adjusted as seasons change.",
+        "features.c3.name": "Light & Climate Intelligence",
+        "features.c3.desc": "Connects to your local weather and rainfall data. Your care schedule adapts automatically when it rains or when temperatures drop.",
+        "features.c4.name": "AI Problem Diagnosis",
+        "features.c4.desc": "Yellow leaves? Brown tips? Wilting? Take a photo and our AI identifies the exact problem and gives you a step-by-step fix.",
+        "features.c5.name": "Ask Planter AI",
+        "features.c5.desc": "Your personal plant expert available 24/7. Ask anything about your specific plants and get personalized advice based on their history.",
+        "features.c6.name": "Product Recommendations",
+        "features.c6.desc": "Get curated product suggestions \u2014 the right soil, fertilizer, and tools for each of your plants. Shop directly from the app.",
+        "showcase.garden": "my garden",
+        "showcase.tasks": "today's tasks",
+        "showcase.ask": "ask planter",
+        "how.title": "three steps to thriving plants",
+        "how.s1.title": "add your plants",
+        "how.s1.desc": "Search our database of 2,502 species or snap a photo to identify instantly.",
+        "how.s2.title": "get your care plan",
+        "how.s2.desc": "Personalized schedules for watering, fertilizing, repotting \u2014 based on your home's light and climate.",
+        "how.s3.title": "watch them thrive",
+        "how.s3.desc": "Track growth with photos, diagnose problems early, and chat with your AI plant expert anytime.",
+        "beta.title": "be our first reviewer",
+        "beta.subtitle": "We're looking for plant parents to test pocket planter before launch. Your feedback shapes the app.",
+        "beta.c1.title": "beta tester",
+        "beta.c1.text": "Get early access before everyone else. Be the first to try every new feature.",
+        "beta.c2.title": "share feedback",
+        "beta.c2.text": "Tell us what works, what doesn't, and what you wish it could do.",
+        "beta.c3.title": "get rewarded",
+        "beta.c3.text": "Beta testers get 6 months of Pro free when we launch. No credit card ever.",
+        "beta.cta": "apply for beta access \u2192",
+        "beta.spots": "limited spots available",
+        "pricing.title": "start free, upgrade anytime",
+        "pricing.monthly": "monthly",
+        "pricing.yearly": "yearly",
+        "pricing.free.plan": "Free",
+        "pricing.free.period": "forever",
+        "pricing.free.f1": "Up to 5 plants",
+        "pricing.free.f2": "5 AI chats per month",
+        "pricing.free.f3": "3 plant identifications per month",
+        "pricing.free.f4": "Basic care guides",
+        "pricing.free.f5": "Watering reminders",
+        "pricing.free.cta": "get started \u2192",
+        "pricing.pro.badge": "best value",
+        "pricing.pro.plan": "Pro",
+        "pricing.pro.periodMonthly": "/ month",
+        "pricing.pro.periodYearly": "/ year ($3.33/month)",
+        "pricing.pro.save": "save 33%",
+        "pricing.pro.f1": "Unlimited plants",
+        "pricing.pro.f2": "Unlimited AI chats with Planter",
+        "pricing.pro.f3": "AI plant identification (unlimited)",
+        "pricing.pro.f4": "Disease diagnosis & treatment plans",
+        "pricing.pro.f5": "Weather-smart care schedules",
+        "pricing.pro.f6": "Growth photo timeline",
+        "pricing.pro.f7": "Room-by-room organization",
+        "pricing.pro.f8": "Priority support",
+        "pricing.pro.cta": "start free trial \u2192",
+        "pricing.fine": "Cancel anytime \u00b7 Prices in USD",
+        "waitlist.title": "join the proud plant parents.",
+        "waitlist.sub": "We're launching soon. Join the waitlist and get 3 months of Pro free.",
+        "waitlist.placeholder": "your@email.com",
+        "waitlist.cta": "join waitlist \u2192",
+        "waitlist.success": "you're on the list! \ud83c\udf3f",
+        "footer.privacy": "Privacy Policy",
+        "footer.terms": "Terms of Service",
+        "footer.copy": "\u00a9 2025 pocket planter. growing together \ud83c\udf3f",
+        "footer.platforms": "Available soon on iOS and Android"
+      },
+      pt: {
+        "nav.waitlist": "entrar na lista",
+        "nav.features": "recursos",
+        "nav.how": "como funciona",
+        "nav.pricing": "planos",
+        "hero.badge": "Em breve",
+        "hero.headline": "cada planta,<br>perfeitamente cuidada.",
+        "hero.sub": "Cronograma inteligente de cuidados, identifica\u00e7\u00e3o de plantas por IA e conselhos de especialista. Tudo que um orgulhoso pai de plantas precisa.",
+        "hero.cta1": "acesso antecipado \u2192",
+        "hero.cta2": "veja como funciona \u2193",
+        "stats.1.title": "por c\u00f4modo",
+        "stats.1.label": "CUIDADO ORGANIZADO",
+        "stats.2.title": "clima-inteligente",
+        "stats.2.label": "AGENDAS",
+        "stats.3.title": "especialista IA",
+        "stats.3.label": "NO SEU BOLSO",
+        "stats.4.title": "gr\u00e1tis para come\u00e7ar",
+        "stats.4.label": "SEM CART\u00c3O",
+        "features.label": "o que fazemos",
+        "features.title": "tudo que sua planta precisa",
+        "features.subtitle": "o pocket planter vai al\u00e9m de lembretes b\u00e1sicos \u2014 \u00e9 um sistema completo de cuidados que se adapta \u00e0 sua casa, ao seu clima e ao seu estilo de vida.",
+        "features.bubble": "Eu sei exatamente do que cada planta precisa. Me pergunte qualquer coisa! \ud83c\udf3c",
+        "features.c1.name": "Cuidado por C\u00f4modo",
+        "features.c1.desc": "Organize suas plantas por c\u00f4modo \u2014 sala, quarto, cozinha. Receba lembretes personalizados para cada espa\u00e7o da sua casa.",
+        "features.c2.name": "Rega Inteligente",
+        "features.c2.desc": "Nunca mais adivinhe. Cronogramas personalizados de rega, aduba\u00e7\u00e3o e replantio baseados nas necessidades de cada planta \u2014 ajustados automaticamente conforme as esta\u00e7\u00f5es mudam.",
+        "features.c3.name": "Intelig\u00eancia de Luz & Clima",
+        "features.c3.desc": "Conecta com dados meteorol\u00f3gicos e de chuva da sua regi\u00e3o. Seu cronograma se adapta automaticamente quando chove ou quando a temperatura cai.",
+        "features.c4.name": "Diagn\u00f3stico por IA",
+        "features.c4.desc": "Folhas amarelas? Pontas marrons? Murchando? Tire uma foto e nossa IA identifica o problema exato e d\u00e1 uma solu\u00e7\u00e3o passo a passo.",
+        "features.c5.name": "Pergunte ao Planter",
+        "features.c5.desc": "Seu especialista pessoal em plantas dispon\u00edvel 24/7. Pergunte qualquer coisa sobre suas plantas e receba conselhos personalizados baseados no hist\u00f3rico delas.",
+        "features.c6.name": "Recomenda\u00e7\u00f5es de Produtos",
+        "features.c6.desc": "Receba sugest\u00f5es selecionadas \u2014 o substrato, fertilizante e ferramentas certas para cada planta. Compre direto pelo app.",
+        "showcase.garden": "meu jardim",
+        "showcase.tasks": "tarefas de hoje",
+        "showcase.ask": "pergunte ao planter",
+        "how.title": "tr\u00eas passos para plantas saud\u00e1veis",
+        "how.s1.title": "adicione suas plantas",
+        "how.s1.desc": "Pesquise nosso banco de 2.502 esp\u00e9cies ou tire uma foto para identificar na hora.",
+        "how.s2.title": "receba seu plano de cuidados",
+        "how.s2.desc": "Cronograma personalizado de rega, aduba\u00e7\u00e3o e replantio \u2014 baseado na luz e no clima da sua casa.",
+        "how.s3.title": "veja elas florescerem",
+        "how.s3.desc": "Acompanhe o crescimento com fotos, diagnostique problemas cedo e converse com seu especialista IA quando quiser.",
+        "beta.title": "seja nosso primeiro revisor",
+        "beta.subtitle": "Estamos procurando pais de plantas para testar o pocket planter antes do lan\u00e7amento. Seu feedback molda o app.",
+        "beta.c1.title": "testador beta",
+        "beta.c1.text": "Acesso antecipado antes de todo mundo. Seja o primeiro a testar cada nova funcionalidade.",
+        "beta.c2.title": "compartilhe feedback",
+        "beta.c2.text": "Nos conte o que funciona, o que n\u00e3o funciona e o que voc\u00ea gostaria que fizesse.",
+        "beta.c3.title": "seja recompensado",
+        "beta.c3.text": "Testadores beta ganham 6 meses de Pro gr\u00e1tis no lan\u00e7amento. Sem cart\u00e3o de cr\u00e9dito.",
+        "beta.cta": "inscreva-se no beta \u2192",
+        "beta.spots": "vagas limitadas",
+        "pricing.title": "come\u00e7e gr\u00e1tis, evolua quando quiser",
+        "pricing.monthly": "mensal",
+        "pricing.yearly": "anual",
+        "pricing.free.plan": "Gr\u00e1tis",
+        "pricing.free.period": "para sempre",
+        "pricing.free.f1": "At\u00e9 5 plantas",
+        "pricing.free.f2": "5 chats IA por m\u00eas",
+        "pricing.free.f3": "3 identifica\u00e7\u00f5es por m\u00eas",
+        "pricing.free.f4": "Guias b\u00e1sicos de cuidado",
+        "pricing.free.f5": "Lembretes de rega",
+        "pricing.free.cta": "come\u00e7ar \u2192",
+        "pricing.pro.badge": "melhor escolha",
+        "pricing.pro.plan": "Pro",
+        "pricing.pro.periodMonthly": "/ m\u00eas",
+        "pricing.pro.periodYearly": "/ ano ($3,33/m\u00eas)",
+        "pricing.pro.save": "economize 33%",
+        "pricing.pro.f1": "Plantas ilimitadas",
+        "pricing.pro.f2": "Chats ilimitados com Planter IA",
+        "pricing.pro.f3": "Identifica\u00e7\u00e3o de plantas (ilimitada)",
+        "pricing.pro.f4": "Diagn\u00f3stico & plano de tratamento",
+        "pricing.pro.f5": "Cronograma clima-inteligente",
+        "pricing.pro.f6": "Linha do tempo de crescimento",
+        "pricing.pro.f7": "Organiza\u00e7\u00e3o por c\u00f4modo",
+        "pricing.pro.f8": "Suporte priorit\u00e1rio",
+        "pricing.pro.cta": "come\u00e7ar trial gr\u00e1tis \u2192",
+        "pricing.fine": "Cancele quando quiser \u00b7 Pre\u00e7os em USD",
+        "waitlist.title": "junte-se aos orgulhosos pais de plantas.",
+        "waitlist.sub": "Vamos lan\u00e7ar em breve. Entre na lista de espera e ganhe 3 meses de Pro gr\u00e1tis.",
+        "waitlist.placeholder": "seu@email.com",
+        "waitlist.cta": "entrar na lista \u2192",
+        "waitlist.success": "voc\u00ea est\u00e1 na lista! \ud83c\udf3f",
+        "footer.privacy": "Pol\u00edtica de Privacidade",
+        "footer.terms": "Termos de Servi\u00e7o",
+        "footer.copy": "\u00a9 2025 pocket planter. crescendo juntos \ud83c\udf3f",
+        "footer.platforms": "Em breve no iOS e Android"
+      },
+      es: {
+        "nav.waitlist": "\u00fanete a la lista",
+        "nav.features": "funciones",
+        "nav.how": "c\u00f3mo funciona",
+        "nav.pricing": "precios",
+        "hero.badge": "Pr\u00f3ximamente",
+        "hero.headline": "cada planta,<br>perfectamente cuidada.",
+        "hero.sub": "Horarios inteligentes de cuidado, identificaci\u00f3n de plantas con IA y consejos de expertos. Todo lo que un orgulloso padre de plantas necesita.",
+        "hero.cta1": "acceso anticipado \u2192",
+        "hero.cta2": "mira c\u00f3mo funciona \u2193",
+        "stats.1.title": "por habitaci\u00f3n",
+        "stats.1.label": "CUIDADO ORGANIZADO",
+        "stats.2.title": "clima-inteligente",
+        "stats.2.label": "HORARIOS",
+        "stats.3.title": "experto IA",
+        "stats.3.label": "EN TU BOLSILLO",
+        "stats.4.title": "gratis al empezar",
+        "stats.4.label": "SIN TARJETA",
+        "features.label": "lo que hacemos",
+        "features.title": "todo lo que tu planta necesita",
+        "features.subtitle": "pocket planter va m\u00e1s all\u00e1 de los recordatorios b\u00e1sicos \u2014 es un sistema completo de cuidado que se adapta a tu hogar, tu clima y tu estilo de vida.",
+        "features.bubble": "S\u00e9 exactamente lo que cada planta necesita. \u00a1Preg\u00fantame lo que sea! \ud83c\udf3c",
+        "features.c1.name": "Cuidado por Habitaci\u00f3n",
+        "features.c1.desc": "Organiza tus plantas por habitaci\u00f3n \u2014 sala, dormitorio, cocina. Recibe recordatorios personalizados para cada espacio de tu casa.",
+        "features.c2.name": "Riego Inteligente",
+        "features.c2.desc": "Nunca m\u00e1s adivines. Horarios personalizados de riego, fertilizaci\u00f3n y trasplante seg\u00fan las necesidades de cada planta \u2014 ajustados autom\u00e1ticamente con las estaciones.",
+        "features.c3.name": "Inteligencia de Luz & Clima",
+        "features.c3.desc": "Se conecta con el clima y lluvias de tu zona. Tu horario de cuidado se adapta autom\u00e1ticamente cuando llueve o baja la temperatura.",
+        "features.c4.name": "Diagn\u00f3stico con IA",
+        "features.c4.desc": "\u00bfHojas amarillas? \u00bfPuntas marrones? \u00bfMarchitas? Toma una foto y nuestra IA identifica el problema exacto y da una soluci\u00f3n paso a paso.",
+        "features.c5.name": "Preg\u00fantale a Planter",
+        "features.c5.desc": "Tu experto personal en plantas disponible 24/7. Preg\u00fantale cualquier cosa sobre tus plantas y recibe consejos personalizados basados en su historial.",
+        "features.c6.name": "Recomendaciones de Productos",
+        "features.c6.desc": "Recibe sugerencias curadas \u2014 el sustrato, fertilizante y herramientas correctas para cada planta. Compra directamente desde la app.",
+        "showcase.garden": "mi jard\u00edn",
+        "showcase.tasks": "tareas de hoy",
+        "showcase.ask": "preg\u00fantale a planter",
+        "how.title": "tres pasos hacia plantas prosperas",
+        "how.s1.title": "a\u00f1ade tus plantas",
+        "how.s1.desc": "Busca en nuestra base de 2.502 especies o toma una foto para identificar al instante.",
+        "how.s2.title": "recibe tu plan de cuidado",
+        "how.s2.desc": "Horarios personalizados de riego, fertilizaci\u00f3n y trasplante \u2014 seg\u00fan la luz y el clima de tu hogar.",
+        "how.s3.title": "m\u00edralas prosperar",
+        "how.s3.desc": "Sigue el crecimiento con fotos, diagnostica problemas temprano y habla con tu experto IA cuando quieras.",
+        "beta.title": "s\u00e9 nuestro primer revisor",
+        "beta.subtitle": "Buscamos padres de plantas para probar pocket planter antes del lanzamiento. Tu feedback da forma a la app.",
+        "beta.c1.title": "tester beta",
+        "beta.c1.text": "Acceso anticipado antes que todos. S\u00e9 el primero en probar cada nueva funci\u00f3n.",
+        "beta.c2.title": "comparte feedback",
+        "beta.c2.text": "Cu\u00e9ntanos qu\u00e9 funciona, qu\u00e9 no y qu\u00e9 desear\u00edas que hiciera.",
+        "beta.c3.title": "s\u00e9 recompensado",
+        "beta.c3.text": "Los testers beta reciben 6 meses de Pro gratis al lanzamiento. Sin tarjeta de cr\u00e9dito.",
+        "beta.cta": "aplica al acceso beta \u2192",
+        "beta.spots": "cupos limitados",
+        "pricing.title": "empieza gratis, mejora cuando quieras",
+        "pricing.monthly": "mensual",
+        "pricing.yearly": "anual",
+        "pricing.free.plan": "Gratis",
+        "pricing.free.period": "para siempre",
+        "pricing.free.f1": "Hasta 5 plantas",
+        "pricing.free.f2": "5 chats IA por mes",
+        "pricing.free.f3": "3 identificaciones por mes",
+        "pricing.free.f4": "Gu\u00edas b\u00e1sicas de cuidado",
+        "pricing.free.f5": "Recordatorios de riego",
+        "pricing.free.cta": "empezar \u2192",
+        "pricing.pro.badge": "mejor valor",
+        "pricing.pro.plan": "Pro",
+        "pricing.pro.periodMonthly": "/ mes",
+        "pricing.pro.periodYearly": "/ a\u00f1o ($3,33/mes)",
+        "pricing.pro.save": "ahorra 33%",
+        "pricing.pro.f1": "Plantas ilimitadas",
+        "pricing.pro.f2": "Chats ilimitados con Planter IA",
+        "pricing.pro.f3": "Identificaci\u00f3n de plantas (ilimitada)",
+        "pricing.pro.f4": "Diagn\u00f3stico & plan de tratamiento",
+        "pricing.pro.f5": "Horarios clima-inteligente",
+        "pricing.pro.f6": "L\u00ednea de tiempo de crecimiento",
+        "pricing.pro.f7": "Organizaci\u00f3n por habitaci\u00f3n",
+        "pricing.pro.f8": "Soporte prioritario",
+        "pricing.pro.cta": "empezar prueba gratis \u2192",
+        "pricing.fine": "Cancela cuando quieras \u00b7 Precios en USD",
+        "waitlist.title": "\u00fanete a los orgullosos padres de plantas.",
+        "waitlist.sub": "Lanzamos pronto. \u00danete a la lista de espera y recibe 3 meses de Pro gratis.",
+        "waitlist.placeholder": "tu@email.com",
+        "waitlist.cta": "\u00fanete a la lista \u2192",
+        "waitlist.success": "\u00a1est\u00e1s en la lista! \ud83c\udf3f",
+        "footer.privacy": "Pol\u00edtica de Privacidad",
+        "footer.terms": "T\u00e9rminos de Servicio",
+        "footer.copy": "\u00a9 2025 pocket planter. creciendo juntos \ud83c\udf3f",
+        "footer.platforms": "Pronto en iOS y Android"
+      }
+    };
+
+    let currentLang = localStorage.getItem('pp_lang') || 'en';
+
+    function t(key) {
+      return (translations[currentLang] && translations[currentLang][key]) || (translations.en[key]) || key;
+    }
+
+    function setLang(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      localStorage.setItem('pp_lang', lang);
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        const key = el.getAttribute('data-i18n');
+        const attr = el.getAttribute('data-i18n-attr');
+        const value = t(key);
+        if (attr) {
+          el.setAttribute(attr, value);
+        } else if (el.hasAttribute('data-i18n-html')) {
+          el.innerHTML = value;
+        } else {
+          el.textContent = value;
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+        el.innerHTML = t(el.getAttribute('data-i18n-html'));
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      // Update dynamic pricing strings
+      if (typeof currentPricingType !== 'undefined') {
+        setPricing(currentPricingType);
+      }
+    }
+
+    // Init on load
+    setLang(currentLang);
   </script>
 </body>
 </html>
