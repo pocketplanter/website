@@ -385,6 +385,7 @@
       gap: 32px;
       margin-top: 56px;
       padding: 20px 0;
+      position: relative;
     }
     .phone-showcase-item {
       text-align: center;
@@ -394,24 +395,31 @@
       border-radius: 28px;
       border: 6px solid var(--plum);
       display: block;
+      margin: 0 auto;
     }
-    .phone-showcase-item.center img {
-      width: 200px;
-      transform: translateY(-16px);
-    }
-    .phone-showcase-item.left img {
-      transform: rotate(-8deg);
-    }
-    .phone-showcase-item.right img {
-      transform: rotate(8deg);
-    }
+    .phone-showcase-item.center { transform: translateY(-16px); }
+    .phone-showcase-item.center img { width: 200px; }
+    .phone-showcase-item.left { transform: rotate(-8deg); }
+    .phone-showcase-item.right { transform: rotate(8deg); }
     .phone-showcase-label {
-      font-family: var(--font-body);
-      font-size: 0.6875rem;
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 1rem;
       color: var(--plum);
-      opacity: 0.6;
-      margin-top: 12px;
-      letter-spacing: 0.03em;
+      margin-top: 16px;
+      letter-spacing: 0.01em;
+    }
+    .mascot-showcase {
+      position: absolute;
+      left: -20px;
+      bottom: -20px;
+      height: 200px;
+      width: auto;
+      z-index: 2;
+      pointer-events: none;
+      animation: mascotFloatFlipped 5s ease-in-out infinite;
+      transform: scaleX(-1);
     }
 
     /* ---- PHONE FLOATING ANIMATION ---- */
@@ -965,7 +973,8 @@
         flex-direction: column;
       }
       .mascot-stats,
-      .mascot-features-row { display: none; }
+      .mascot-features-row,
+      .mascot-showcase { display: none; }
       .hero-phone { width: 200px; }
       .footer { padding: 36px 24px; }
       .footer-inner { flex-direction: column; text-align: center; }
@@ -979,8 +988,11 @@
       .btn-primary, .btn-outline { text-align: center; }
       .hero-phone { width: 180px; }
       .phone-showcase { flex-direction: column; gap: 24px; }
-      .phone-showcase-item img { width: 180px !important; transform: none !important; }
-      .phone-showcase-item.center img { transform: none !important; }
+      .phone-showcase-item,
+      .phone-showcase-item.left,
+      .phone-showcase-item.right,
+      .phone-showcase-item.center { transform: none !important; }
+      .phone-showcase-item img { width: 180px !important; }
     }
   </style>
 </head>
@@ -1105,6 +1117,7 @@
         </div>
       </div>
       <div class="phone-showcase reveal">
+        <img src="correndo-removebg-preview.png" alt="pocket planter mascot running" class="mascot-showcase" loading="lazy">
         <div class="phone-showcase-item left">
           <img src="IMG_7375.png" alt="my garden screen" loading="lazy">
           <div class="phone-showcase-label">my garden</div>
