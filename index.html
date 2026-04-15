@@ -95,8 +95,22 @@
       color: var(--lime);
       text-decoration: none;
       transition: color 0.4s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
+    .nav-logo-leaf {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .nav-logo-leaf .leaf-primary { fill: var(--lime); transition: fill 0.4s; }
+    .nav-logo-leaf .leaf-secondary { fill: #a8bc5a; opacity: 0.85; transition: fill 0.4s; }
+    .nav-logo-leaf .leaf-vein { stroke: #a8bc5a; opacity: 0.6; transition: stroke 0.4s; }
     .nav.scrolled .nav-logo { color: var(--plum); }
+    .nav.scrolled .nav-logo-leaf .leaf-primary { fill: #7a8f3e; }
+    .nav.scrolled .nav-logo-leaf .leaf-secondary { fill: #5e6f30; }
+    .nav.scrolled .nav-logo-leaf .leaf-vein { stroke: #5e6f30; }
     .nav-cta {
       font-family: var(--font-body);
       font-weight: 600;
@@ -207,6 +221,44 @@
       z-index: 1;
     }
     .hero-content { max-width: 600px; }
+    .coming-soon-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(196,215,119,0.12);
+      border: 1px solid rgba(196,215,119,0.35);
+      color: var(--lime);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      padding: 8px 18px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(6px);
+    }
+    .coming-soon-badge .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .coming-soon-badge .pulse-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--lime);
+      opacity: 0.4;
+      animation: pulseRing 2s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      100% { transform: scale(2); opacity: 0; }
+    }
     .hero-headline {
       font-family: var(--font-heading);
       font-weight: 700;
@@ -805,7 +857,16 @@
       font-weight: 600;
       font-size: 1.25rem;
       color: var(--lime);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
+    .footer-logo-leaf {
+      width: 22px;
+      height: 22px;
+    }
+    .footer-logo-leaf .leaf-primary { fill: var(--lime); }
+    .footer-logo-leaf .leaf-secondary { fill: #a8bc5a; opacity: 0.85; }
     .footer-links {
       display: flex;
       gap: 24px;
@@ -919,7 +980,14 @@
 
   <!-- NAV -->
   <nav class="nav" id="nav">
-    <a href="#" class="nav-logo">pocket planter</a>
+    <a href="#" class="nav-logo">
+      <svg class="nav-logo-leaf" viewBox="0 0 48 48" aria-hidden="true">
+        <path class="leaf-primary" d="M6 38 C6 38 4 20 16 10 C28 0 44 8 44 8 C44 8 40 26 28 32 C16 38 6 38 6 38Z"/>
+        <path class="leaf-vein" d="M6 38 C6 38 26 24 44 8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path class="leaf-secondary" d="M28 34 C28 34 26 22 34 16 C42 10 48 16 48 16 C48 16 46 28 38 32 C30 36 28 34 28 34Z"/>
+      </svg>
+      <span>pocket planter</span>
+    </a>
     <a href="#waitlist" class="nav-cta desktop">join waitlist</a>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -942,6 +1010,10 @@
     <div class="hero-circle hero-circle-3" id="circle3"></div>
     <div class="hero-inner">
       <div class="hero-content">
+        <div class="coming-soon-badge">
+          <span class="pulse-dot"></span>
+          <span>Coming Soon</span>
+        </div>
         <h1 class="hero-headline">every plant,<br>perfectly cared for.</h1>
         <p class="hero-sub">Smart care schedules, AI plant identification, and expert advice. Everything a proud plant parent needs.</p>
         <div class="hero-buttons">
@@ -1150,7 +1222,13 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-logo">pocket planter</div>
+      <div class="footer-logo">
+        <svg class="footer-logo-leaf" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="leaf-primary" d="M6 38 C6 38 4 20 16 10 C28 0 44 8 44 8 C44 8 40 26 28 32 C16 38 6 38 6 38Z"/>
+          <path class="leaf-secondary" d="M28 34 C28 34 26 22 34 16 C42 10 48 16 48 16 C48 16 46 28 38 32 C30 36 28 34 28 34Z"/>
+        </svg>
+        <span>pocket planter</span>
+      </div>
       <div class="footer-links">
         <a href="#">Privacy Policy</a>
         <span>&middot;</span>
