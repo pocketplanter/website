@@ -805,23 +805,40 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 32px;
     }
     .pricing-features li {
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
     }
-    .pricing-features li::before {
-      content: '\\2713';
+    .pricing-check {
+      color: var(--plum-accent);
       font-weight: 700;
-      font-size: 0.8rem;
-      color: var(--lime);
       flex-shrink: 0;
+      line-height: 1.5;
     }
-    .pricing-card.free .pricing-features li::before { color: var(--plum-accent); }
+    .pricing-card.pro .pricing-check { color: var(--lime); }
+    .pricing-save {
+      display: inline-block;
+      background: rgba(196,215,119,0.15);
+      color: var(--lime);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-top: 4px;
+    }
+    .pricing-fine-print {
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 0.6875rem;
+      color: #8a8a8a;
+      margin-top: 16px;
+    }
     .pricing-card .btn-primary { width: 100%; text-align: center; }
     .pricing-card.pro .btn-primary {
       background: var(--lime);
@@ -1251,29 +1268,34 @@
           <div class="pricing-price">$0</div>
           <div class="pricing-period">forever</div>
           <ul class="pricing-features">
-            <li>5 plants</li>
-            <li>5 AI chats / month</li>
-            <li>Basic care guides</li>
-            <li>Plant identification</li>
+            <li><span class="pricing-check">&#10003;</span> Up to 5 plants</li>
+            <li><span class="pricing-check">&#10003;</span> 5 AI chats per month</li>
+            <li><span class="pricing-check">&#10003;</span> 3 plant identifications per month</li>
+            <li><span class="pricing-check">&#10003;</span> Basic care guides</li>
+            <li><span class="pricing-check">&#10003;</span> Watering reminders</li>
           </ul>
           <a href="#waitlist" class="btn-primary">get started &rarr;</a>
         </div>
         <div class="pricing-card pro reveal-right">
           <div class="pricing-badge">best value</div>
           <div class="pricing-plan">Pro</div>
-          <div class="pricing-price" id="proPrice">$3</div>
+          <div class="pricing-price" id="proPrice">$4.99</div>
           <div class="pricing-period" id="proPeriod">/ month</div>
+          <div class="pricing-save" id="proSave" style="display:none;">save 33%</div>
           <ul class="pricing-features">
-            <li>Unlimited plants</li>
-            <li>Unlimited AI chats</li>
-            <li>Advanced diagnostics</li>
-            <li>Growth tracking</li>
-            <li>Priority support</li>
+            <li><span class="pricing-check">&#10003;</span> Unlimited plants</li>
+            <li><span class="pricing-check">&#10003;</span> Unlimited AI chats with Planter</li>
+            <li><span class="pricing-check">&#10003;</span> AI plant identification (unlimited)</li>
+            <li><span class="pricing-check">&#10003;</span> Disease diagnosis &amp; treatment plans</li>
+            <li><span class="pricing-check">&#10003;</span> Weather-smart care schedules</li>
+            <li><span class="pricing-check">&#10003;</span> Growth photo timeline</li>
+            <li><span class="pricing-check">&#10003;</span> Room-by-room organization</li>
+            <li><span class="pricing-check">&#10003;</span> Priority support</li>
           </ul>
           <a href="#waitlist" class="btn-primary">start free trial &rarr;</a>
         </div>
       </div>
-      <p class="pricing-note reveal">No credit card required. Cancel anytime.</p>
+      <p class="pricing-fine-print reveal">No credit card required &middot; Cancel anytime &middot; Prices in USD</p>
     </div>
   </section>
 
@@ -1362,16 +1384,19 @@
     function setPricing(type) {
       const priceEl = document.getElementById('proPrice');
       const periodEl = document.getElementById('proPeriod');
+      const saveEl = document.getElementById('proSave');
       const mBtn = document.getElementById('toggleMonthly');
       const yBtn = document.getElementById('toggleYearly');
       if (type === 'yearly') {
-        priceEl.textContent = '$19';
-        periodEl.textContent = '/ year';
+        priceEl.textContent = '$39.99';
+        periodEl.textContent = '/ year ($3.33/month)';
+        saveEl.style.display = 'inline-block';
         yBtn.classList.add('active');
         mBtn.classList.remove('active');
       } else {
-        priceEl.textContent = '$3';
+        priceEl.textContent = '$4.99';
         periodEl.textContent = '/ month';
+        saveEl.style.display = 'none';
         mBtn.classList.add('active');
         yBtn.classList.remove('active');
       }
