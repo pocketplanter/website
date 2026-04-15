@@ -1539,24 +1539,21 @@
       btn.disabled = true;
 
       try {
-        // Step 1: Save to Supabase
-        const supabaseResponse = await fetch('https://qahmlafzbnhpgvjgybll.supabase.co/rest/v1/waitlist', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': 'sb_publishable_bbTCt7fkqCNgH1rh0Iz6QA_OOGy3BgV',
-            'Authorization': 'Bearer sb_publishable_bbTCt7fkqCNgH1rh0Iz6QA_OOGy3BgV',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({ email: email })
-        });
+        // Step 1: Save to Supabase via JS SDK
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+        const supabase = createClient(
+          'https://qahmlafzbnhpgvjgybll.supabase.co',
+          'sb_publishable_bbTCt7fkqCNgH1rh0Iz6QA_OOGy3BgV'
+        );
 
-        console.log('Supabase response status:', supabaseResponse.status);
-        const supabaseBodyText = await supabaseResponse.text();
-        console.log('Supabase response:', supabaseBodyText);
+        const { error: supabaseError } = await supabase
+          .from('waitlist')
+          .insert({ email: email, source: 'website' });
 
-        // 409 means already exists — still a success UX
-        if (supabaseResponse.status === 409) {
+        console.log('Supabase error object:', supabaseError);
+
+        // 23505 = unique_violation (duplicate email) — treat as success
+        if (supabaseError && supabaseError.code === '23505') {
           form.style.display = 'none';
           successMsg.classList.add('show');
           successMsg.style.display = 'block';
@@ -1564,9 +1561,9 @@
           return;
         }
 
-        if (!supabaseResponse.ok) {
-          console.error('Supabase error:', supabaseBodyText);
-          throw new Error('Failed to save email (status ' + supabaseResponse.status + '): ' + supabaseBodyText);
+        if (supabaseError) {
+          console.error('Supabase error:', supabaseError);
+          throw new Error('Failed to save email');
         }
 
         // Step 2: Send confirmation email via Resend (best-effort — ignore failures)
