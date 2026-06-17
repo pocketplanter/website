@@ -378,12 +378,12 @@
     }
 
     /* ---- STATS MASCOT (lime bg) ---- */
-    .stats { position: relative; }
+    .stats { position: relative; min-height: 240px; }
     .mascot-stats {
       position: absolute;
-      right: 200px;
+      right: 40px;
       bottom: 0;
-      height: 200px;
+      height: 220px;
       width: auto;
       z-index: 2;
       pointer-events: none;
@@ -396,10 +396,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
+      gap: 24px;
       margin-bottom: 48px;
     }
-    .mascot-features-bubble { margin-left: -40px; }
+    .mascot-features-bubble { margin-left: 0; }
     .mascot-features {
       height: 360px;
       width: auto;
@@ -461,8 +461,8 @@
       height: 300px;
       width: auto;
       pointer-events: none;
-      animation: mascotFloatPlain 5s ease-in-out infinite;
-      align-self: center;
+      transform: scaleX(-1);
+      align-self: flex-end;
       flex-shrink: 0;
     }
 
@@ -690,14 +690,13 @@
       margin-bottom: 48px;
     }
     .mascot-beta {
-      height: 340px;
+      height: 260px;
       width: auto;
       transform: scaleX(-1);
-      animation: mascotFloatFlipped 5s ease-in-out infinite;
       flex-shrink: 0;
-      align-self: center;
+      align-self: flex-end;
       pointer-events: none;
-      margin-right: -20px;
+      margin-right: 16px;
     }
     .beta-grid {
       display: grid;
@@ -813,7 +812,8 @@
       height: 280px;
       width: auto;
       pointer-events: none;
-      animation: mascotFloatPlain 5s ease-in-out infinite;
+      transform: scaleX(-1);
+      animation: mascotFloatFlipped 5s ease-in-out infinite;
       flex-shrink: 0;
       align-self: center;
     }
