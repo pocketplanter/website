@@ -67,7 +67,7 @@
     </ul>
     <p class="lead">Ask planter (AI assistant, optional)</p>
     <ul>
-      <li>When you chat with planter, your message and a short context summary (your plants, their rooms, current weather and recent care) are sent through our server to Anthropic, whose Claude model generates the reply. We count how many messages you send to apply fair-use limits. Chat content is not labelled with your name or email.</li>
+      <li>When you chat with planter, your message and a short context summary (your plants, their rooms, current weather and recent care) are sent through our server to Google, whose Gemini model generates the reply. We count how many messages you send to apply fair-use limits. Chat content is not labelled with your name or email.</li>
     </ul>
     <p class="lead">Notifications</p>
     <ul>
@@ -102,7 +102,7 @@
     <p>Two features send your content to AI providers so they can process it for you. Both happen only when you use the feature.</p>
     <ul>
       <li>Plant identification and diagnosis: your photo goes to Kindwise (Plant.id), based in the Czech Republic. Kindwise processes it to return suggestions and may keep identification results for a limited period to let us retrieve them; we do not permit use of your photos for any purpose other than providing the service to us.</li>
-      <li>Ask planter: your message and the context summary go to Anthropic (USA). Under Anthropic's commercial terms, API content is not used to train their models and is deleted within 30 days, unless flagged for abuse review.</li>
+      <li>Ask planter: your message and the context summary go to Google's Gemini API (USA), on a paid plan. Under the paid Gemini API terms, Google does not use your prompts or the replies to improve its products, and keeps them only for a limited period for abuse monitoring (currently up to 55 days).</li>
     </ul>
     <p>AI output can be wrong. Identification, diagnosis and care advice are suggestions, not professional advice. See the Terms of Service for the full disclaimer.</p>
 
@@ -110,7 +110,7 @@
     <p>We use a small number of service providers. Each one processes data only on our instructions, under a contract, to provide the service described.</p>
     <ul>
       <li>Supabase (database, authentication, file storage; data hosted in the United States): all account, garden, photo, feedback and push-token data.</li>
-      <li>Anthropic (AI assistant, United States): chat messages and context summaries.</li>
+      <li>Google, Gemini API (AI assistant, United States): chat messages and context summaries.</li>
       <li>Kindwise, Plant.id (plant identification, Czech Republic): photos sent for identification or diagnosis.</li>
       <li>OpenWeather (weather forecasts, United Kingdom): approximate coordinates. OpenWeather states it does not store request parameters.</li>
       <li>Resend (transactional email, United States): email address and the content of emails we send you.</li>
@@ -121,13 +121,13 @@
     <p>We do not sell personal data, and we do not share it with data brokers or advertisers.</p>
 
     <h2>6. international transfers</h2>
-    <p>We are based in the United States and most of our providers process data there. If you use the app from the European Economic Area, the United Kingdom or Switzerland, your data is transferred to the United States. Where required, those transfers rely on the European Commission's Standard Contractual Clauses in our providers' data processing agreements and, for certified providers, the EU-US Data Privacy Framework and its UK and Swiss extensions.</p>
+    <p>We are based in the United States and most of our providers process data there. If you use the app from the European Economic Area, the United Kingdom or Switzerland, your data is transferred to the United States. Where required, those transfers rely on the European Commission's Standard Contractual Clauses in our providers' data processing agreements and, for certified providers (including Google), the EU-US Data Privacy Framework and its UK and Swiss extensions.</p>
 
     <h2>7. how long we keep data</h2>
     <ul>
       <li>Account and garden data: as long as your account exists.</li>
       <li>Photos: until you delete the photo, the plant, or your account.</li>
-      <li>Chat messages: processed to answer you and kept by Anthropic for up to 30 days; we store only the count of messages per user, not the content.</li>
+      <li>Chat messages: processed to answer you and kept by Google for abuse monitoring for a limited period (up to 55 days); we store only the count of messages per user, not the content.</li>
       <li>Identification photos: processed by Kindwise and retrievable by us for a limited period under their terms; we do not keep a separate copy beyond your plant timeline.</li>
       <li>Feedback: up to 24 months after we receive it, then deleted or anonymised.</li>
       <li>Emails: our provider keeps delivery logs for a limited period for deliverability and abuse prevention.</li>
