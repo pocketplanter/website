@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy · pocket planter</title>
+  <meta name="description" content="What the pocket planter app collects, why, who processes it, and how to delete it.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <style>
+    :root { --cream: #fdfaf6; --deep: #4a2a3d; --plum: #b76f9b; --gray: #666; --lime: #c4d777; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--cream); color: var(--deep); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.6; }
+    header { background: #fff; border-bottom: 1px solid #ead8df; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; color: var(--deep); text-decoration: none; font-size: 20px; }
+    nav a { color: var(--plum); text-decoration: none; font-weight: 600; font-size: 14px; margin-left: 16px; }
+    h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: 34px; margin: 28px 0 4px; }
+    .updated { color: var(--gray); font-size: 13px; margin-bottom: 24px; }
+    h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; color: var(--plum); font-size: 20px; margin: 32px 0 8px; }
+    p { margin: 0 0 12px; font-size: 16px; }
+    ul { margin: 0 0 12px; padding-left: 22px; }
+    li { margin-bottom: 6px; font-size: 16px; }
+    .lead { font-weight: 700; margin: 14px 0 4px; }
+    footer { color: var(--gray); font-size: 13px; padding: 40px 16px; text-align: center; }
+    footer a { color: var(--plum); text-decoration: none; }
+    .card { background: #fff; border: 1px solid #ead8df; border-radius: 16px; padding: 20px; margin: 20px 0; }
+    .btn { display: inline-block; background: var(--plum); color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 24px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header><div class="wrap">
+    <a class="brand" href="index.html">pocket planter</a>
+    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="delete-account.html">Delete account</a></nav>
+  </div></header>
+  <main class="wrap">
+    <h1>Privacy Policy</h1>
+    <div class="updated">Last updated: October 18, 2026</div>
+    <p>pocket planter is made by Melted Chapstick LLC ("we", "us"), based in Knoxville, Tennessee, USA. This policy explains what data the pocket planter app and website collect, why, who processes it for us, how long we keep it, and the choices you have. We wrote it to match exactly what the app does.</p>
+    <p>Short version: we collect what we need to care for your plants (your account, your plants, rooms and care logs, and optionally your location and photos), we do not sell or share personal data for advertising, we do not include any analytics or ad SDKs, and you can delete everything from inside the app.</p>
+
+    <h2>1. who this applies to</h2>
+    <p>This policy covers the pocket planter mobile app (iOS and Android, including TestFlight and Google Play beta builds) and the website pocketplanter.app. The app is intended for adults. You must be at least 18 years old to create an account. It is not directed to children under 13 and we do not knowingly collect data from them; if we learn we have, we delete it.</p>
+
+    <h2>2. what we collect, feature by feature</h2>
+    <p class="lead">Account</p>
+    <ul>
+      <li>Email address and a password (stored only as a secure hash by our authentication provider). If you sign in with Apple, we receive the email or relay address Apple provides.</li>
+      <li>Profile: display name (optional) and a profile photo (optional).</li>
+    </ul>
+    <p class="lead">Your garden</p>
+    <ul>
+      <li>The plants you add (species, nickname, date added, health score, status), the rooms and spots you create, care logs (watering, feeding, repotting, checks), notes, shopping list items, tasks, vacation hand-offs and achievements. This is the core of the app and is stored in our database.</li>
+    </ul>
+    <p class="lead">Location and weather (optional)</p>
+    <ul>
+      <li>If you allow it, the app reads your approximate location (low accuracy) once and stores the coordinates and city name in your profile. It uses them to fetch local weather (temperature, rain, frost) so watering and care advice fit where your plants live.</li>
+      <li>Coordinates are sent to OpenWeather to get the forecast. You can decline or revoke location access at any time in your phone settings; the app keeps working with generic advice.</li>
+    </ul>
+    <p class="lead">Photos and plant identification (optional)</p>
+    <ul>
+      <li>Photos you take or pick are uploaded to our storage and shown on your plant timeline.</li>
+      <li>When you use scan, identify or diagnose, the photo is sent through our server to Kindwise (Plant.id), a plant identification service, which returns species suggestions and health findings. Photos sent for identification are not labelled with your name or email.</li>
+    </ul>
+    <p class="lead">Ask planter (AI assistant, optional)</p>
+    <ul>
+      <li>When you chat with planter, your message and a short context summary (your plants, their rooms, current weather and recent care) are sent through our server to Anthropic, whose Claude model generates the reply. We count how many messages you send to apply fair-use limits. Chat content is not labelled with your name or email.</li>
+    </ul>
+    <p class="lead">Notifications</p>
+    <ul>
+      <li>Care reminders are scheduled on your device. If you allow notifications, a device push token may be stored so we can send reminders; the content of notifications is not stored by us.</li>
+    </ul>
+    <p class="lead">Email and feedback</p>
+    <ul>
+      <li>We send transactional emails only: account emails (confirmation, password reset), plant-sitter hand-offs you request, waitlist confirmations, and replies to your feedback. If you use "send feedback" in the app, your message, category, app version, platform and account email are stored so we can reply.</li>
+    </ul>
+    <p class="lead">Beta testing</p>
+    <ul>
+      <li>If you install a beta build through TestFlight or Google Play, Apple or Google may send us crash logs, usage statistics and the feedback you submit through their tools, under their own privacy terms.</li>
+    </ul>
+    <p class="lead">Website</p>
+    <ul>
+      <li>pocketplanter.app is a static site hosted on GitHub Pages. GitHub logs visitor IP addresses for security. The site sets no cookies and runs no analytics. If you join the waitlist, we store your email address.</li>
+    </ul>
+    <p class="lead">What we do not collect</p>
+    <ul>
+      <li>No advertising identifiers, no contacts, no precise location tracking in the background, no third-party analytics, advertising or tracking SDKs, no sale or sharing of personal data for advertising.</li>
+    </ul>
+
+    <h2>3. why we use it (and our legal basis)</h2>
+    <ul>
+      <li>To run the app you asked for: account, plants, rooms, care schedules, reminders, emails you request. Legal basis: performing our contract with you.</li>
+      <li>To tailor care to your weather, identify plants from photos and answer your questions: these are optional features that run only when you turn them on or use them. Legal basis: your consent, which you can withdraw at any time.</li>
+      <li>To keep the service secure, prevent abuse, enforce usage limits and fix bugs, and to read and reply to feedback. Legal basis: our legitimate interests, balanced against yours.</li>
+      <li>We do not use your data for advertising or profiling, and we do not make automated decisions with legal or similarly significant effects about you.</li>
+    </ul>
+
+    <h2>4. AI processing, in plain terms</h2>
+    <p>Two features send your content to AI providers so they can process it for you. Both happen only when you use the feature.</p>
+    <ul>
+      <li>Plant identification and diagnosis: your photo goes to Kindwise (Plant.id), based in the Czech Republic. Kindwise processes it to return suggestions and may keep identification results for a limited period to let us retrieve them; we do not permit use of your photos for any purpose other than providing the service to us.</li>
+      <li>Ask planter: your message and the context summary go to Anthropic (USA). Under Anthropic's commercial terms, API content is not used to train their models and is deleted within 30 days, unless flagged for abuse review.</li>
+    </ul>
+    <p>AI output can be wrong. Identification, diagnosis and care advice are suggestions, not professional advice. See the Terms of Service for the full disclaimer.</p>
+
+    <h2>5. who processes data for us</h2>
+    <p>We use a small number of service providers. Each one processes data only on our instructions, under a contract, to provide the service described.</p>
+    <ul>
+      <li>Supabase (database, authentication, file storage; data hosted in the United States): all account, garden, photo, feedback and push-token data.</li>
+      <li>Anthropic (AI assistant, United States): chat messages and context summaries.</li>
+      <li>Kindwise, Plant.id (plant identification, Czech Republic): photos sent for identification or diagnosis.</li>
+      <li>OpenWeather (weather forecasts, United Kingdom): approximate coordinates. OpenWeather states it does not store request parameters.</li>
+      <li>Resend (transactional email, United States): email address and the content of emails we send you.</li>
+      <li>Expo (app updates and push notifications, United States): an anonymous install identifier for updates, and push tokens for notifications.</li>
+      <li>GitHub (website hosting, United States): visitor IP addresses in server logs.</li>
+      <li>Apple and Google (app distribution, beta testing, future purchases): under their own terms.</li>
+    </ul>
+    <p>We do not sell personal data, and we do not share it with data brokers or advertisers.</p>
+
+    <h2>6. international transfers</h2>
+    <p>We are based in the United States and most of our providers process data there. If you use the app from the European Economic Area, the United Kingdom or Switzerland, your data is transferred to the United States. Where required, those transfers rely on the European Commission's Standard Contractual Clauses in our providers' data processing agreements and, for certified providers, the EU-US Data Privacy Framework and its UK and Swiss extensions.</p>
+
+    <h2>7. how long we keep data</h2>
+    <ul>
+      <li>Account and garden data: as long as your account exists.</li>
+      <li>Photos: until you delete the photo, the plant, or your account.</li>
+      <li>Chat messages: processed to answer you and kept by Anthropic for up to 30 days; we store only the count of messages per user, not the content.</li>
+      <li>Identification photos: processed by Kindwise and retrievable by us for a limited period under their terms; we do not keep a separate copy beyond your plant timeline.</li>
+      <li>Feedback: up to 24 months after we receive it, then deleted or anonymised.</li>
+      <li>Emails: our provider keeps delivery logs for a limited period for deliverability and abuse prevention.</li>
+      <li>When you delete your account, the app deletes your profile, plants, rooms, care logs, photos, usage counters and push tokens, and then deletes the account itself. Feedback you sent is detached from your account and its email address removed. Backups are overwritten within 30 days. We may keep a minimal record where the law requires it (for example, to honour a deletion request).</li>
+    </ul>
+
+    <h2>8. your choices and rights</h2>
+    <ul>
+      <li>Location, camera, photo library and notification access are controlled in your phone settings and can be turned off at any time.</li>
+      <li>Delete your account and data at any time: Profile → Delete my account in the app, or email us and we will do it for you (see pocketplanter.app/delete-account).</li>
+      <li>Export your data: Profile → Export my data creates a file with your plants, rooms, care logs and photo links.</li>
+      <li>Depending on where you live, you may have the right to access, correct, delete, export or restrict the use of your personal data, to object to processing based on legitimate interests, to withdraw consent, and to complain to your data protection authority. Email us and we will respond within 30 days. We will not treat you differently for exercising these rights.</li>
+      <li>We do not sell or share personal data as those terms are defined in US state privacy laws, so there is nothing to opt out of.</li>
+    </ul>
+
+    <h2>9. security</h2>
+    <p>All traffic uses HTTPS/TLS. Passwords are stored only as salted hashes. Database access is protected by row-level security so you can only read and change your own rows. API keys for our providers live on our servers, never in the app. No system is perfectly secure; if we learn of a breach affecting your data we will notify you as the law requires.</p>
+
+    <h2>10. children</h2>
+    <p>The app is for people aged 18 and over. It is not directed to children under 13 and we do not knowingly collect personal data from them. If you believe a child has created an account, email us and we will delete it.</p>
+
+    <h2>11. changes to this policy</h2>
+    <p>We may update this policy as the app changes. For material changes we will tell you in the app or by email before they take effect. The date at the top shows the latest version; earlier versions are available on request.</p>
+
+    <h2>12. contact</h2>
+    <p>Melted Chapstick LLC, Knoxville, Tennessee, USA</p>
+    <p>Email: hello@pocketplanter.app</p>
+
+  </main>
+  <footer>&copy; 2026 Melted Chapstick LLC &middot; <a href="mailto:hello@pocketplanter.app">hello@pocketplanter.app</a></footer>
+</body>
+</html>
