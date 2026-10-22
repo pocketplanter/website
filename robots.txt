@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pocketplanter.app/sitemap.xml

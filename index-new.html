@@ -5,11 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>pocket planter — every plant, perfectly cared for.</title>
   <meta name="description" content="AI-powered plant care that actually works. Identify, diagnose, and care for every plant — backed by 4,000+ species.">
-  <meta name="version" content="2.3.0">
+  <meta name="version" content="2.4.0">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://pocketplanter.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="pocket planter">
+  <meta property="og:title" content="pocket planter: every plant, perfectly cared for.">
+  <meta property="og:description" content="Identify any plant from a photo, get a care plan built around your rooms and your weather, and do today's list. iPhone, in beta.">
+  <meta property="og:url" content="https://pocketplanter.app/">
+  <meta property="og:image" content="https://pocketplanter.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="pocket planter: every plant, perfectly cared for.">
+  <meta name="twitter:description" content="Identify any plant from a photo, get a care plan built around your rooms and your weather, and do today's list. iPhone, in beta.">
+  <meta name="twitter:image" content="https://pocketplanter.app/og.png">
+  <link rel="preload" href="fonts/PlayfairDisplay-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/DMSans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 300 700; font-display: swap; src: url('fonts/DMSans-italic-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 300 700; font-display: swap; src: url('fonts/DMSans-italic-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('fonts/DMSans-normal-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('fonts/DMSans-normal-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-italic-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-italic-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-normal-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-normal-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  </style>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -71,6 +93,16 @@
       transform: translateX(0);
     }
 
+    /* ---- FOCUS, SKIP LINK, REDUCED MOTION ---- */
+    :focus-visible { outline: 3px solid var(--plum-accent); outline-offset: 3px; }
+    .skip-link { position: absolute; left: 16px; top: -60px; z-index: 2000; background: var(--lime); color: var(--plum); padding: 10px 18px; border-radius: 100px; font-weight: 600; text-decoration: none; transition: top 0.2s; }
+    .skip-link:focus { top: 16px; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-scale, .reveal-left, .reveal-right { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .float-anim, .hero-circle { animation: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
     /* ---- NAV ---- */
     .nav {
       position: fixed;
@@ -109,6 +141,8 @@
     .nav-logo-leaf .leaf-primary { fill: var(--lime); transition: fill 0.4s; }
     .nav-logo-leaf .leaf-secondary { fill: #a8bc5a; opacity: 0.85; transition: fill 0.4s; }
     .nav-logo-leaf .leaf-vein { stroke: #a8bc5a; opacity: 0.6; transition: stroke 0.4s; }
+    .nav-logo-leaf { transition: transform 0.4s cubic-bezier(.16,1,.3,1); transform-origin: 20% 80%; }
+    .nav-logo:hover .nav-logo-leaf { transform: rotate(-10deg); }
     .nav.scrolled .nav-logo { color: var(--plum); }
     .nav.scrolled .nav-logo-leaf .leaf-primary { fill: #7a8f3e; }
     .nav.scrolled .nav-logo-leaf .leaf-secondary { fill: #5e6f30; }
@@ -159,7 +193,9 @@
       cursor: pointer;
       transition: background 0.3s, color 0.3s;
     }
+    .lang-btn:hover:not(.active) { background: rgba(196,215,119,0.25); }
     .nav.scrolled .lang-btn { color: var(--plum); opacity: 0.6; }
+    .nav.scrolled .lang-btn:hover:not(.active) { background: rgba(74,42,61,0.12); opacity: 1; }
     .lang-btn.active {
       background: var(--lime);
       color: var(--plum);
@@ -519,7 +555,7 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--plum);
-      opacity: 0.6;
+      font-weight: 600;
       margin-top: 6px;
     }
 
@@ -670,6 +706,8 @@
     .care-sub { font-size: 1rem; color: #6b6b6b; line-height: 1.65; max-width: 480px; margin-bottom: 28px; }
     .care-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
     .care-chips button { border: 0; background: var(--cream); color: var(--plum); border-radius: 999px; padding: 10px 16px; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: background 0.3s, color 0.3s; }
+    .care-chips button { transition: background 0.3s, color 0.3s, transform 0.3s cubic-bezier(.16,1,.3,1); }
+    .care-chips button:hover { background: var(--plum); color: var(--cream); transform: translateY(-2px); }
     .care-chips button.active { background: var(--plum); color: var(--cream); }
     .care-search { width: 100%; max-width: 420px; border: 2px solid var(--cream); border-radius: 999px; padding: 13px 18px; font-family: var(--font-body); font-weight: 500; font-size: 0.95rem; color: var(--plum); background: var(--white); outline: none; }
     .care-search:focus { border-color: var(--lime); }
@@ -690,7 +728,9 @@
     .how-split { display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: center; }
     .stage-list { display: grid; gap: 12px; }
     .stage-btn { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; text-align: left; background: rgba(240,244,216,0.05); border: 1px solid rgba(240,244,216,0.12); border-radius: 20px; padding: 20px 24px; color: var(--cream); cursor: pointer; font-family: var(--font-body); transition: background 0.3s, border-color 0.3s; }
-    .stage-btn:hover { background: rgba(240,244,216,0.09); }
+    .stage-btn:hover { background: rgba(240,244,216,0.09); border-color: var(--lime); }
+    .stage-btn .step-number { transition: transform 0.4s cubic-bezier(.16,1,.3,1), opacity 0.3s; }
+    .stage-btn:hover .step-number { transform: translateX(4px); opacity: 1; }
     .stage-btn.active { background: rgba(196,215,119,0.14); border-color: var(--lime); }
     .stage-btn .step-number { font-size: 2rem; margin: 0; opacity: 0.5; line-height: 1.1; }
     .stage-btn.active .step-number { opacity: 1; }
@@ -1192,6 +1232,9 @@
     }
 
     @media (max-width: 480px) {
+      .nav-logo { font-size: 1.2rem; white-space: nowrap; }
+      .nav .lang-switcher { display: none; }
+      .mobile-menu .lang-switcher { display: inline-flex; margin: 24px 0 0; background: rgba(196,215,119,0.1); border-color: rgba(196,215,119,0.3); }
       .hero-headline { font-size: clamp(2.5rem, 10vw, 3.5rem); }
       .hero-buttons { flex-direction: column; }
       .btn-primary, .btn-outline { text-align: center; }
@@ -1208,6 +1251,7 @@
 <body>
 
   <!-- NAV -->
+  <a class="skip-link" href="#main" data-i18n="nav.skip">skip to content</a>
   <nav class="nav" id="nav">
     <a href="#" class="nav-logo">
       <svg class="nav-logo-leaf" viewBox="0 0 48 48" aria-hidden="true">
@@ -1223,7 +1267,7 @@
         <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
         <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
       </div>
-      <a href="#waitlist" class="nav-cta desktop" data-i18n="nav.waitlist">join waitlist</a>
+      <a href="#waitlist" class="nav-cta desktop" data-i18n="nav.waitlist">join the beta</a>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -1235,9 +1279,15 @@
     <button class="close-btn" id="closeMenu" aria-label="Close">&times;</button>
     <a href="#features" onclick="closeMobileMenu()" data-i18n="nav.features">features</a>
     <a href="#how" onclick="closeMobileMenu()" data-i18n="nav.how">how it works</a>
-    <a href="#waitlist" onclick="closeMobileMenu()" data-i18n="nav.waitlist">join waitlist</a>
+    <a href="#waitlist" onclick="closeMobileMenu()" data-i18n="nav.waitlist">join the beta</a>
+    <div class="lang-switcher" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+    </div>
   </div>
 
+  <main id="main">
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero-circle hero-circle-1" id="circle1"></div>
@@ -1252,7 +1302,7 @@
         <h1 class="hero-headline" data-i18n-html="hero.headline">every plant,<br>perfectly cared for.</h1>
         <p class="hero-sub" data-i18n="hero.sub">Smart care schedules, AI plant identification, and expert advice. Everything a proud plant parent needs.</p>
         <div class="hero-buttons">
-          <a href="#waitlist" class="btn-primary" data-i18n="hero.cta1">get early access &rarr;</a>
+          <a href="#waitlist" class="btn-primary" data-i18n="hero.cta1">join the beta &rarr;</a>
           <a href="#features" class="btn-outline" data-i18n="hero.cta2">see how it works &darr;</a>
         </div>
       </div>
@@ -1437,11 +1487,11 @@
         <div class="beta-card reveal" style="transition-delay:0.3s">
           <span class="beta-card-emoji">&#127873;</span>
           <h3 class="beta-card-title" data-i18n="beta.c3.title">get rewarded</h3>
-          <p class="beta-card-text" data-i18n="beta.c3.text">Beta testers get 6 months of Pro free when we launch. No credit card ever.</p>
+          <p class="beta-card-text" data-i18n="beta.c3.text">Beta testers get a thank-you when we launch, announced in the app first. No credit card ever.</p>
         </div>
       </div>
       </div>
-      <a href="#waitlist" class="beta-cta reveal" data-i18n="beta.cta">apply for beta access &rarr;</a>
+      <a href="#waitlist" class="beta-cta reveal" data-i18n="beta.cta">join the beta &rarr;</a>
       <div class="beta-spots reveal" data-i18n="beta.spots">limited spots available</div>
     </div>
   </section>
@@ -1450,16 +1500,18 @@
   <section class="waitlist" id="waitlist">
     <div class="waitlist-inner reveal-scale">
       <h2 class="waitlist-title" data-i18n="waitlist.title">join the proud plant parents.</h2>
-      <p class="waitlist-sub" data-i18n="waitlist.sub">We're launching soon. Join the waitlist and get 3 months of Pro free.</p>
+      <p class="waitlist-sub" data-i18n="waitlist.sub">We invite testers in small groups. Leave your email and we send the TestFlight link when it is your turn.</p>
       <form class="waitlist-form" id="waitlist-form" onsubmit="return false">
         <input type="email" id="waitlist-email" class="waitlist-input" placeholder="your@email.com" data-i18n-attr="placeholder" data-i18n="waitlist.placeholder" required>
-        <button type="submit" id="waitlist-btn" class="btn-primary" data-i18n="waitlist.cta">join waitlist &rarr;</button>
+        <button type="submit" id="waitlist-btn" class="btn-primary" data-i18n="waitlist.cta">join the beta &rarr;</button>
       </form>
       <div class="waitlist-success" id="waitlist-success" style="display:none" data-i18n="waitlist.success">you're on the list! &#127807;</div>
     </div>
   </section>
 
   <!-- FOOTER -->
+  </main>
+
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-logo">
@@ -1527,30 +1579,6 @@
 
     // Stats are now static text — no animation needed
 
-    // ---- PRICING TOGGLE ----
-    let currentPricingType = 'monthly';
-    function setPricing(type) {
-      currentPricingType = type;
-      const priceEl = document.getElementById('proPrice');
-      const periodEl = document.getElementById('proPeriod');
-      const saveEl = document.getElementById('proSave');
-      const mBtn = document.getElementById('toggleMonthly');
-      const yBtn = document.getElementById('toggleYearly');
-      if (type === 'yearly') {
-        priceEl.textContent = '$39.99';
-        periodEl.textContent = t('pricing.pro.periodYearly');
-        saveEl.style.display = 'inline-block';
-        yBtn.classList.add('active');
-        mBtn.classList.remove('active');
-      } else {
-        priceEl.textContent = '$4.99';
-        periodEl.textContent = t('pricing.pro.periodMonthly');
-        saveEl.style.display = 'none';
-        mBtn.classList.add('active');
-        yBtn.classList.remove('active');
-      }
-    }
-
     // ---- WAITLIST FORM ----
     async function handleWaitlistSubmit(e) {
       e.preventDefault();
@@ -1585,7 +1613,7 @@
 
       } catch (err) {
         console.error('Waitlist error:', err);
-        btn.textContent = 'join waitlist \u2192';
+        btn.textContent = t('waitlist.cta');
         btn.disabled = false;
         alert('Something went wrong. Please try again!');
       }
@@ -1596,7 +1624,8 @@
     // ---- I18N ----
     const translations = {
       en: {
-        "nav.waitlist": "join waitlist",
+        "nav.waitlist": "join the beta",
+        "nav.skip": "skip to content",
         "nav.features": "features",
         "nav.how": "how it works",
         "care.label": "try it",
@@ -1611,7 +1640,7 @@
         "hero.badge": "Coming Soon",
         "hero.headline": "every plant,<br>perfectly cared for.",
         "hero.sub": "Smart care schedules, AI plant identification, and expert advice. Everything a proud plant parent needs.",
-        "hero.cta1": "get early access \u2192",
+        "hero.cta1": "join the beta \u2192",
         "hero.cta2": "see how it works \u2193",
         "stats.1.title": "by room",
         "stats.1.label": "ORGANIZED CARE",
@@ -1654,8 +1683,8 @@
         "beta.c2.title": "share feedback",
         "beta.c2.text": "Tell us what works, what doesn't, and what you wish it could do.",
         "beta.c3.title": "get rewarded",
-        "beta.c3.text": "Beta testers get 6 months of Pro free when we launch. No credit card ever.",
-        "beta.cta": "apply for beta access \u2192",
+        "beta.c3.text": "Beta testers get a thank-you when we launch, announced in the app first. No credit card ever.",
+        "beta.cta": "join the beta \u2192",
         "beta.spots": "limited spots available",
         "pricing.title": "start free, upgrade anytime",
         "pricing.monthly": "monthly",
@@ -1684,9 +1713,9 @@
         "pricing.pro.cta": "start free trial \u2192",
         "pricing.fine": "Cancel anytime \u00b7 Prices in USD",
         "waitlist.title": "join the proud plant parents.",
-        "waitlist.sub": "We're launching soon. Join the waitlist and get 3 months of Pro free.",
+        "waitlist.sub": "We invite testers in small groups. Leave your email and we send the TestFlight link when it is your turn.",
         "waitlist.placeholder": "your@email.com",
-        "waitlist.cta": "join waitlist \u2192",
+        "waitlist.cta": "join the beta \u2192",
         "waitlist.success": "you're on the list! \ud83c\udf3f",
         "footer.privacy": "Privacy Policy",
         "footer.terms": "Terms of Service",
@@ -1694,7 +1723,8 @@
         "footer.platforms": "Available soon on iOS and Android"
       },
       pt: {
-        "nav.waitlist": "entrar na lista",
+        "nav.waitlist": "entrar no beta",
+        "nav.skip": "pular para o conte\u00fado",
         "nav.features": "recursos",
         "nav.how": "como funciona",
         "care.label": "experimente",
@@ -1709,7 +1739,7 @@
         "hero.badge": "Em breve",
         "hero.headline": "cada planta,<br>perfeitamente cuidada.",
         "hero.sub": "Cronograma inteligente de cuidados, identifica\u00e7\u00e3o de plantas por IA e conselhos de especialista. Tudo que um orgulhoso pai de plantas precisa.",
-        "hero.cta1": "acesso antecipado \u2192",
+        "hero.cta1": "entrar no beta \u2192",
         "hero.cta2": "veja como funciona \u2193",
         "stats.1.title": "por c\u00f4modo",
         "stats.1.label": "CUIDADO ORGANIZADO",
@@ -1752,8 +1782,8 @@
         "beta.c2.title": "compartilhe feedback",
         "beta.c2.text": "Nos conte o que funciona, o que n\u00e3o funciona e o que voc\u00ea gostaria que fizesse.",
         "beta.c3.title": "seja recompensado",
-        "beta.c3.text": "Testadores beta ganham 6 meses de Pro gr\u00e1tis no lan\u00e7amento. Sem cart\u00e3o de cr\u00e9dito.",
-        "beta.cta": "inscreva-se no beta \u2192",
+        "beta.c3.text": "Quem testa ganha um agradecimento no lan\u00e7amento, anunciado primeiro no app. Sem cart\u00e3o de cr\u00e9dito.",
+        "beta.cta": "entrar no beta \u2192",
         "beta.spots": "vagas limitadas",
         "pricing.title": "come\u00e7e gr\u00e1tis, evolua quando quiser",
         "pricing.monthly": "mensal",
@@ -1782,9 +1812,9 @@
         "pricing.pro.cta": "come\u00e7ar trial gr\u00e1tis \u2192",
         "pricing.fine": "Cancele quando quiser \u00b7 Pre\u00e7os em USD",
         "waitlist.title": "junte-se aos orgulhosos pais de plantas.",
-        "waitlist.sub": "Vamos lan\u00e7ar em breve. Entre na lista de espera e ganhe 3 meses de Pro gr\u00e1tis.",
+        "waitlist.sub": "Convidamos em grupos pequenos. Deixe seu e-mail e mandamos o link do TestFlight quando chegar a sua vez.",
         "waitlist.placeholder": "seu@email.com",
-        "waitlist.cta": "entrar na lista \u2192",
+        "waitlist.cta": "entrar no beta \u2192",
         "waitlist.success": "voc\u00ea est\u00e1 na lista! \ud83c\udf3f",
         "footer.privacy": "Pol\u00edtica de Privacidade",
         "footer.terms": "Termos de Servi\u00e7o",
@@ -1792,7 +1822,8 @@
         "footer.platforms": "Em breve no iOS e Android"
       },
       es: {
-        "nav.waitlist": "\u00fanete a la lista",
+        "nav.waitlist": "unirme a la beta",
+        "nav.skip": "saltar al contenido",
         "nav.features": "funciones",
         "nav.how": "c\u00f3mo funciona",
         "care.label": "pru\u00e9balo",
@@ -1807,7 +1838,7 @@
         "hero.badge": "Pr\u00f3ximamente",
         "hero.headline": "cada planta,<br>perfectamente cuidada.",
         "hero.sub": "Horarios inteligentes de cuidado, identificaci\u00f3n de plantas con IA y consejos de expertos. Todo lo que un orgulloso padre de plantas necesita.",
-        "hero.cta1": "acceso anticipado \u2192",
+        "hero.cta1": "unirme a la beta \u2192",
         "hero.cta2": "mira c\u00f3mo funciona \u2193",
         "stats.1.title": "por habitaci\u00f3n",
         "stats.1.label": "CUIDADO ORGANIZADO",
@@ -1850,8 +1881,8 @@
         "beta.c2.title": "comparte feedback",
         "beta.c2.text": "Cu\u00e9ntanos qu\u00e9 funciona, qu\u00e9 no y qu\u00e9 desear\u00edas que hiciera.",
         "beta.c3.title": "s\u00e9 recompensado",
-        "beta.c3.text": "Los testers beta reciben 6 meses de Pro gratis al lanzamiento. Sin tarjeta de cr\u00e9dito.",
-        "beta.cta": "aplica al acceso beta \u2192",
+        "beta.c3.text": "Quienes prueban reciben un agradecimiento al lanzamiento, anunciado primero en la app. Sin tarjeta de cr\u00e9dito.",
+        "beta.cta": "unirme a la beta \u2192",
         "beta.spots": "cupos limitados",
         "pricing.title": "empieza gratis, mejora cuando quieras",
         "pricing.monthly": "mensual",
@@ -1880,9 +1911,9 @@
         "pricing.pro.cta": "empezar prueba gratis \u2192",
         "pricing.fine": "Cancela cuando quieras \u00b7 Precios en USD",
         "waitlist.title": "\u00fanete a los orgullosos padres de plantas.",
-        "waitlist.sub": "Lanzamos pronto. \u00danete a la lista de espera y recibe 3 meses de Pro gratis.",
+        "waitlist.sub": "Invitamos en grupos peque\u00f1os. Deja tu correo y te mandamos el enlace de TestFlight cuando sea tu turno.",
         "waitlist.placeholder": "tu@email.com",
-        "waitlist.cta": "\u00fanete a la lista \u2192",
+        "waitlist.cta": "unirme a la beta \u2192",
         "waitlist.success": "\u00a1est\u00e1s en la lista! \ud83c\udf3f",
         "footer.privacy": "Pol\u00edtica de Privacidad",
         "footer.terms": "T\u00e9rminos de Servicio",
@@ -1924,10 +1955,6 @@
         btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
       });
 
-      // Update dynamic pricing strings
-      if (typeof currentPricingType !== 'undefined') {
-        setPricing(currentPricingType);
-      }
     }
 
     // Init on load
