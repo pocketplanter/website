@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pocket planter · every plant, cared for right</title>
+  <meta name="description" content="pocket planter identifies your plant from a photo, builds its care around your rooms and your weather, and tells you what to do today. iOS, in beta.">
+  <meta name="version" content="3.0.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta property="og:title" content="pocket planter · every plant, cared for right">
+  <meta property="og:description" content="Scan a plant, give it a room, let the weather in, do today's list. A plant-care app with planter, your mushroom assistant. In beta.">
+  <meta property="og:image" content="https://pocketplanter.app/welcoming-novo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <style>
+    /* ── tokens (brand palette and type kept) ───────────────────────── */
+    :root {
+      --bg: #fdfaf6;          /* paper */
+      --cream: #f0f4d8;       /* field */
+      --lime: #c4d777;        /* accent field */
+      --plum: #4a2a3d;        /* ink and the cap */
+      --plum-2: #5d3850;      /* cap spots' ground step */
+      --orchid: #9f5a87;      /* the one accent, on the action (4.6:1 with white) */
+      --orchid-strong: #884872;
+      --ink: #2b1a25;
+      --ink-on-plum: #fdfaf6;
+      --muted: #5f4a57;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-text: 'DM Sans', system-ui, sans-serif;
+      --step-small: 0.875rem;                                   /* 14 */
+      --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);  /* 17–19 */
+      --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);    /* 20–26 */
+      --step-head: clamp(2.25rem, 1.4rem + 3.2vw, 4rem);        /* 36–64 */
+      --step-display: clamp(3.25rem, 2rem + 5.2vw, 5rem);       /* 52–80 */
+      --margin: clamp(1rem, 2.8vw, 2.5rem);
+      --gutter: clamp(0.75rem, 1.6vw, 1.5rem);
+      --section: clamp(6rem, 11vw, 13rem);
+      --radius: 999px;        /* the cap is round, so every button is a pill: one shape */
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+      --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+      --t-press: 140ms; --t-hover: 180ms; --t-ui: 240ms; --t-reveal: 800ms; --t-open: 1100ms;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-text); font-size: var(--step-body); line-height: 1.55; overflow-x: hidden; }
+    img { display: block; max-width: 100%; height: auto; }
+    h1, h2, h3 { font-family: var(--font-display); font-style: italic; font-weight: 700; letter-spacing: -0.02em; line-height: 0.98; margin: 0; color: var(--plum); text-wrap: balance; }
+    p { margin: 0; }
+    a { color: inherit; }
+    ::selection { background: var(--lime); color: var(--plum); }
+    :focus-visible { outline: 3px solid var(--orchid); outline-offset: 3px; }
+    .wrap { width: 100%; padding-inline: var(--margin); }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+    .lead { font-size: var(--step-lead); line-height: 1.35; max-width: 40ch; }
+    .body { max-width: 60ch; }
+    .muted { color: var(--muted); }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+    /* buttons: one shape (the cap's curve), one fill */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5em; min-height: 52px; padding: 0 1.6em; border: 0; border-radius: var(--radius); background: var(--orchid); color: #fff; font: 600 1rem var(--font-text); text-decoration: none; cursor: pointer; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; }
+    .btn:active { transform: scale(0.97); }
+    .btn.on-plum { background: var(--lime); color: var(--plum); }
+    .btn.quiet { background: var(--plum); color: var(--ink-on-plum); }
+    .btn.small { min-height: 44px; padding: 0 1.2em; font-size: 0.95rem; }
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover { background: var(--orchid-strong); }
+      .btn.on-plum:hover { background: #d6e68a; }
+      .btn.quiet:hover { background: var(--plum-2); }
+      .link:hover { text-decoration-color: currentColor; }
+    }
+    .link { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.2em; text-decoration-thickness: 0.07em; transition: text-decoration-color var(--t-hover) ease; }
+
+    /* the cap: one shape at many sizes */
+    .cap { position: relative; background: var(--plum); border-radius: 50% 50% 8% 8% / 62% 62% 10% 10%; overflow: hidden; }
+    .cap::before { content: ""; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cg fill='%235d3850'%3E%3Ccircle cx='18' cy='28' r='5.5'/%3E%3Ccircle cx='62' cy='14' r='4'/%3E%3Ccircle cx='84' cy='40' r='6.5'/%3E%3Ccircle cx='40' cy='58' r='3.5'/%3E%3Ccircle cx='70' cy='76' r='5'/%3E%3Ccircle cx='10' cy='80' r='4'/%3E%3C/g%3E%3C/svg%3E"); background-size: 100% 100%; pointer-events: none; }
+    .cap-mask { clip-path: ellipse(50% 50% at 50% 50%); }
+    ul.dots { list-style: none; padding: 0; margin: 0; }
+    ul.dots li { position: relative; padding-left: 1.4em; margin-bottom: 0.45em; }
+    ul.dots li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 0.8em; height: 0.6em; background: var(--plum); border-radius: 50% 50% 12% 12% / 70% 70% 20% 20%; }
+    .on-plum ul.dots li::before { background: var(--lime); }
+
+    /* ── nav ─────────────────────────────────────────────────────────── */
+    .nav { position: relative; z-index: 20; background: var(--bg); }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--plum); font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 1.35rem; }
+    .brand .mark { width: 30px; height: 22px; background: var(--plum); border-radius: 50% 50% 14% 14% / 72% 72% 20% 20%; position: relative; }
+    .brand .mark::after { content: ""; position: absolute; left: 7px; top: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
+    .brand .mark::before { content: ""; position: absolute; left: 19px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
+    .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+    .nav-links a { text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+    .lang { display: flex; gap: 2px; background: var(--cream); border-radius: var(--radius); padding: 3px; }
+    .lang button { min-width: 44px; min-height: 36px; border: 0; background: transparent; border-radius: var(--radius); font: 600 0.85rem var(--font-text); color: var(--muted); cursor: pointer; }
+    .lang button.active { background: var(--plum); color: var(--ink-on-plum); }
+    .nav-cta { display: flex; align-items: center; gap: 0.75rem; }
+    @media (max-width: 860px) { .nav-links { display: none; } }
+
+    /* ── hero: fragment on a shaped stage ────────────────────────────── */
+    .hero { position: relative; min-height: 100svh; overflow: hidden; }
+    .hero .wrap { position: relative; z-index: 2; padding-top: clamp(3rem, 9vh, 7rem); pointer-events: none; }
+    .hero .copy { pointer-events: auto; }
+    .hero h1 { font-size: var(--step-display); max-width: 11ch; }
+    .hero .lead { margin-top: 1.5rem; max-width: 34ch; }
+    .hero .actions { margin-top: 2rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .hero .copy { grid-column: 1 / span 5; }
+    .stage { position: absolute; right: -8vw; bottom: -22vh; width: 72vw; height: 104vh; z-index: 1; }
+    .stage .frag { position: absolute; left: 19%; top: 24%; width: min(600px, 68%); }
+    .mochi-hero { position: absolute; left: -3%; bottom: 8%; width: clamp(140px, 16vw, 230px); z-index: 3; }
+    @media (max-width: 860px) {
+      .hero { min-height: auto; display: flex; flex-direction: column; }
+      .hero .wrap { order: 1; }
+      .hero .copy { grid-column: 1 / -1; }
+      .stage { order: 3; }
+      .hero h1 { font-size: clamp(2.6rem, 10vw, 3.4rem); }
+      .stage { position: relative; right: auto; bottom: auto; width: calc(100% + 2 * var(--margin)); margin-left: calc(-1 * var(--margin)); height: auto; margin-top: 2.5rem; padding: 10vw 6vw 0; border-radius: 50% 50% 0 0 / 22% 22% 0 0; }
+      .stage .frag { position: relative; left: auto; top: auto; width: 100%; }
+      .mochi-hero { order: 2; position: relative; left: auto; bottom: auto; align-self: flex-end; width: 30vw; margin: 0.5rem var(--margin) -14vw 0; z-index: 3; }
+    }
+
+    /* interface fragments: the product's own design system, marked data-ui */
+    .ui { font-family: var(--font-text); background: var(--cream); color: var(--plum); border-radius: 22px 22px 0 0; padding: 18px 18px 0; font-size: 15px; line-height: 1.3; }
+    .ui .ui-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .ui .ui-title { font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 24px; }
+    .ui .ui-weather { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.55); border-radius: 12px; padding: 10px 12px; margin: 10px 0 14px; }
+    .ui .ui-weather b { font-weight: 600; }
+    .ui .ui-weather small { display: block; font-size: 12px; opacity: 0.7; }
+    .ui .ui-room { font-size: 13px; color: var(--plum); margin: 10px 0 6px; font-weight: 700; }
+    .ui .task { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 14px; padding: 10px 12px; margin-bottom: 8px; }
+    .ui .task .box { width: 20px; height: 20px; border: 2px solid var(--orchid); border-radius: 6px; flex: none; }
+    .ui .task.done .box { background: var(--orchid); }
+    .ui .task .name { font-weight: 600; flex: 1; }
+    .ui .task .name small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
+    .ui .task .name.strike { text-decoration: line-through; opacity: 0.6; }
+    .ui .pill { background: var(--orchid); color: #fff; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 600; }
+    .ui .pill.ghost { background: #f1eaee; color: var(--plum); }
+
+    /* ── care card: object on a disc, and the live thing ─────────────── */
+    .care { padding-block: clamp(4rem, 8vw, 7rem) 0; }
+    .care .grid { align-items: end; min-height: 70svh; }
+    .care .names { grid-column: 1 / span 5; align-self: end; padding-bottom: 6vh; }
+    .care h2 { font-size: var(--step-head); margin-bottom: 0.5em; }
+    .care .list { list-style: none; margin: 0; padding: 0; }
+    .care .list button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0.08em 0; font: 700 clamp(1.5rem, 2.6vw, 2.5rem) var(--font-text); letter-spacing: -0.02em; color: var(--muted); cursor: pointer; line-height: 1.15; }
+    .care .list button.active { color: var(--plum); }
+    .care .search { margin-top: 1.2rem; display: flex; gap: 0.5rem; max-width: 420px; }
+    .care .search input { flex: 1; min-height: 48px; border: 0; border-radius: var(--radius); padding: 0 1.1em; background: var(--cream); font: 500 1rem var(--font-text); color: var(--plum); }
+    .care .search input::placeholder { color: var(--muted); }
+    .care .disc-col { grid-column: 6 / -1; position: relative; min-height: 60vh; }
+    .care .disc { position: absolute; left: 44%; bottom: 0; width: 60vh; max-width: 74%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: var(--plum); }
+    .care .disc::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%235d3850'%3E%3Ccircle cx='22' cy='30' r='7'/%3E%3Ccircle cx='70' cy='18' r='5'/%3E%3Ccircle cx='82' cy='62' r='8'/%3E%3Ccircle cx='30' cy='78' r='5'/%3E%3C/g%3E%3C/svg%3E"); background-size: 100% 100%; }
+    .card { position: absolute; left: 44%; bottom: 10%; width: min(420px, 86%); transform: translateX(-50%); background: #fff; border-radius: 22px; padding: 22px 22px 18px; color: var(--plum); font-size: 15px; transition: opacity 300ms ease; }
+    .card.fade { opacity: 0; }
+    .card .c-name { font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 26px; line-height: 1.05; }
+    .card .c-sci { color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
+    .card .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+    .card .c-grid div { background: var(--cream); border-radius: 12px; padding: 10px 12px; }
+    .card .c-grid b { display: block; font-size: 18px; line-height: 1.1; }
+    .card .c-grid span { font-size: 12px; color: var(--muted); }
+    .card .c-rule { margin-top: 12px; font-size: 14px; line-height: 1.4; }
+    .care .fact { position: absolute; right: 0; bottom: 40%; width: 16ch; font-size: 1rem; line-height: 1.4; }
+    .care .fact-m { display: none; }
+    .care .disc { max-width: 80%; }
+    @media (max-width: 860px) {
+      .care { padding-top: 2.5rem; }
+      .care .grid { min-height: auto; }
+      .care .disc-col { grid-column: 1 / -1; order: -1; min-height: 0; height: auto; padding: 14vw 0 6vw; margin-bottom: 1rem; }
+      .care .disc { width: 86vw; left: 50%; }
+      .card { position: relative; left: auto; bottom: auto; transform: none; width: 86%; margin: 0 auto; padding: 16px; }
+      .card .c-name { font-size: 22px; }
+      .care .names { grid-column: 1 / -1; padding-bottom: 0; }
+      .care .list { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; padding-bottom: 0.5rem; }
+      .care .list li { flex: none; }
+      .care .list button { font-size: 1.45rem; white-space: nowrap; }
+      .care .fact { display: none; }
+      .care .fact-m { display: block; margin-top: 1rem; }
+    }
+
+    /* ── how it works: drag through the stages ───────────────────────── */
+    .how { margin-top: var(--section); }
+    .how .split { display: grid; grid-template-columns: 1fr 1fr; min-height: 78svh; }
+    .how .left { background: var(--lime); color: var(--plum); padding: clamp(1.5rem, 4vw, 3.5rem) var(--margin) 7rem; display: flex; flex-direction: column; justify-content: flex-start; }
+    .how .right { background: var(--cream); display: grid; place-items: center; padding: 3rem var(--margin) 7rem; position: relative; overflow: hidden; }
+    .how h2 { font-size: var(--step-display); max-width: 12ch; min-height: 2.1em; }
+    .how .stage-copy { margin-top: 1.2rem; max-width: 36ch; font-size: var(--step-body); }
+    .how .frag { width: min(440px, 100%); margin: 0; transition: opacity 200ms ease; }
+    .how .frag.fade { opacity: 0; }
+    .how .frag img { width: 100%; border-radius: 22px; }
+    .how .slider { position: relative; margin-top: -5.5rem; padding: 0 var(--margin) 2.5rem; background: var(--cream); }
+    .how .slider::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: var(--lime); }
+    .how .track, .how .stops { position: relative; z-index: 1; }
+    .how .track { position: relative; }
+    .how input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; background: var(--bg); border-radius: 4px; outline: none; margin: 0; }
+    .how input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: var(--orchid); border: 0; cursor: grab; }
+    .how input[type=range]::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: var(--orchid); border: 0; cursor: grab; }
+    .how input[type=range]::-moz-range-progress { background: var(--plum); height: 8px; border-radius: 4px; }
+    .how .fill { position: absolute; left: 0; top: 0; height: 8px; background: var(--plum); border-radius: 4px; pointer-events: none; }
+    .how .stops { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 0.9rem; }
+    .how .stops button { background: none; border: 0; padding: 0.3rem 0; text-align: left; font: 500 1rem var(--font-text); color: var(--muted); cursor: pointer; }
+    .how .stops button:nth-child(2) { text-align: center; } .how .stops button:nth-child(3) { text-align: center; } .how .stops button:nth-child(4) { text-align: right; }
+    .how .stops button.active { color: var(--plum); font-weight: 700; }
+    @media (max-width: 860px) {
+      .how .split { grid-template-columns: 1fr; }
+      .how .right { order: -1; min-height: 46svh; padding: 1.5rem var(--margin) 4rem; }
+      .how .split { min-height: 0; }
+      .how .left { padding-bottom: 6rem; }
+      .how h2 { font-size: 9vw; }
+      .how .slider { background: var(--lime); margin-top: -4rem; }
+      .how .slider::before { display: none; }
+      .how .stops { grid-template-columns: 1fr 1fr; row-gap: 0.2rem; }
+      .how .stops button { text-align: left !important; font-size: 0.95rem; }
+    }
+
+    /* ── features: close-ups on a board ──────────────────────────────── */
+    .board { margin-top: var(--section); padding: 0 var(--margin); }
+    .board .tiles { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 104px; gap: 8px; }
+    .tile { position: relative; overflow: hidden; border-radius: 22px; background: var(--cream); color: var(--plum); }
+    .tile.plum { background: var(--plum); color: var(--ink-on-plum); }
+    .tile.lime { background: var(--lime); }
+    .tile.orchid { background: var(--orchid); color: #fff; }
+    .tile .cap-txt { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 2; }
+    .tile .cap-txt b { display: block; font-size: 18px; font-weight: 600; line-height: 1.2; }
+    .tile .cap-txt span { display: block; font-size: 15px; opacity: 0.85; margin-top: 2px; }
+    .tile .big { position: absolute; left: 20px; top: 16px; font-size: 3.4em; }
+    .tile.t-head h2 { position: absolute; left: 20px; top: 18px; right: 20px; font-size: clamp(2rem, 3.4vw, 3.25rem); }
+    .tile img { position: absolute; width: 150%; max-width: none; left: 8%; top: 8%; max-height: 60%; object-fit: cover; object-position: top; border-radius: 18px; }
+    .tile .toggle { position: absolute; right: -18px; top: 16px; width: 150px; height: 84px; border-radius: 999px; background: var(--lime); }
+    .tile .toggle::after { content: ""; position: absolute; right: 8px; top: 8px; width: 68px; height: 68px; border-radius: 50%; background: #fff; }
+    .tile .figure { position: absolute; left: 20px; top: 10px; font: 700 clamp(3rem, 5.5vw, 5rem) var(--font-text); letter-spacing: -0.04em; line-height: 1; }
+    .tile .figure small { display: block; font-size: 0.26em; letter-spacing: 0; font-weight: 500; margin-top: 0.2em; }
+    .tile .status { position: absolute; left: 20px; top: 20px; background: #ffb547; color: var(--plum); border-radius: 999px; padding: 0.45em 1em; font-weight: 700; font-size: 1.5em; white-space: nowrap; transform: scale(1.15); transform-origin: left top; }
+    .tile .bubble { position: absolute; left: 110px; top: 18px; background: #fff; color: var(--plum); border-radius: 22px; padding: 14px 16px; font-size: 1.05em; max-width: 60%; line-height: 1.35; }
+    .tile .mochi { position: absolute; left: -8px; top: 10px; width: 120px; }
+    .t-6x4 { grid-column: span 6; grid-row: span 4; } .t-6x2 { grid-column: span 6; grid-row: span 2; }
+    .t-3x4 { grid-column: span 3; grid-row: span 4; } .t-3x2 { grid-column: span 3; grid-row: span 2; }
+    @media (max-width: 860px) {
+      .board .tiles { grid-template-columns: 1fr 1fr; grid-auto-rows: 28vw; gap: 6px; }
+      .t-6x4, .t-6x2 { grid-column: span 2; grid-row: span 3; }
+      .t-3x4, .t-3x2 { grid-column: span 1; grid-row: span 2; }
+      .tile.t-head { grid-row: span 2; } .tile.t-head h2 { font-size: 9vw; }
+      .tile .cap-txt { left: 14px; right: 14px; bottom: 12px; } .tile .cap-txt b { font-size: 16px; } .tile .cap-txt span { font-size: 14px; }
+      .tile .bubble { left: 64px; font-size: 0.85em; max-width: 68%; padding: 10px 12px; } .tile .mochi { width: 70px; }
+      .tile .figure { font-size: 14vw; } .tile .status { transform: scale(1.1); }
+    }
+
+    /* ── the band: the cap, enormous, holding a real picture ─────────── */
+    .band { margin-top: var(--section); padding: 0 var(--margin); }
+    .band .cap { height: clamp(260px, 52vw, 640px); }
+    .band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: luminosity; opacity: 0.55; }
+    .band figcaption { position: absolute; left: clamp(1rem, 4vw, 3rem); bottom: clamp(1rem, 4vw, 3rem); color: var(--ink-on-plum); max-width: 28ch; font-size: var(--step-lead); line-height: 1.3; font-family: var(--font-display); font-style: italic; }
+    .band figcaption small { display: block; font: 400 0.95rem var(--font-text); opacity: 0.85; margin-top: 0.4em; }
+
+    /* ── beta: two fields ────────────────────────────────────────────── */
+    .beta { margin-top: var(--section); display: grid; grid-template-columns: 5fr 7fr; min-height: 80svh; }
+    .beta > div { padding: clamp(2rem, 4vw, 3.5rem) var(--margin); display: flex; flex-direction: column; }
+    .beta .f1 { background: var(--plum); color: var(--ink-on-plum); }
+    .beta .f1 h2 { color: var(--ink-on-plum); }
+    .beta .f2 { background: var(--lime); color: var(--plum); position: relative; overflow: hidden; }
+    .beta .f2 > :not(.mochi-para) { max-width: 62%; }
+    .beta h2 { font-size: var(--step-display); max-width: 10ch; }
+    .beta p.lead { margin-top: 1.2rem; max-width: 30ch; }
+    .beta .body { margin-top: 1.5rem; }
+    .beta .bottom { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding-top: 3rem; }
+    .beta .price { font: 700 clamp(4rem, 8vw, 7rem) var(--font-text); letter-spacing: -0.05em; line-height: 0.9; }
+    .beta .price small { font: 500 1.1rem var(--font-text); letter-spacing: 0; margin-left: 0.4em; }
+    .beta .mochi-para { position: absolute; right: 2%; bottom: 4%; width: clamp(160px, 22vw, 320px); }
+    @media (max-width: 860px) {
+      .beta { grid-template-columns: 1fr; }
+      .beta > div { min-height: 62svh; }
+      .beta .bottom { flex-direction: column; align-items: stretch; }
+      .beta .f2 > :not(.mochi-para) { max-width: none; }
+      .beta .mochi-para { width: 34vw; bottom: 0; right: -4%; }
+    }
+
+    /* ── faq: tabbed index cards ─────────────────────────────────────── */
+    .faq { margin-top: var(--section); }
+    .faq .inner { grid-column: 3 / span 8; }
+    .faq h2 { font-size: var(--step-head); margin-bottom: 2.5rem; }
+    .faq .cards { position: relative; }
+    .faq .qcard { position: relative; margin-top: -40px; padding: 0; }
+    .faq .qcard:first-child { margin-top: 0; }
+    .faq .tab { position: relative; display: inline-block; width: 200px; height: 40px; line-height: 40px; padding-left: 20px; font-weight: 600; font-size: 16px; color: var(--plum); border-radius: 18px 18px 0 0; }
+    .faq .qbody { border-radius: 0 22px 22px 22px; padding: 0 22px 44px; }
+    .faq .qcard:nth-child(3n+1) .tab, .faq .qcard:nth-child(3n+1) .qbody { background: var(--cream); }
+    .faq .qcard:nth-child(3n+2) .tab, .faq .qcard:nth-child(3n+2) .qbody { background: var(--lime); }
+    .faq .qcard:nth-child(3n) .tab, .faq .qcard:nth-child(3n) .qbody { background: #f1eaee; }
+    .faq .q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; min-height: 60px; background: none; border: 0; padding: 14px 0; text-align: left; font: 500 var(--step-lead) var(--font-text); color: var(--plum); cursor: pointer; }
+    .faq .q .arrow { width: 44px; height: 44px; border-radius: 50%; background: var(--plum); color: var(--ink-on-plum); display: grid; place-items: center; flex: none; transition: transform var(--t-ui) var(--ease-out); }
+    .faq .qcard.open .q .arrow { transform: rotate(45deg); }
+    .faq .a { display: none; padding: 0 0 30px; max-width: 50ch; font-size: 17px; line-height: 1.55; color: var(--ink); }
+    .faq .qcard.open { margin-bottom: 44px; }
+    .faq .qcard.open .a { display: block; }
+    @media (max-width: 860px) {
+      .faq .inner { grid-column: 1 / -1; }
+      .faq h2 { font-size: 9vw; }
+      .faq .tab { width: 120px; font-size: 14px; padding-left: 14px; }
+      .faq .qcard { margin-top: -36px; }
+      .faq .qbody { padding-bottom: 40px; }
+      .faq .q { min-height: 56px; font-size: 17px; }
+      .faq .a { font-size: 16px; }
+    }
+
+    /* ── cta: the action tile ────────────────────────────────────────── */
+    .join { margin-top: clamp(5rem, 9vw, 9rem); padding: 0 var(--margin); overflow: hidden; }
+    .join .row { display: grid; grid-template-columns: 2fr 8fr 2fr; gap: 12px; height: 360px; }
+    .join .side { border-radius: 22px; overflow: hidden; background: var(--plum); }
+    .join .side.photo img { width: 100%; height: 100%; object-fit: cover; }
+    .join .side.left { margin-left: calc(-1 * var(--margin) - 40px); }
+    .join .side.right { margin-right: calc(-1 * var(--margin) - 40px); }
+    .join .main { border-radius: 22px; background: var(--orchid); color: #fff; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+    .join h2 { color: #fff; font-size: var(--step-head); max-width: 16ch; }
+    .join p { margin-top: 0.8rem; max-width: 44ch; font-size: 17px; }
+    .join form { margin-top: 1.4rem; display: flex; align-items: center; width: min(460px, 100%); background: var(--bg); border-radius: var(--radius); padding: 5px 5px 5px 20px; }
+    .join input { flex: 1; min-width: 0; border: 0; background: transparent; font: 500 1rem var(--font-text); color: var(--plum); min-height: 44px; }
+    .join input:focus { outline: none; }
+    .join .ok { margin-top: 1rem; font-weight: 600; }
+    @media (max-width: 860px) {
+      .join .row { grid-template-columns: 1fr 1fr; height: auto; }
+      .join .main { grid-column: 1 / -1; order: -1; min-height: 300px; padding: 28px 22px; }
+      .join h2 { font-size: 28px; }
+      .join form { flex-direction: column; align-items: stretch; background: none; padding: 0; gap: 8px; }
+      .join input { background: var(--bg); border-radius: var(--radius); padding: 0 18px; min-height: 52px; }
+      .join .side { height: 120px; margin: 0 !important; }
+    }
+
+    /* ── footer: the mark, built large ───────────────────────────────── */
+    .foot { margin-top: clamp(3rem, 5vw, 4rem); background: var(--cream); padding: clamp(1.5rem, 3vw, 2.5rem) var(--margin) 2rem; color: var(--plum); }
+    .blocks { display: flex; align-items: flex-end; gap: 4px; height: 24svh; min-height: 150px; }
+    .blocks span { display: flex; align-items: flex-end; justify-content: center; flex: 1; min-width: 0; background: var(--plum); color: var(--cream); font: 700 clamp(1.6rem, 6vw, 7rem)/1 var(--font-display); font-style: italic; padding-bottom: 0.08em; border-radius: 50% 50% 0 0 / 18% 18% 0 0; }
+    .blocks span.gap { background: transparent; flex: 0.5; }
+    .blocks span:nth-child(odd) { height: 100%; } .blocks span:nth-child(even) { height: 78%; } .blocks span:nth-child(3n) { height: 88%; background: var(--orchid); }
+    .foot .cols { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); margin-top: 40px; }
+    .foot .cols > div { grid-column: span 2; }
+    .foot .cols .contact { grid-column: 9 / -1; }
+    .foot .cols b { display: block; margin-bottom: 0.6rem; }
+    .foot .cols a { display: block; text-decoration: none; font-size: 15px; margin-bottom: 0.4rem; }
+    .foot .last { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 3rem; font-size: 15px; flex-wrap: wrap; }
+    .credits { font-size: 14px; color: var(--muted); margin-top: 1.5rem; max-width: 100ch; line-height: 1.5; }
+    .credits a { color: var(--muted); }
+    @media (max-width: 860px) {
+      .blocks { height: 22svh; flex-wrap: wrap; }
+      .foot .cols > div { grid-column: span 6; } .foot .cols .contact { grid-column: 1 / -1; }
+    }
+
+    /* ── motion ──────────────────────────────────────────────────────── */
+    .shutter { overflow: hidden; }
+    @media (prefers-reduced-motion: no-preference) {
+      .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--t-reveal) var(--ease-expo), transform var(--t-reveal) var(--ease-expo); transition-delay: var(--d, 0ms); }
+      .js .reveal.in { opacity: 1; transform: none; }
+      .js .shutter { clip-path: inset(0 0 100% 0); transition: clip-path var(--t-open) var(--ease-in-out); }
+      .js .shutter img, .js .shutter .frag { transform: scale(1.08); transition: transform 1500ms var(--ease-soft); }
+      .js .shutter.is-in { clip-path: inset(0); }
+      .js .shutter.is-in img, .js .shutter.is-in .frag { transform: none; }
+      .js .drift img { animation: drift 14s ease-in-out infinite alternate; }
+      @keyframes drift { from { transform: scale(1.02) translateY(-1.5%); } to { transform: scale(1.06) translateY(1.5%); } }
+      .mochi-hero, .mochi-para { animation: bob 3.2s ease-in-out infinite alternate; }
+      @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="pocket planter, home"><span class="mark" aria-hidden="true"></span>pocket planter</a>
+      <nav class="nav-links" aria-label="sections">
+        <a href="#care" class="link" data-i18n="nav.care">your plant's card</a>
+        <a href="#how" class="link" data-i18n="nav.how">how it works</a>
+        <a href="#beta" class="link" data-i18n="nav.beta">the beta</a>
+        <a href="#faq" class="link" data-i18n="nav.faq">questions</a>
+      </nav>
+      <div class="nav-cta">
+        <div class="lang" role="group" aria-label="language">
+          <button type="button" class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+          <button type="button" class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+          <button type="button" class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+        </div>
+        <a class="btn small" href="#join" data-i18n="nav.cta">join the beta</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO: fragment on a shaped stage (the cap) -->
+    <section class="hero" aria-labelledby="h1">
+      <div class="wrap grid">
+        <div class="copy">
+          <h1 id="h1" class="reveal" data-i18n-html="hero.h1">every plant,<br>cared for right.</h1>
+          <p class="lead reveal" style="--d:90ms" data-i18n="hero.lead">pocket planter identifies your plant from a photo, builds its care around your rooms and your weather, and tells you what to do today.</p>
+          <div class="actions reveal" style="--d:180ms">
+            <a class="btn" href="#join" data-i18n="hero.cta">join the beta</a>
+            <a class="link" href="#how" data-i18n="hero.secondary">see how it works</a>
+          </div>
+          <p class="muted reveal" style="--d:260ms" data-i18n="hero.note">free during the beta · iPhone · made in Knoxville, Tennessee</p>
+        </div>
+      </div>
+      <div class="stage cap shutter" aria-hidden="false">
+        <div class="frag ui" data-ui>
+          <div class="ui-top"><span class="ui-title" data-i18n="ui.goodmorning">good morning!</span><span data-i18n="ui.tasksdone">1 of 5 done</span></div>
+          <div class="ui-weather"><div><b data-i18n="ui.weather">46°F · clear</b><small data-i18n="ui.weathersub">Knoxville · rain tomorrow, I'll skip your outdoor plants</small></div><span class="pill ghost" data-i18n="ui.forecast">forecast</span></div>
+          <div class="ui-room" data-i18n="ui.livingroom">living room</div>
+          <div class="task done"><span class="box"></span><span class="name strike">Monstera deliciosa<small data-i18n="ui.water">water</small></span><span class="pill" data-i18n="ui.done">done</span></div>
+          <div class="task"><span class="box"></span><span class="name">Fiddle leaf fig<small data-i18n="ui.mist">mist</small></span><span class="pill" data-i18n="ui.donebtn">done</span><span class="pill ghost" data-i18n="ui.snooze">snooze</span></div>
+          <div class="task"><span class="box"></span><span class="name">Calathea orbifolia<small data-i18n="ui.checksoil">check the soil first</small></span><span class="pill" data-i18n="ui.donebtn">done</span><span class="pill ghost" data-i18n="ui.snooze">snooze</span></div>
+          <div class="ui-room" data-i18n="ui.balcony">balcony</div>
+          <div class="task"><span class="box"></span><span class="name">Bird of paradise<small data-i18n="ui.skiprain">skipped: rain tomorrow</small></span><span class="pill ghost" data-i18n="ui.rain">rain</span></div>
+        </div>
+      </div>
+      <img class="mochi-hero" id="mochi-hero" src="welcoming-novo.png" width="230" height="300" alt="planter, the mushroom mascot, waving">
+    </section>
+
+    <!-- CARE CARD: object on a disc + the live thing -->
+    <section class="care wrap" id="care" aria-labelledby="care-h">
+      <div class="grid">
+        <div class="names">
+          <h2 id="care-h" class="reveal" data-i18n="care.h2">pick a plant.</h2>
+          <p class="body reveal" style="--d:60ms" data-i18n="care.lead">this is the card the app builds for it, from a catalog of 4,000+ species. real data, not a demo.</p>
+          <ul class="list reveal" id="quick" style="--d:120ms">
+            <li><button type="button" class="active" data-plant="Swiss Cheese Plant">Monstera</button></li>
+            <li><button type="button" data-plant="Golden Pothos">Pothos</button></li>
+            <li><button type="button" data-plant="Snake Plant (Sansevieria)">Snake plant</button></li>
+            <li><button type="button" data-plant="Fiddle Leaf Fig">Fiddle leaf fig</button></li>
+            <li><button type="button" data-plant="Calathea Orbifolia">Calathea</button></li>
+            <li><button type="button" data-plant="Aloe Vera">Aloe</button></li>
+          </ul>
+          <form class="search reveal" style="--d:180ms" onsubmit="return false">
+            <label class="sr" for="plant-q" data-i18n="care.label">type a plant</label>
+            <input id="plant-q" list="plant-list" type="text" autocomplete="off" placeholder="or type yours: tomato, peony, maple…" data-i18n="care.placeholder" data-i18n-attr="placeholder">
+            <datalist id="plant-list"></datalist>
+          </form>
+          <p class="muted reveal" id="care-miss" style="--d:220ms; display:none" data-i18n="care.miss">not in this sample of 320. the app has it, or builds its card on the first scan.</p>
+          <p class="fact-m" data-i18n="care.fact">the app then shifts these days for your room's light and your weather.</p>
+        </div>
+        <div class="disc-col reveal" style="--d:120ms">
+          <div class="disc" aria-hidden="true"></div>
+          <div class="card" id="card" data-ui>
+            <div class="c-name" id="c-name">Swiss Cheese Plant</div>
+            <div class="c-sci" id="c-sci">Monstera deliciosa</div>
+            <div class="c-grid">
+              <div><b id="c-water">every 7 days</b><span data-i18n="card.summer">water in summer</span></div>
+              <div><b id="c-winter">every 14 days</b><span data-i18n="card.winter">water in winter</span></div>
+              <div><b id="c-light">bright indirect</b><span data-i18n="card.light">light</span></div>
+              <div><b id="c-hum">moderate-high</b><span data-i18n="card.humidity">humidity</span></div>
+              <div><b id="c-pets">not safe</b><span data-i18n="card.pets">for cats and dogs</span></div>
+              <div><b id="c-zone">10-12</b><span data-i18n="card.zone">USDA zone, outdoors</span></div>
+            </div>
+            <p class="c-rule" id="c-rule">Water when the top 1-2 inches of soil feel dry; keep just moist in winter.</p>
+          </div>
+          <p class="fact" id="c-fact" data-i18n="care.fact">the app then shifts these days for your room's light and your weather.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS: drag through the stages -->
+    <section class="how" id="how" aria-labelledby="how-h">
+      <div class="split">
+        <div class="left">
+          <h2 id="how-h" data-i18n="how.s0.h">first, scan it.</h2>
+          <p class="stage-copy" id="how-copy" data-i18n="how.s0.p">take a photo. planter names the species, shows photos to compare, and asks for a second shot when it is not sure.</p>
+        </div>
+        <div class="right">
+          <figure class="frag" id="how-frag">
+            <img src="assets/app/garden.jpg" width="471" height="600" alt="the my garden screen of the app: plants grouped by room, each with its next watering day" loading="lazy">
+          </figure>
+        </div>
+      </div>
+      <div class="slider">
+        <div class="track">
+          <div class="fill" id="how-fill" style="width:0%"></div>
+          <label class="sr" for="how-range" data-i18n="how.range">stage</label>
+          <input type="range" id="how-range" min="0" max="3" step="1" value="0">
+        </div>
+        <div class="stops" id="how-stops">
+          <button type="button" class="active" data-i18n="how.s0.n">scan</button>
+          <button type="button" data-i18n="how.s1.n">rooms</button>
+          <button type="button" data-i18n="how.s2.n">weather</button>
+          <button type="button" data-i18n="how.s3.n">today</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES: close-ups on a board -->
+    <section class="board" aria-labelledby="board-h">
+      <div class="tiles">
+        <div class="tile t-head t-6x2 reveal"><h2 id="board-h" data-i18n="board.h2">small things, done right.</h2></div>
+        <div class="tile lime t-3x2 reveal" style="--d:60ms"><div class="figure">4,000<small data-i18n="board.species">species with a full care card</small></div></div>
+        <div class="tile lime t-3x2 reveal" style="--d:60ms"><div class="figure">80%<small data-i18n="board.rain">chance of rain tomorrow: outdoor plants skipped</small></div></div>
+        <div class="tile t-6x4 reveal" style="--d:60ms"><img src="assets/app/diagnose.jpg" width="471" height="460" alt="the diagnose tab of a calathea: a health check found spider mites, with the plant's common issues listed" loading="lazy"><div class="cap-txt"><b data-i18n="board.diagnose.t">diagnose from a photo</b><span data-i18n="board.diagnose.s">a finding, a treatment plan, day-by-day tasks</span></div></div>
+        <div class="tile orchid t-3x4 reveal" style="--d:120ms"><img class="mochi" src="watering-novo.png" width="120" height="156" alt="planter holding a watering can"><div class="bubble" data-i18n="board.chat.b">your pothos is likely overwatered. let the top two inches dry, then water deeply.</div><div class="cap-txt"><b data-i18n="board.chat.t">ask planter</b><span data-i18n="board.chat.s">knows your plants, your rooms, your weather</span></div></div>
+        <div class="tile t-3x4 reveal" style="--d:180ms"><img src="assets/app/rooms.jpg" width="471" height="200" alt="rooms in the app: all, living room, and an add-plant button" loading="lazy" style="width:170%; left:6%; top:14%"><div class="cap-txt"><b data-i18n="board.rooms.t">care by room</b><span data-i18n="board.rooms.s">a bright kitchen and a dim bedroom get different schedules</span></div></div>
+        <div class="tile plum t-3x2 reveal" style="--d:120ms"><div class="toggle" aria-hidden="true"></div><div class="cap-txt"><b data-i18n="board.reminders.t">reminders your way</b><span data-i18n="board.reminders.s">every day, weekdays, or the days you pick</span></div></div>
+        <div class="tile cream t-3x2 reveal" style="--d:120ms"><div class="status" data-i18n="board.status">needs attention</div><div class="cap-txt"><b data-i18n="board.status.t">health at a glance</b></div></div>
+        <div class="tile plum t-6x2 reveal" style="--d:180ms"><img src="assets/app/care.jpg" width="471" height="420" alt="the care tab of a swiss cheese plant: watered, misted, photo timeline, find the right spot" loading="lazy" style="width:52%; left:52%; top:6%"><div class="cap-txt" style="right:52%"><b data-i18n="board.timeline.t">a photo timeline per plant</b><span data-i18n="board.timeline.s">and a hand-off email for the plant sitter when you travel</span></div></div>
+      </div>
+    </section>
+
+    <!-- THE BAND: the cap at full width, holding a real picture -->
+    <figure class="band reveal">
+      <div class="cap drift">
+        <img src="assets/monstera-engraving-crop.jpg" width="1200" height="1387" alt="an 1875 engraving of Monstera deliciosa, the swiss cheese plant" loading="lazy">
+        <figcaption><span data-i18n="band.cap">the first plant most people add is a monstera.</span><small data-i18n="band.sub">engraving, 1875. the app has known this one since day one.</small></figcaption>
+      </div>
+    </figure>
+
+    <!-- BETA: two fields -->
+    <section class="beta" id="beta" aria-labelledby="beta-h">
+      <div class="f1 on-plum">
+        <h2 id="beta-h" class="reveal" data-i18n="beta.h2">free while we build it.</h2>
+        <p class="lead reveal" style="--d:80ms" data-i18n="beta.lead">a small group is using pocket planter before launch. everything is open, nothing costs anything.</p>
+        <p class="body reveal" style="--d:140ms" data-i18n="beta.body">that includes unlimited plants, identification, diagnosis, the planter assistant, weather-aware schedules and the photo timeline. when we launch, beta testers get a thank-you we will announce in the app first.</p>
+        <div class="bottom reveal" style="--d:200ms">
+          <div class="price">$0<small data-i18n="beta.period">during the beta</small></div>
+          <a class="btn on-plum" href="#join" data-i18n="beta.cta">join the beta</a>
+        </div>
+      </div>
+      <div class="f2">
+        <img class="mochi-para" src="paraquedas-novo.png" width="340" height="440" alt="planter arriving by parachute">
+        <h2 class="reveal" data-i18n="beta.ask.h2">what we ask of you.</h2>
+        <p class="lead reveal" style="--d:80ms" data-i18n="beta.ask.lead">use it with your real plants for a few weeks, and tell us what is great, what is broken and what is missing.</p>
+        <ul class="dots body reveal" style="--d:140ms">
+          <li data-i18n="beta.ask.1">there is a "send feedback" button in your profile. it reaches us directly, and we read every message.</li>
+          <li data-i18n="beta.ask.2">tell us when the app is wrong about a plant. the catalog grows from what you scan.</li>
+          <li data-i18n="beta.ask.3">no surveys, no calls. the app itself is the questionnaire.</li>
+        </ul>
+        <p class="body reveal" style="--d:200ms; margin-top:auto; padding-top:2rem" data-i18n="beta.ask.foot">iPhone only for now. Android comes after the beta.</p>
+      </div>
+    </section>
+
+    <!-- FAQ: tabbed index cards -->
+    <section class="faq wrap" id="faq" aria-labelledby="faq-h">
+      <div class="grid">
+        <div class="inner">
+          <h2 id="faq-h" class="reveal" data-i18n="faq.h2">questions people ask.</h2>
+          <div class="cards" id="faq-cards">
+            <div class="qcard open reveal">
+              <div class="tab" data-i18n="faq.1.tab">plants</div>
+              <div class="qbody"><button class="q" type="button" aria-expanded="true"><span data-i18n="faq.1.q">does it know my plant?</span><span class="arrow" aria-hidden="true">+</span></button><div class="a" data-i18n="faq.1.a">the catalog has 4,000+ species with a complete care card: houseplants, succulents, orchids, herbs, vegetables, fruit, shrubs, perennials and garden trees. if you scan something it has never seen, it builds the card on the spot and keeps it for everyone.</div></div>
+            </div>
+            <div class="qcard reveal" style="--d:60ms">
+              <div class="tab" data-i18n="faq.2.tab">garden</div>
+              <div class="qbody"><button class="q" type="button" aria-expanded="false"><span data-i18n="faq.2.q">does it work for plants in the ground?</span><span class="arrow" aria-hidden="true">+</span></button><div class="a" data-i18n="faq.2.a">yes. a garden plant has no pot and no room: it gets sun-exposure care instead of window-light care, and when rain is coming the app skips its watering reminder and tells you why.</div></div>
+            </div>
+            <div class="qcard reveal" style="--d:120ms">
+              <div class="tab" data-i18n="faq.3.tab">weather</div>
+              <div class="qbody"><button class="q" type="button" aria-expanded="false"><span data-i18n="faq.3.q">why does it want my location?</span><span class="arrow" aria-hidden="true">+</span></button><div class="a" data-i18n="faq.3.a">for the forecast. heat waves move watering sooner, rain skips outdoor plants, cold snaps warn you to bring plants in. it reads an approximate location once, you can say no, and the app keeps working with generic advice.</div></div>
+            </div>
+            <div class="qcard reveal" style="--d:180ms">
+              <div class="tab" data-i18n="faq.4.tab">privacy</div>
+              <div class="qbody"><button class="q" type="button" aria-expanded="false"><span data-i18n="faq.4.q">where do my photos and messages go?</span><span class="arrow" aria-hidden="true">+</span></button><div class="a" data-i18n-html="faq.4.a">a photo you choose to identify goes to our identification partner, Kindwise. a message to planter goes to Google's Gemini with a short summary of your garden. neither is labelled with your name, neither is used to train models, and the app asks you once before the first time. the full detail is in the <a class="link" href="privacy.html">privacy policy</a>.</div></div>
+            </div>
+            <div class="qcard reveal" style="--d:240ms">
+              <div class="tab" data-i18n="faq.5.tab">cost</div>
+              <div class="qbody"><button class="q" type="button" aria-expanded="false"><span data-i18n="faq.5.q">what will it cost after the beta?</span><span class="arrow" aria-hidden="true">+</span></button><div class="a" data-i18n="faq.5.a">we have not decided, and we will decide with the beta's data in hand. whatever it is, beta testers hear it first, in the app, well before anything changes.</div></div>
+            </div>
+            <div class="qcard reveal" style="--d:300ms">
+              <div class="tab" data-i18n="faq.6.tab">getting in</div>
+              <div class="qbody"><button class="q" type="button" aria-expanded="false"><span data-i18n="faq.6.q">how do i join?</span><span class="arrow" aria-hidden="true">+</span></button><div class="a" data-i18n="faq.6.a">leave your email below. we invite in small groups through TestFlight, Apple's beta app, and you get an email with the link when it is your turn.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA: the action tile -->
+    <section class="join" id="join" aria-labelledby="join-h">
+      <div class="row">
+        <div class="side left photo drift"><img src="assets/window-plants.jpg" width="1200" height="1487" alt="potted plants on a floor beside a sunlit window" loading="lazy"></div>
+        <div class="main">
+          <h2 id="join-h" data-i18n="join.h2">join the beta.</h2>
+          <p data-i18n="join.p">leave your email and we send the TestFlight invite when it is your turn. no spam, no newsletter: one email, from a person.</p>
+          <form id="waitlist-form" onsubmit="return false">
+            <label class="sr" for="waitlist-email" data-i18n="join.label">your email</label>
+            <input type="email" id="waitlist-email" placeholder="your@email.com" required autocomplete="email">
+            <button class="btn quiet" type="submit" id="waitlist-btn" data-i18n="join.btn">send me the invite</button>
+          </form>
+          <p class="ok" id="waitlist-success" style="display:none"></p>
+        </div>
+        <div class="side right" style="background: var(--plum)"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="blocks" aria-hidden="true">
+      <span>p</span><span>o</span><span>c</span><span>k</span><span>e</span><span>t</span><span class="gap"></span><span>p</span><span>l</span><span>a</span><span>n</span><span>t</span><span>e</span><span>r</span>
+    </div>
+    <div class="cols">
+      <div><b data-i18n="foot.app">the app</b><a href="#care" data-i18n="nav.care">your plant's card</a><a href="#how" data-i18n="nav.how">how it works</a><a href="#beta" data-i18n="nav.beta">the beta</a><a href="#faq" data-i18n="nav.faq">questions</a></div>
+      <div><b data-i18n="foot.legal">legal</b><a href="privacy.html" data-i18n="foot.privacy">privacy policy</a><a href="terms.html" data-i18n="foot.terms">terms of service</a><a href="delete-account.html" data-i18n="foot.delete">delete your account</a></div>
+      <div class="contact"><b data-i18n="foot.contact">write to us</b><a href="mailto:hello@pocketplanter.app">hello@pocketplanter.app</a><p style="font-size:15px; margin-top:0.6rem" data-i18n="foot.where">made in Knoxville, Tennessee, by a plant parent, for plant parents.</p></div>
+    </div>
+    <div class="last">
+      <span data-i18n="foot.copy">© 2026 pocket planter. growing together.</span>
+      <a class="btn small" href="#join" data-i18n="nav.cta">join the beta</a>
+    </div>
+    <p class="credits" data-i18n-html="foot.credits">Pictures: <a href="https://commons.wikimedia.org/wiki/File:Monstera_deliciosa_libostrom_zpror%C3%A1%C5%BEen%C3%BD_Vesm%C3%ADr_1875.jpg">“Monstera deliciosa libostrom zprorážený Vesmír 1875”</a>, public domain, via Wikimedia Commons; <a href="https://wordpress.org/photos/photo/3965213233/">“Potted plants on a floor by a window.”</a> by shashankchaturvedi, CC0, via WordPress Photo Directory. Weather data by OpenWeather. Plant identification by Kindwise.</p>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('js');
+
+    // ---- i18n (same mechanism as before: data-i18n keys, three languages) ----
+    const translations = {
+      en: {},
+      pt: {
+        'nav.care': 'a ficha da sua planta', 'nav.how': 'como funciona', 'nav.beta': 'o beta', 'nav.faq': 'perguntas', 'nav.cta': 'entrar no beta',
+        'hero.h1': 'cada planta,<br>bem cuidada.',
+        'hero.lead': 'o pocket planter identifica a sua planta por uma foto, monta o cuidado dela em volta dos seus cômodos e do seu clima, e diz o que fazer hoje.',
+        'hero.cta': 'entrar no beta', 'hero.secondary': 'veja como funciona', 'hero.note': 'grátis durante o beta · iPhone · feito em Knoxville, Tennessee',
+        'ui.goodmorning': 'bom dia!', 'ui.tasksdone': '1 de 5 feitas', 'ui.weather': '8°C · céu limpo', 'ui.weathersub': 'Knoxville · chuva amanhã, vou pular as plantas de fora', 'ui.forecast': 'previsão',
+        'ui.livingroom': 'sala', 'ui.water': 'regar', 'ui.done': 'feito', 'ui.mist': 'borrifar', 'ui.donebtn': 'feito', 'ui.snooze': 'adiar', 'ui.checksoil': 'confira a terra antes', 'ui.balcony': 'varanda', 'ui.skiprain': 'pulado: chuva amanhã', 'ui.rain': 'chuva',
+        'care.h2': 'escolha uma planta.', 'care.lead': 'esta é a ficha que o app monta para ela, de um catálogo com 4.000+ espécies. dados reais, não uma demonstração.',
+        'care.label': 'digite uma planta', 'care.placeholder': 'ou digite a sua: tomate, peônia, bordo…', 'care.miss': 'não está nesta amostra de 320. o app tem, ou monta a ficha no primeiro scan.',
+        'card.summer': 'regar no verão', 'card.winter': 'regar no inverno', 'card.light': 'luz', 'card.humidity': 'umidade', 'card.pets': 'para gatos e cães', 'card.zone': 'zona USDA, ao ar livre',
+        'care.fact': 'o app então ajusta esses dias para a luz do seu cômodo e o seu clima.',
+        'how.s0.h': 'primeiro, escaneie.', 'how.s0.p': 'tire uma foto. o planter diz a espécie, mostra fotos para comparar e pede uma segunda foto quando não tem certeza.',
+        'how.s1.h': 'dê um cômodo a ela.', 'how.s1.p': 'a mesma planta bebe diferente numa cozinha clara e num quarto escuro. diga onde cada uma mora e a rega se ajusta.',
+        'how.s2.h': 'deixe o clima entrar.', 'how.s2.p': 'ondas de calor adiantam a rega, chuva pula as plantas de fora, frio avisa para trazer para dentro.',
+        'how.s3.h': 'faça a lista de hoje.', 'how.s3.p': 'uma lista por dia: regar, borrifar, conferir, adubar. feito, adiar ou pular, com o motivo de cada tarefa.',
+        'how.range': 'etapa', 'how.s0.n': 'scan', 'how.s1.n': 'cômodos', 'how.s2.n': 'clima', 'how.s3.n': 'hoje',
+        'board.h2': 'detalhes bem feitos.', 'board.species': 'espécies com ficha completa', 'board.reminders.t': 'lembretes do seu jeito', 'board.reminders.s': 'todo dia, dias úteis ou os dias que você escolher',
+        'board.diagnose.t': 'diagnóstico por foto', 'board.diagnose.s': 'um achado, um plano de tratamento, tarefas dia a dia',
+        'board.chat.b': 'o seu jiboia provavelmente está com água demais. deixe os 5 cm de cima secarem e depois regue fundo.', 'board.chat.t': 'pergunte ao planter', 'board.chat.s': 'conhece suas plantas, seus cômodos, seu clima',
+        'board.rooms.t': 'cuidado por cômodo', 'board.rooms.s': 'uma cozinha clara e um quarto escuro ganham cronogramas diferentes', 'board.rain': 'de chance de chuva amanhã: plantas de fora puladas',
+        'board.status': 'precisa de atenção', 'board.status.t': 'saúde num relance', 'board.timeline.t': 'uma linha do tempo de fotos por planta', 'board.timeline.s': 'e um e-mail de passagem para quem cuida quando você viaja',
+        'band.cap': 'a primeira planta que a maioria adiciona é uma costela-de-adão.', 'band.sub': 'gravura, 1875. o app conhece essa desde o primeiro dia.',
+        'beta.h2': 'grátis enquanto construímos.', 'beta.lead': 'um grupo pequeno está usando o pocket planter antes do lançamento. está tudo aberto, nada custa nada.',
+        'beta.body': 'isso inclui plantas ilimitadas, identificação, diagnóstico, o assistente planter, cronogramas que seguem o clima e a linha do tempo de fotos. quando lançarmos, quem testou ganha um agradecimento que anunciamos primeiro no app.',
+        'beta.period': 'durante o beta', 'beta.cta': 'entrar no beta',
+        'beta.ask.h2': 'o que pedimos de você.', 'beta.ask.lead': 'use com as suas plantas de verdade por algumas semanas, e diga o que está ótimo, o que está quebrado e o que falta.',
+        'beta.ask.1': 'há um botão "send feedback" no seu perfil. chega direto para nós, e lemos toda mensagem.', 'beta.ask.2': 'diga quando o app errar sobre uma planta. o catálogo cresce com o que você escaneia.', 'beta.ask.3': 'sem pesquisas, sem ligações. o próprio app é o questionário.',
+        'beta.ask.foot': 'só iPhone por enquanto. Android vem depois do beta.',
+        'faq.h2': 'perguntas que fazem.', 'faq.1.tab': 'plantas', 'faq.1.q': 'ele conhece a minha planta?', 'faq.1.a': 'o catálogo tem 4.000+ espécies com ficha completa: plantas de casa, suculentas, orquídeas, ervas, hortaliças, frutíferas, arbustos, perenes e árvores de jardim. se você escanear algo que ele nunca viu, ele monta a ficha na hora e guarda para todo mundo.',
+        'faq.2.tab': 'jardim', 'faq.2.q': 'funciona para plantas na terra?', 'faq.2.a': 'sim. uma planta de jardim não tem vaso nem cômodo: recebe cuidado por exposição ao sol em vez de luz de janela, e quando vem chuva o app pula o lembrete de rega e diz o porquê.',
+        'faq.3.tab': 'clima', 'faq.3.q': 'por que ele quer a minha localização?', 'faq.3.a': 'para a previsão. ondas de calor adiantam a rega, chuva pula as plantas de fora, frio avisa para trazer para dentro. ele lê uma localização aproximada uma vez, você pode dizer não, e o app continua com conselhos genéricos.',
+        'faq.4.tab': 'privacidade', 'faq.4.q': 'para onde vão minhas fotos e mensagens?', 'faq.4.a': 'uma foto que você escolhe identificar vai para o nosso parceiro de identificação, a Kindwise. uma mensagem ao planter vai para o Gemini do Google com um resumo curto do seu jardim. nenhuma leva o seu nome, nenhuma é usada para treinar modelos, e o app pergunta uma vez antes da primeira. o detalhe completo está na <a class="link" href="privacy.html">política de privacidade</a>.',
+        'faq.5.tab': 'custo', 'faq.5.q': 'quanto vai custar depois do beta?', 'faq.5.a': 'ainda não decidimos, e vamos decidir com os dados do beta na mão. seja o que for, quem testou sabe primeiro, no app, bem antes de qualquer mudança.',
+        'faq.6.tab': 'entrar', 'faq.6.q': 'como eu entro?', 'faq.6.a': 'deixe seu e-mail abaixo. convidamos em grupos pequenos pelo TestFlight, o app de beta da Apple, e você recebe um e-mail com o link quando chegar a sua vez.',
+        'join.h2': 'entre no beta.', 'join.p': 'deixe seu e-mail e mandamos o convite do TestFlight quando for a sua vez. sem spam, sem newsletter: um e-mail, de uma pessoa.', 'join.label': 'seu e-mail', 'join.btn': 'me mande o convite',
+        'foot.app': 'o app', 'foot.legal': 'legal', 'foot.privacy': 'política de privacidade', 'foot.terms': 'termos de serviço', 'foot.delete': 'excluir sua conta', 'foot.contact': 'escreva para nós', 'foot.where': 'feito em Knoxville, Tennessee, por uma mãe de plantas, para mães e pais de plantas.', 'foot.copy': '© 2026 pocket planter. crescendo juntos.',
+        'foot.credits': 'Imagens: <a href="https://commons.wikimedia.org/wiki/File:Monstera_deliciosa_libostrom_zpror%C3%A1%C5%BEen%C3%BD_Vesm%C3%ADr_1875.jpg">“Monstera deliciosa libostrom zprorážený Vesmír 1875”</a>, domínio público, via Wikimedia Commons; <a href="https://wordpress.org/photos/photo/3965213233/">“Potted plants on a floor by a window.”</a> de shashankchaturvedi, CC0, via WordPress Photo Directory. Dados de clima por OpenWeather. Identificação de plantas por Kindwise.',
+        'ok.dup': 'você já está na lista ', 'ok.new': 'você está na lista! veja seu e-mail', 'ok.err': 'algo deu errado. tente de novo!', 'ok.sending': 'enviando…'
+      },
+      es: {
+        'nav.care': 'la ficha de tu planta', 'nav.how': 'cómo funciona', 'nav.beta': 'la beta', 'nav.faq': 'preguntas', 'nav.cta': 'unirme a la beta',
+        'hero.h1': 'cada planta,<br>bien cuidada.',
+        'hero.lead': 'pocket planter identifica tu planta con una foto, arma su cuidado alrededor de tus habitaciones y tu clima, y te dice qué hacer hoy.',
+        'hero.cta': 'unirme a la beta', 'hero.secondary': 'mira cómo funciona', 'hero.note': 'gratis durante la beta · iPhone · hecho en Knoxville, Tennessee',
+        'ui.goodmorning': '¡buenos días!', 'ui.tasksdone': '1 de 5 hechas', 'ui.weather': '8°C · despejado', 'ui.weathersub': 'Knoxville · lluvia mañana, saltaré las plantas de afuera', 'ui.forecast': 'pronóstico',
+        'ui.livingroom': 'sala', 'ui.water': 'regar', 'ui.done': 'hecho', 'ui.mist': 'rociar', 'ui.donebtn': 'hecho', 'ui.snooze': 'posponer', 'ui.checksoil': 'revisa la tierra antes', 'ui.balcony': 'balcón', 'ui.skiprain': 'saltada: lluvia mañana', 'ui.rain': 'lluvia',
+        'care.h2': 'elige una planta.', 'care.lead': 'esta es la ficha que la app arma para ella, de un catálogo de 4.000+ especies. datos reales, no una demo.',
+        'care.label': 'escribe una planta', 'care.placeholder': 'o escribe la tuya: tomate, peonía, arce…', 'care.miss': 'no está en esta muestra de 320. la app la tiene, o arma su ficha en el primer escaneo.',
+        'card.summer': 'riego en verano', 'card.winter': 'riego en invierno', 'card.light': 'luz', 'card.humidity': 'humedad', 'card.pets': 'para gatos y perros', 'card.zone': 'zona USDA, al aire libre',
+        'care.fact': 'la app luego ajusta esos días a la luz de tu habitación y a tu clima.',
+        'how.s0.h': 'primero, escanéala.', 'how.s0.p': 'toma una foto. planter dice la especie, muestra fotos para comparar y pide una segunda foto cuando no está seguro.',
+        'how.s1.h': 'dale una habitación.', 'how.s1.p': 'la misma planta bebe distinto en una cocina luminosa y en un dormitorio oscuro. di dónde vive cada una y el riego se ajusta.',
+        'how.s2.h': 'deja entrar el clima.', 'how.s2.p': 'las olas de calor adelantan el riego, la lluvia salta las plantas de afuera, el frío avisa para meterlas.',
+        'how.s3.h': 'haz la lista de hoy.', 'how.s3.p': 'una lista por día: regar, rociar, revisar, abonar. hecho, posponer o saltar, con el motivo de cada tarea.',
+        'how.range': 'etapa', 'how.s0.n': 'escaneo', 'how.s1.n': 'habitaciones', 'how.s2.n': 'clima', 'how.s3.n': 'hoy',
+        'board.h2': 'detalles bien hechos.', 'board.species': 'especies con ficha completa', 'board.reminders.t': 'recordatorios a tu manera', 'board.reminders.s': 'cada día, entre semana o los días que elijas',
+        'board.diagnose.t': 'diagnóstico por foto', 'board.diagnose.s': 'un hallazgo, un plan de tratamiento, tareas día a día',
+        'board.chat.b': 'tu potus probablemente tiene demasiada agua. deja secar los 5 cm de arriba y luego riega a fondo.', 'board.chat.t': 'pregúntale a planter', 'board.chat.s': 'conoce tus plantas, tus habitaciones, tu clima',
+        'board.rooms.t': 'cuidado por habitación', 'board.rooms.s': 'una cocina luminosa y un dormitorio oscuro tienen calendarios distintos', 'board.rain': 'de probabilidad de lluvia mañana: plantas de afuera saltadas',
+        'board.status': 'necesita atención', 'board.status.t': 'salud de un vistazo', 'board.timeline.t': 'una línea de tiempo de fotos por planta', 'board.timeline.s': 'y un correo de relevo para quien cuida cuando viajas',
+        'band.cap': 'la primera planta que la mayoría añade es una monstera.', 'band.sub': 'grabado, 1875. la app la conoce desde el primer día.',
+        'beta.h2': 'gratis mientras la construimos.', 'beta.lead': 'un grupo pequeño usa pocket planter antes del lanzamiento. todo está abierto, nada cuesta nada.',
+        'beta.body': 'eso incluye plantas ilimitadas, identificación, diagnóstico, el asistente planter, calendarios que siguen el clima y la línea de tiempo de fotos. cuando lancemos, quienes probaron reciben un agradecimiento que anunciamos primero en la app.',
+        'beta.period': 'durante la beta', 'beta.cta': 'unirme a la beta',
+        'beta.ask.h2': 'lo que te pedimos.', 'beta.ask.lead': 'úsala con tus plantas reales unas semanas, y cuéntanos qué está genial, qué está roto y qué falta.',
+        'beta.ask.1': 'hay un botón "send feedback" en tu perfil. nos llega directo, y leemos cada mensaje.', 'beta.ask.2': 'dinos cuando la app se equivoque con una planta. el catálogo crece con lo que escaneas.', 'beta.ask.3': 'sin encuestas, sin llamadas. la app misma es el cuestionario.',
+        'beta.ask.foot': 'solo iPhone por ahora. Android llega después de la beta.',
+        'faq.h2': 'preguntas que hacen.', 'faq.1.tab': 'plantas', 'faq.1.q': '¿conoce mi planta?', 'faq.1.a': 'el catálogo tiene 4.000+ especies con ficha completa: plantas de interior, suculentas, orquídeas, hierbas, hortalizas, frutales, arbustos, perennes y árboles de jardín. si escaneas algo que nunca vio, arma la ficha al momento y la guarda para todos.',
+        'faq.2.tab': 'jardín', 'faq.2.q': '¿funciona con plantas en la tierra?', 'faq.2.a': 'sí. una planta de jardín no tiene maceta ni habitación: recibe cuidado por exposición al sol en vez de luz de ventana, y cuando viene lluvia la app salta el recordatorio de riego y te dice por qué.',
+        'faq.3.tab': 'clima', 'faq.3.q': '¿por qué quiere mi ubicación?', 'faq.3.a': 'para el pronóstico. las olas de calor adelantan el riego, la lluvia salta las plantas de afuera, el frío avisa para meterlas. lee una ubicación aproximada una vez, puedes decir que no, y la app sigue con consejos genéricos.',
+        'faq.4.tab': 'privacidad', 'faq.4.q': '¿a dónde van mis fotos y mensajes?', 'faq.4.a': 'una foto que eliges identificar va a nuestro socio de identificación, Kindwise. un mensaje a planter va al Gemini de Google con un resumen corto de tu jardín. ninguno lleva tu nombre, ninguno se usa para entrenar modelos, y la app pregunta una vez antes de la primera. el detalle completo está en la <a class="link" href="privacy.html">política de privacidad</a>.',
+        'faq.5.tab': 'precio', 'faq.5.q': '¿cuánto costará después de la beta?', 'faq.5.a': 'no lo hemos decidido, y lo decidiremos con los datos de la beta en la mano. sea lo que sea, quienes probaron lo sabrán primero, en la app, mucho antes de cualquier cambio.',
+        'faq.6.tab': 'entrar', 'faq.6.q': '¿cómo entro?', 'faq.6.a': 'deja tu correo abajo. invitamos en grupos pequeños por TestFlight, la app de beta de Apple, y recibes un correo con el enlace cuando sea tu turno.',
+        'join.h2': 'únete a la beta.', 'join.p': 'deja tu correo y te mandamos la invitación de TestFlight cuando sea tu turno. sin spam, sin newsletter: un correo, de una persona.', 'join.label': 'tu correo', 'join.btn': 'mándame la invitación',
+        'foot.app': 'la app', 'foot.legal': 'legal', 'foot.privacy': 'política de privacidad', 'foot.terms': 'términos de servicio', 'foot.delete': 'eliminar tu cuenta', 'foot.contact': 'escríbenos', 'foot.where': 'hecho en Knoxville, Tennessee, por una madre de plantas, para madres y padres de plantas.', 'foot.copy': '© 2026 pocket planter. creciendo juntos.',
+        'foot.credits': 'Imágenes: <a href="https://commons.wikimedia.org/wiki/File:Monstera_deliciosa_libostrom_zpror%C3%A1%C5%BEen%C3%BD_Vesm%C3%ADr_1875.jpg">“Monstera deliciosa libostrom zprorážený Vesmír 1875”</a>, dominio público, vía Wikimedia Commons; <a href="https://wordpress.org/photos/photo/3965213233/">“Potted plants on a floor by a window.”</a> de shashankchaturvedi, CC0, vía WordPress Photo Directory. Datos del clima por OpenWeather. Identificación de plantas por Kindwise.',
+        'ok.dup': 'ya estás en la lista ', 'ok.new': '¡estás en la lista! revisa tu correo', 'ok.err': 'algo salió mal. ¡inténtalo de nuevo!', 'ok.sending': 'enviando…'
+      }
+    };
+    // English strings are the markup; capture them once so switching back works.
+    document.querySelectorAll('[data-i18n],[data-i18n-html]').forEach((el) => {
+      const key = el.getAttribute('data-i18n') || el.getAttribute('data-i18n-html');
+      const attr = el.getAttribute('data-i18n-attr');
+      translations.en[key] = attr ? el.getAttribute(attr) : (el.hasAttribute('data-i18n-html') ? el.innerHTML : el.textContent);
+    });
+    translations.en['ok.dup'] = "you're already on the list"; translations.en['ok.new'] = "you're on the list! check your email"; translations.en['ok.err'] = 'something went wrong. please try again!'; translations.en['ok.sending'] = 'sending…';
+    let currentLang = localStorage.getItem('pp_lang') || ((navigator.language || 'en').slice(0, 2).toLowerCase());
+    if (!translations[currentLang]) currentLang = 'en';
+    const t = (k) => (translations[currentLang] && translations[currentLang][k]) || translations.en[k] || '';
+    function setLang(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang; localStorage.setItem('pp_lang', lang); document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n],[data-i18n-html]').forEach((el) => {
+        const key = el.getAttribute('data-i18n') || el.getAttribute('data-i18n-html');
+        const attr = el.getAttribute('data-i18n-attr');
+        const value = t(key);
+        if (attr) el.setAttribute(attr, value);
+        else if (el.hasAttribute('data-i18n-html')) el.innerHTML = value;
+        else el.textContent = value;
+      });
+      document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.getAttribute('data-lang') === lang));
+      renderHow(howIndex);
+    }
+
+    // ---- the live thing: a real care card from the app's catalog ----
+    let CARDS = [];
+    const cardEl = document.getElementById('card');
+    const human = (s) => String(s || '').replace(/-/g, ' to ');
+    function showCard(c) {
+      if (!c) return;
+      cardEl.classList.add('fade');
+      setTimeout(() => {
+        document.getElementById('c-name').textContent = c.n;
+        document.getElementById('c-sci').textContent = c.s;
+        document.getElementById('c-water').textContent = 'every ' + c.w[0] + ' days';
+        document.getElementById('c-winter').textContent = 'every ' + c.w[1] + ' days';
+        document.getElementById('c-light').textContent = c.l;
+        document.getElementById('c-hum').textContent = human(c.h);
+        document.getElementById('c-pets').textContent = (c.c || c.d) ? (c.t === 'Severe' ? 'dangerous' : 'not safe') : 'safe';
+        document.getElementById('c-zone').textContent = c.z || (c.io === 'indoor' ? 'indoors' : 'any');
+        document.getElementById('c-rule').textContent = c.r;
+        cardEl.classList.remove('fade');
+      }, 160);
+    }
+    function findCard(q) {
+      const s = String(q || '').trim().toLowerCase();
+      if (!s) return null;
+      return CARDS.find((c) => c.n.toLowerCase() === s) || CARDS.find((c) => c.s.toLowerCase() === s)
+        || CARDS.find((c) => c.n.toLowerCase().startsWith(s)) || CARDS.find((c) => c.n.toLowerCase().includes(s) || c.s.toLowerCase().includes(s)) || null;
+    }
+    fetch('care-cards.json').then((r) => r.json()).then((rows) => {
+      CARDS = rows;
+      const dl = document.getElementById('plant-list');
+      rows.forEach((c) => { const o = document.createElement('option'); o.value = c.n; dl.appendChild(o); });
+    }).catch(() => {});
+    document.getElementById('quick').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      document.querySelectorAll('#quick button').forEach((x) => x.classList.toggle('active', x === b));
+      document.getElementById('care-miss').style.display = 'none';
+      const c = findCard(b.getAttribute('data-plant')); if (c) showCard(c);
+    });
+    document.getElementById('plant-q').addEventListener('input', (e) => {
+      const c = findCard(e.target.value);
+      document.getElementById('care-miss').style.display = (!c && e.target.value.length > 2) ? 'block' : 'none';
+      if (c) { showCard(c); document.querySelectorAll('#quick button').forEach((x) => x.classList.remove('active')); }
+    });
+
+    // ---- how it works: the slider ----
+    const HOW = [
+      { img: 'assets/app/garden.jpg', w: 471, h: 600, alt: 'the my garden screen: plants grouped by room with their next watering day' },
+      { img: 'assets/app/rooms.jpg', w: 471, h: 200, alt: 'rooms in the app: all, living room, add a plant' },
+      { img: 'assets/app/tasks.jpg', w: 471, h: 560, alt: "today's tasks grouped by room, one marked done" },
+      { img: 'assets/app/care.jpg', w: 471, h: 420, alt: 'the care tab of a swiss cheese plant: watered, misted, timeline' },
+    ];
+    let howIndex = 0;
+    const howRange = document.getElementById('how-range');
+    function renderHow(i) {
+      howIndex = i;
+      document.getElementById('how-h').textContent = t('how.s' + i + '.h');
+      document.getElementById('how-copy').textContent = t('how.s' + i + '.p');
+      document.getElementById('how-fill').style.width = (i / 3 * 100) + '%';
+      document.querySelectorAll('#how-stops button').forEach((b, j) => b.classList.toggle('active', j === i));
+      const fig = document.getElementById('how-frag'); const img = fig.querySelector('img');
+      if (img.getAttribute('src') !== HOW[i].img) {
+        fig.classList.add('fade');
+        setTimeout(() => { img.src = HOW[i].img; img.width = HOW[i].w; img.height = HOW[i].h; img.alt = HOW[i].alt; fig.classList.remove('fade'); }, 180);
+      }
+      if (String(howRange.value) !== String(i)) howRange.value = i;
+    }
+    howRange.addEventListener('input', () => renderHow(Number(howRange.value)));
+    document.querySelectorAll('#how-stops button').forEach((b, j) => b.addEventListener('click', () => renderHow(j)));
+
+    // ---- faq cards ----
+    document.querySelectorAll('#faq-cards .q').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.qcard'); const open = card.classList.contains('open');
+        document.querySelectorAll('#faq-cards .qcard').forEach((c) => { c.classList.remove('open'); c.querySelector('.q').setAttribute('aria-expanded', 'false'); });
+        if (!open) { card.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+
+    // ---- waitlist (same endpoint as before) ----
+    async function handleWaitlistSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('waitlist-email').value;
+      const btn = document.getElementById('waitlist-btn');
+      const ok = document.getElementById('waitlist-success');
+      if (!email || !email.includes('@')) return;
+      btn.textContent = t('ok.sending'); btn.disabled = true;
+      try {
+        const response = await fetch('https://shojtudruzyaddwjmeeb.supabase.co/functions/v1/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sb_publishable_RiAz4F9UKRiXKWvc39wR7Q_Mni5VkK7' },
+          body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+        document.getElementById('waitlist-form').style.display = 'none';
+        ok.textContent = data.duplicate ? t('ok.dup') : t('ok.new');
+        ok.style.display = 'block';
+      } catch (err) {
+        btn.textContent = t('join.btn'); btn.disabled = false;
+        alert(t('ok.err'));
+      }
+    }
+    document.getElementById('waitlist-form').addEventListener('submit', handleWaitlistSubmit);
+
+    // ---- motion: entrances, the shutter, a different planter per visit ----
+    const poses = ['welcoming-novo.png', 'watering-novo.png', 'climbing-novo.png', 'running-novo.png'];
+    document.getElementById('mochi-hero').src = poses[Math.floor(Math.random() * poses.length)];
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in', 'is-in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    // A clip-path of 100% makes the element's intersection 0, so the shutter
+    // is opened by a sentinel placed where the element starts.
+    document.querySelectorAll('.shutter').forEach((el) => {
+      const probe = document.createElement('span'); probe.setAttribute('aria-hidden', 'true');
+      probe.style.cssText = 'position:absolute;width:2px;height:2px;left:0;top:0;pointer-events:none;opacity:0';
+      el.parentElement.insertBefore(probe, el);
+      const ioS = new IntersectionObserver((es) => { if (es[0].isIntersecting) { el.classList.add('is-in'); ioS.disconnect(); } }, { threshold: 0 });
+      ioS.observe(probe);
+    });
+
+    setLang(currentLang);
+  </script>
+</body>
+</html>
