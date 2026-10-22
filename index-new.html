@@ -813,8 +813,23 @@
     document.getElementById('mochi-hero').src = poses[Math.floor(Math.random() * poses.length)];
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in', 'is-in'); io.unobserve(en.target); } });
-    }, { threshold: 0.12 });
+    }, { threshold: 0 });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    // Belt and braces: content must never stay hidden. Reveal whatever is on
+    // screen on scroll/resize too, and reveal everything after 2.5 s anyway.
+    const revealVisible = () => {
+      document.querySelectorAll('.reveal:not(.in)').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < innerHeight * 0.96 && r.bottom > 0) el.classList.add('in');
+      });
+    };
+    addEventListener('scroll', revealVisible, { passive: true });
+    addEventListener('resize', revealVisible);
+    addEventListener('load', revealVisible);
+    setTimeout(() => {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+      document.querySelectorAll('.shutter').forEach((el) => el.classList.add('is-in'));
+    }, 2500);
     // A clip-path of 100% makes the element's intersection 0, so the shutter
     // is opened by a sentinel placed where the element starts.
     document.querySelectorAll('.shutter').forEach((el) => {
