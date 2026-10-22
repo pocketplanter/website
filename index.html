@@ -402,7 +402,9 @@
       justify-content: center;
     }
     .hero-phone {
+      display: block;
       width: 240px;
+      height: auto;
       border-radius: 36px;
       border: 8px solid rgba(255,255,255,0.15);
       box-shadow: 0 40px 80px rgba(0,0,0,0.5);
@@ -1311,7 +1313,7 @@
         </div>
       </div>
       <div class="hero-right">
-        <img src="IMG_7374.webp" width="720" height="1565" alt="pocket planter home screen" class="hero-phone" fetchpriority="high">
+        <video class="hero-phone" src="assets/shots/map-zoom.mp4" poster="assets/shots/13-map-rings.webp" width="588" height="1280" autoplay muted loop playsinline preload="auto" aria-label="pocket planter room map: zooming into a living room photo and tapping the plant rings"></video>
       </div>
     </div>
   </section>
@@ -1388,15 +1390,15 @@
       <div class="phone-showcase reveal">
         <img src="running-novo.webp" width="412" height="560" alt="" class="mascot-showcase" loading="lazy">
         <div class="phone-showcase-item left">
-          <img src="IMG_7375.webp" width="720" height="1565" alt="my garden screen" loading="lazy">
+          <img src="assets/shots/01-my-plants.webp" width="720" height="1565" alt="my plants screen in pocket planter, with plant cards grouped by room" loading="lazy">
           <div class="phone-showcase-label" data-i18n="showcase.garden">my garden</div>
         </div>
         <div class="phone-showcase-item center">
-          <img src="IMG_7374.webp" width="720" height="1565" alt="today's tasks screen" loading="lazy">
+          <img src="assets/shots/05-home.webp" width="720" height="1565" alt="today's tasks screen, with misting tasks grouped by room" loading="lazy">
           <div class="phone-showcase-label" data-i18n="showcase.tasks">today's tasks</div>
         </div>
         <div class="phone-showcase-item right">
-          <img src="IMG_7376.webp" width="720" height="1565" alt="ask planter screen" loading="lazy">
+          <img src="assets/shots/03-ask-planter.webp" width="720" height="1565" alt="ask planter chat answering a question about yellow leaves" loading="lazy">
           <div class="phone-showcase-label" data-i18n="showcase.ask">ask planter</div>
         </div>
       </div>
@@ -1450,21 +1452,21 @@
       <h2 class="section-title reveal" data-i18n="how.title">three steps to thriving plants</h2>
       <div class="how-split reveal">
         <div class="stage-list" id="stage-list">
-          <button type="button" class="stage-btn active" data-img="IMG_7375.webp">
+          <button type="button" class="stage-btn active" data-img="assets/shots/12-scan-result-corn.webp" data-alt="scan result identifying a corn plant, with an add to my plants button">
             <span class="step-number">01</span>
             <span><span class="step-title" data-i18n="how.s1.title">add your plants</span><span class="step-desc" data-i18n="how.s1.desc">Search our database of 4,000+ species or snap a photo to identify your plant.</span></span>
           </button>
-          <button type="button" class="stage-btn" data-img="IMG_7374.webp">
+          <button type="button" class="stage-btn" data-img="assets/shots/09-add-plant-customize.webp" data-alt="add plant screen picking a room and showing how well its light fits the plant">
             <span class="step-number">02</span>
             <span><span class="step-title" data-i18n="how.s2.title">get your care plan</span><span class="step-desc" data-i18n="how.s2.desc">Personalized schedules for watering, fertilizing, repotting &mdash; based on your home's light and climate.</span></span>
           </button>
-          <button type="button" class="stage-btn" data-img="IMG_7376.webp">
+          <button type="button" class="stage-btn" data-img="assets/shots/02-plant-card.webp" data-alt="peace lily plant card with care log, photo timeline and diagnose tab">
             <span class="step-number">03</span>
             <span><span class="step-title" data-i18n="how.s3.title">watch them thrive</span><span class="step-desc" data-i18n="how.s3.desc">Track growth with photos, spot problems early, and ask Planter AI anytime.</span></span>
           </button>
         </div>
         <div class="stage-phone float-anim">
-          <img id="stage-img" src="IMG_7375.webp" width="720" height="1565" alt="pocket planter app screen" loading="lazy">
+          <img id="stage-img" src="assets/shots/12-scan-result-corn.webp" width="720" height="1565" alt="scan result identifying a corn plant, with an add to my plants button" loading="lazy">
         </div>
       </div>
     </div>
@@ -1960,9 +1962,16 @@
       const src = b.getAttribute('data-img');
       if (stageImg.getAttribute('src') !== src) {
         stageImg.classList.add('fade');
-        setTimeout(() => { stageImg.src = src; stageImg.classList.remove('fade'); }, 200);
+        setTimeout(() => { stageImg.src = src; stageImg.alt = b.getAttribute('data-alt') || ''; stageImg.classList.remove('fade'); }, 200);
       }
     }));
+
+    // ---- HERO: respect reduced motion for the room-map recording ----
+    const heroVideo = document.querySelector('video.hero-phone');
+    if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.pause();
+    }
 
     setLang(currentLang);
   </script>
