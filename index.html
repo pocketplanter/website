@@ -1949,8 +1949,17 @@
       const b = e.target.closest('button'); if (!b) return;
       document.querySelectorAll('#care-chips button').forEach((x) => x.classList.toggle('active', x === b));
       document.getElementById('care-miss').style.display = 'none';
-      const c = findCard(b.getAttribute('data-plant')); if (c) showCard(c);
+      const c = findCard(b.getAttribute('data-plant')); if (c) { showCard(c); bringCardIntoView(); }
     });
+    // On a phone the card sits below the chips and the search box, so a tap
+    // looked like it did nothing. Scroll the card up when it is mostly hidden.
+    function bringCardIntoView() {
+      const r = careCard.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.top > vh * 0.55 || r.bottom < 0) {
+        careCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
     document.getElementById('plant-q').addEventListener('input', (e) => {
       const c = findCard(e.target.value);
       document.getElementById('care-miss').style.display = (!c && e.target.value.length > 2) ? 'block' : 'none';
