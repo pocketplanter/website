@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>pocket planter — every plant, perfectly cared for.</title>
   <meta name="description" content="plant care built around your rooms and your weather. identify, diagnose and care for every plant, with a catalog of 4,000+ species.">
-  <meta name="version" content="2.2.1">
+  <meta name="version" content="2.4.0">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="canonical" href="https://pocketplanter.app/">
   <meta property="og:type" content="website">
@@ -14,6 +14,12 @@
   <meta property="og:description" content="Identify any plant from a photo, get a care plan built around your rooms and your weather, and do today's list. iPhone, in beta.">
   <meta property="og:url" content="https://pocketplanter.app/">
   <meta property="og:image" content="https://pocketplanter.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="pocket planter: every plant, perfectly cared for.">
+  <meta name="twitter:description" content="Identify any plant from a photo, get a care plan built around your rooms and your weather, and do today's list. iPhone, in beta.">
+  <meta name="twitter:image" content="https://pocketplanter.app/og.png">
   <link rel="preload" href="fonts/PlayfairDisplay-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/DMSans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <style>
@@ -25,7 +31,10 @@
     @font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-italic-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
     @font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-normal-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
     @font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('fonts/PlayfairDisplay-normal-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  </style>
+  <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    img { max-width: 100%; height: auto; }
 
     :root {
       --lime: #c4d777;
@@ -39,17 +48,6 @@
     }
 
     html { scroll-behavior: smooth; }
-
-    /* ---- FOCUS, SKIP LINK, REDUCED MOTION ---- */
-    :focus-visible { outline: 3px solid var(--plum-accent); outline-offset: 3px; }
-    .skip-link { position: absolute; left: 16px; top: -60px; z-index: 2000; background: var(--lime); color: var(--plum); padding: 10px 18px; border-radius: 100px; font-weight: 600; text-decoration: none; transition: top 0.2s; }
-    .skip-link:focus { top: 16px; }
-    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal, .reveal-scale, .reveal-left, .reveal-right { opacity: 1 !important; transform: none !important; transition: none !important; }
-      .float-anim, .hero-circle { animation: none !important; }
-      html { scroll-behavior: auto; }
-    }
 
     body {
       font-family: var(--font-body);
@@ -96,6 +94,16 @@
       transform: translateX(0);
     }
 
+    /* ---- FOCUS, SKIP LINK, REDUCED MOTION ---- */
+    :focus-visible { outline: 3px solid var(--plum-accent); outline-offset: 3px; }
+    .skip-link { position: absolute; left: 16px; top: -60px; z-index: 2000; background: var(--lime); color: var(--plum); padding: 10px 18px; border-radius: 100px; font-weight: 600; text-decoration: none; transition: top 0.2s; }
+    .skip-link:focus { top: 16px; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-scale, .reveal-left, .reveal-right { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .float-anim, .hero-circle { animation: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
     /* ---- NAV ---- */
     .nav {
       position: fixed;
@@ -134,6 +142,8 @@
     .nav-logo-leaf .leaf-primary { fill: var(--lime); transition: fill 0.4s; }
     .nav-logo-leaf .leaf-secondary { fill: #a8bc5a; opacity: 0.85; transition: fill 0.4s; }
     .nav-logo-leaf .leaf-vein { stroke: #a8bc5a; opacity: 0.6; transition: stroke 0.4s; }
+    .nav-logo-leaf { transition: transform 0.4s cubic-bezier(.16,1,.3,1); transform-origin: 20% 80%; }
+    .nav-logo:hover .nav-logo-leaf { transform: rotate(-10deg); }
     .nav.scrolled .nav-logo { color: var(--plum); }
     .nav.scrolled .nav-logo-leaf .leaf-primary { fill: #7a8f3e; }
     .nav.scrolled .nav-logo-leaf .leaf-secondary { fill: #5e6f30; }
@@ -184,7 +194,9 @@
       cursor: pointer;
       transition: background 0.3s, color 0.3s;
     }
+    .lang-btn:hover:not(.active) { background: rgba(196,215,119,0.25); }
     .nav.scrolled .lang-btn { color: var(--plum); opacity: 0.6; }
+    .nav.scrolled .lang-btn:hover:not(.active) { background: rgba(74,42,61,0.12); opacity: 1; }
     .lang-btn.active {
       background: var(--lime);
       color: var(--plum);
@@ -686,6 +698,60 @@
       box-shadow: 0 0 40px rgba(196,215,119,0.1);
     }
 
+
+    /* ---- CARE CARD (live) ---- */
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .care { background: var(--white); padding: 120px 48px; }
+    .care-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .care .section-title { margin-bottom: 16px; }
+    .care-sub { font-size: 1rem; color: #6b6b6b; line-height: 1.65; max-width: 480px; margin-bottom: 28px; }
+    .care-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .care-chips button { border: 0; background: var(--cream); color: var(--plum); border-radius: 999px; padding: 10px 16px; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: background 0.3s, color 0.3s; }
+    .care-chips button { transition: background 0.3s, color 0.3s, transform 0.3s cubic-bezier(.16,1,.3,1); }
+    .care-chips button:hover { background: var(--plum); color: var(--cream); transform: translateY(-2px); }
+    .care-chips button.active { background: var(--plum); color: var(--cream); }
+    .care-search { width: 100%; max-width: 420px; border: 2px solid var(--cream); border-radius: 999px; padding: 13px 18px; font-family: var(--font-body); font-weight: 500; font-size: 0.95rem; color: var(--plum); background: var(--white); outline: none; }
+    .care-search:focus { border-color: var(--lime); }
+    .care-miss { font-size: 0.85rem; color: #6b6b6b; margin-top: 10px; }
+    .care-fact { font-size: 0.9rem; color: #6b6b6b; margin-top: 20px; line-height: 1.6; }
+    .care-panel { background: var(--cream); border-radius: 28px; padding: 36px; display: grid; place-items: center; }
+    .care-card { background: var(--white); border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 2px 16px rgba(74,42,61,0.04); transition: opacity 0.3s; }
+    .care-card.fade { opacity: 0; }
+    .cc-name { font-family: var(--font-heading); font-style: italic; font-weight: 700; font-size: 1.5rem; color: var(--plum); line-height: 1.1; }
+    .cc-sci { font-size: 0.85rem; color: #6b6b6b; margin: 4px 0 16px; }
+    .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .cc-grid div { background: var(--cream); border-radius: 12px; padding: 10px 12px; }
+    .cc-grid b { display: block; color: var(--plum); font-size: 1rem; line-height: 1.2; }
+    .cc-grid span { font-size: 0.75rem; color: #6b6b6b; }
+    .cc-rule { margin-top: 14px; font-size: 0.85rem; line-height: 1.5; color: #6b6b6b; }
+
+    /* ---- HOW IT WORKS: stage switcher ---- */
+    .how-split { display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: center; }
+    .stage-list { display: grid; gap: 12px; }
+    .stage-btn { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; text-align: left; background: rgba(240,244,216,0.05); border: 1px solid rgba(240,244,216,0.12); border-radius: 20px; padding: 20px 24px; color: var(--cream); cursor: pointer; font-family: var(--font-body); transition: background 0.3s, border-color 0.3s; }
+    .stage-btn:hover { background: rgba(240,244,216,0.09); border-color: var(--lime); }
+    .stage-btn .step-number { transition: transform 0.4s cubic-bezier(.16,1,.3,1), opacity 0.3s; }
+    .stage-btn:hover .step-number { transform: translateX(4px); opacity: 1; }
+    .stage-btn.active { background: rgba(196,215,119,0.14); border-color: var(--lime); }
+    .stage-btn .step-number { font-size: 2rem; margin: 0; opacity: 0.5; line-height: 1.1; }
+    .stage-btn.active .step-number { opacity: 1; }
+    .stage-btn .step-title { display: block; font-size: 1.25rem; margin-bottom: 6px; }
+    .stage-btn .step-desc { display: block; }
+    .stage-phone { text-align: center; }
+    .stage-phone img { width: 280px; border-radius: 36px; border: 6px solid rgba(240,244,216,0.2); box-shadow: 0 0 40px rgba(196,215,119,0.1); transition: opacity 0.25s; }
+    .stage-phone img.fade { opacity: 0; }
+    @media (max-width: 768px) {
+      .care { padding: 80px 24px; }
+      .care-inner { grid-template-columns: 1fr; gap: 32px; }
+      .care-panel { padding: 20px; }
+      .how-split { grid-template-columns: 1fr; gap: 32px; }
+      .stage-phone { order: -1; }
+      .stage-phone img { width: 220px; }
+      .stage-btn { padding: 16px 18px; gap: 14px; }
+      .stage-btn .step-number { font-size: 1.5rem; }
+      .stage-btn .step-title { font-size: 1.1rem; }
+    }
+
     /* ---- BETA TESTERS ---- */
     .beta {
       background: var(--cream);
@@ -798,6 +864,174 @@
       font-style: italic;
       color: #8a8a8a;
       margin-top: 8px;
+    }
+
+    /* ---- PRICING ---- */
+    .pricing {
+      background: var(--lime);
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pricing-cards-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .pricing-cards-row .pricing-cards {
+      width: 864px;
+      max-width: 100%;
+      flex-shrink: 0;
+    }
+    .pricing-cards-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mascot-pricing {
+      height: 560px;
+      width: auto;
+      pointer-events: none;
+      transform: scaleX(-1);
+      animation: mascotFloatFlipped 5s ease-in-out infinite;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    .pricing .section-title { margin-bottom: 56px; }
+    .pricing-toggle {
+      display: inline-flex;
+      background: rgba(74,42,61,0.1);
+      border-radius: 100px;
+      padding: 4px;
+      margin-bottom: 48px;
+    }
+    .pricing-toggle button {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--plum);
+      transition: background 0.3s, color 0.3s;
+    }
+    .pricing-toggle button.active {
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(74,42,61,0.1);
+    }
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      text-align: left;
+    }
+    .pricing-card {
+      border-radius: 24px;
+      padding: 44px 36px;
+      position: relative;
+    }
+    .pricing-card.free { background: var(--white); }
+    .pricing-card.pro {
+      background: var(--plum);
+      color: var(--cream);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: var(--plum-accent);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+    .pricing-plan {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      opacity: 0.6;
+    }
+    .pricing-price {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-style: italic;
+      font-size: 2.75rem;
+      margin-bottom: 4px;
+    }
+    .pricing-period {
+      font-size: 0.85rem;
+      opacity: 0.5;
+      margin-bottom: 28px;
+    }
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .pricing-features li {
+      font-size: 0.9375rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .pricing-check {
+      color: var(--plum-accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      line-height: 1.5;
+    }
+    .pricing-card.pro .pricing-check { color: var(--lime); }
+    .pricing-save {
+      display: inline-block;
+      background: rgba(196,215,119,0.15);
+      color: var(--lime);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-top: 4px;
+    }
+    .pricing-fine-print {
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 0.6875rem;
+      color: #8a8a8a;
+      margin-top: 16px;
+      width: 100%;
+    }
+    .pricing-card .btn-primary { width: 100%; text-align: center; }
+    .pricing-card.pro .btn-primary {
+      background: var(--lime);
+      color: var(--plum);
+    }
+    .pricing-card.free .btn-primary {
+      background: var(--plum);
+      color: var(--cream);
+    }
+    .pricing-note {
+      text-align: center;
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-top: 24px;
     }
 
     /* ---- WAITLIST ---- */
@@ -953,10 +1187,16 @@
       .phone-showcase-item.center img { width: 150px; }
       .beta-row { flex-direction: column; }
       .mascot-beta { display: none; }
+      .pricing-cards-row .pricing-cards,
       .beta-row .beta-grid {
         width: 100% !important;
         grid-template-columns: 1fr;
         max-width: 480px;
+      }
+      .pricing-cards {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: 0 auto;
       }
       .features-grid {
         grid-template-columns: 1fr;
@@ -979,13 +1219,15 @@
       .features { padding: 80px 24px; }
       .how { padding: 80px 24px; }
       .beta { padding: 80px 24px; }
+      .pricing { padding: 80px 24px; }
       .waitlist { padding: 80px 24px; }
       .waitlist-form {
         flex-direction: column;
       }
       .mascot-stats,
       .mascot-features-row,
-      .mascot-showcase { display: none; }
+      .mascot-showcase,
+      .mascot-pricing { display: none; }
       .hero-phone { width: 200px; }
       .footer { padding: 36px 24px; }
       .footer-inner { flex-direction: column; text-align: center; }
@@ -994,6 +1236,9 @@
     }
 
     @media (max-width: 480px) {
+      .nav-logo { font-size: 1.2rem; white-space: nowrap; }
+      .nav .lang-switcher { display: none; }
+      .mobile-menu .lang-switcher { display: inline-flex; margin: 24px 0 0; background: rgba(196,215,119,0.1); border-color: rgba(196,215,119,0.3); }
       .hero-headline { font-size: clamp(2.5rem, 10vw, 3.5rem); }
       .hero-buttons { flex-direction: column; }
       .btn-primary, .btn-outline { text-align: center; }
@@ -1008,9 +1253,9 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main" data-i18n="nav.skip">skip to content</a>
 
   <!-- NAV -->
+  <a class="skip-link" href="#main" data-i18n="nav.skip">skip to content</a>
   <nav class="nav" id="nav">
     <a href="#" class="nav-logo">
       <svg class="nav-logo-leaf" viewBox="0 0 48 48" aria-hidden="true">
@@ -1026,7 +1271,7 @@
         <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
         <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
       </div>
-      <a href="#waitlist" class="nav-cta desktop" data-i18n="nav.waitlist">join waitlist</a>
+      <a href="#waitlist" class="nav-cta desktop" data-i18n="nav.waitlist">join the beta</a>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -1038,7 +1283,12 @@
     <button class="close-btn" id="closeMenu" aria-label="Close">&times;</button>
     <a href="#features" onclick="closeMobileMenu()" data-i18n="nav.features">features</a>
     <a href="#how" onclick="closeMobileMenu()" data-i18n="nav.how">how it works</a>
-    <a href="#waitlist" onclick="closeMobileMenu()" data-i18n="nav.waitlist">join waitlist</a>
+    <a href="#waitlist" onclick="closeMobileMenu()" data-i18n="nav.waitlist">join the beta</a>
+    <div class="lang-switcher" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+    </div>
   </div>
 
   <main id="main">
@@ -1056,12 +1306,12 @@
         <h1 class="hero-headline" data-i18n-html="hero.headline">every plant,<br>perfectly cared for.</h1>
         <p class="hero-sub" data-i18n="hero.sub">Smart care schedules, AI plant identification, and answers to your plant questions. Everything a proud plant parent needs.</p>
         <div class="hero-buttons">
-          <a href="#waitlist" class="btn-primary" data-i18n="hero.cta1">get early access &rarr;</a>
+          <a href="#waitlist" class="btn-primary" data-i18n="hero.cta1">join the beta &rarr;</a>
           <a href="#features" class="btn-outline" data-i18n="hero.cta2">see how it works &darr;</a>
         </div>
       </div>
       <div class="hero-right">
-        <img src="IMG_7374.png" alt="pocket planter home screen" class="hero-phone" loading="lazy">
+        <img src="IMG_7374.webp" width="720" height="1565" alt="pocket planter home screen" class="hero-phone" fetchpriority="high">
       </div>
     </div>
   </section>
@@ -1090,7 +1340,7 @@
         <div class="stat-label" data-i18n="stats.4.label">IN THE CATALOG</div>
       </div>
     </div>
-    <img src="welcoming-novo.png" alt="" class="mascot-stats" loading="lazy">
+    <img src="welcoming-novo.webp" width="418" height="560" alt="" class="mascot-stats" loading="lazy">
   </section>
 
   <!-- FEATURES -->
@@ -1100,7 +1350,7 @@
       <h2 class="section-title reveal" data-i18n="features.title">everything your plant needs</h2>
       <p class="features-subtitle reveal" data-i18n="features.subtitle">pocket planter goes beyond basic reminders &mdash; it's a complete plant care system that adapts to your home, your climate, and your lifestyle.</p>
       <div class="mascot-features-row reveal">
-        <img src="paraquedas-novo.png" alt="" class="mascot-features" loading="lazy">
+        <img src="paraquedas-novo.webp" width="480" height="860" alt="" class="mascot-features" loading="lazy">
         <div class="mascot-features-bubble" data-i18n="features.bubble">Ask me anything about your plants! &#127804;</div>
       </div>
       <div class="features-grid">
@@ -1136,18 +1386,59 @@
         </div>
       </div>
       <div class="phone-showcase reveal">
-        <img src="running-novo.png" alt="" class="mascot-showcase" loading="lazy">
+        <img src="running-novo.webp" width="412" height="560" alt="" class="mascot-showcase" loading="lazy">
         <div class="phone-showcase-item left">
-          <img src="IMG_7375.png" alt="my garden screen" loading="lazy">
+          <img src="IMG_7375.webp" width="720" height="1565" alt="my garden screen" loading="lazy">
           <div class="phone-showcase-label" data-i18n="showcase.garden">my garden</div>
         </div>
         <div class="phone-showcase-item center">
-          <img src="IMG_7374.png" alt="today's tasks screen" loading="lazy">
+          <img src="IMG_7374.webp" width="720" height="1565" alt="today's tasks screen" loading="lazy">
           <div class="phone-showcase-label" data-i18n="showcase.tasks">today's tasks</div>
         </div>
         <div class="phone-showcase-item right">
-          <img src="IMG_7376.png" alt="ask planter screen" loading="lazy">
+          <img src="IMG_7376.webp" width="720" height="1565" alt="ask planter screen" loading="lazy">
           <div class="phone-showcase-label" data-i18n="showcase.ask">ask planter</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARE CARD -->
+  <section class="care" id="care">
+    <div class="care-inner">
+      <div class="care-copy">
+        <div class="section-label reveal" data-i18n="care.label">try it</div>
+        <h2 class="section-title reveal" data-i18n="care.title">pick a plant, see its card.</h2>
+        <p class="care-sub reveal" data-i18n="care.sub">This is the real care card the app builds, from a catalog of 4,000+ species. Real data, not a demo.</p>
+        <div class="care-chips reveal" id="care-chips">
+          <button type="button" class="active" data-plant="Swiss Cheese Plant">Monstera</button>
+          <button type="button" data-plant="Golden Pothos">Pothos</button>
+          <button type="button" data-plant="Snake Plant (Sansevieria)">Snake plant</button>
+          <button type="button" data-plant="Fiddle Leaf Fig">Fiddle leaf fig</button>
+          <button type="button" data-plant="Calathea Orbifolia">Calathea</button>
+          <button type="button" data-plant="Aloe Vera">Aloe</button>
+        </div>
+        <form class="reveal" onsubmit="return false">
+          <label class="sr-only" for="plant-q" data-i18n="care.labelq">type a plant</label>
+          <input id="plant-q" class="care-search" list="plant-list" type="text" autocomplete="off" placeholder="or type yours: tomato, peony, maple..." data-i18n="care.placeholder" data-i18n-attr="placeholder">
+          <datalist id="plant-list"></datalist>
+        </form>
+        <p class="care-miss" id="care-miss" style="display:none" data-i18n="care.miss">Not in this sample of 320. The app has it, or builds its card on the first scan.</p>
+        <p class="care-fact reveal" data-i18n="care.fact">The app then shifts these days for your room's light and your local weather.</p>
+      </div>
+      <div class="care-panel reveal-scale">
+        <div class="care-card" id="care-card">
+          <div class="cc-name" id="c-name">Swiss Cheese Plant</div>
+          <div class="cc-sci" id="c-sci">Monstera deliciosa</div>
+          <div class="cc-grid">
+            <div><b id="c-water">every 7 days</b><span data-i18n="card.summer">water in summer</span></div>
+            <div><b id="c-winter">every 14 days</b><span data-i18n="card.winter">water in winter</span></div>
+            <div><b id="c-light">bright indirect</b><span data-i18n="card.light">light</span></div>
+            <div><b id="c-hum">moderate to high</b><span data-i18n="card.humidity">humidity</span></div>
+            <div><b id="c-pets">not safe</b><span data-i18n="card.pets">for cats and dogs</span></div>
+            <div><b id="c-zone">10-12</b><span data-i18n="card.zone">USDA zone, outdoors</span></div>
+          </div>
+          <p class="cc-rule" id="c-rule">Water when the top 1-2 inches of soil feel dry; keep just moist in winter.</p>
         </div>
       </div>
     </div>
@@ -1157,27 +1448,23 @@
   <section class="how" id="how">
     <div class="how-inner">
       <h2 class="section-title reveal" data-i18n="how.title">three steps to thriving plants</h2>
-      <div class="steps">
-        <div class="step reveal" style="transition-delay:0.1s">
-          <div class="step-number">01</div>
-          <h3 class="step-title" data-i18n="how.s1.title">add your plants</h3>
-          <p class="step-desc" data-i18n="how.s1.desc">Search our database of 4,000+ species or snap a photo to identify your plant.</p>
+      <div class="how-split reveal">
+        <div class="stage-list" id="stage-list">
+          <button type="button" class="stage-btn active" data-img="IMG_7375.webp">
+            <span class="step-number">01</span>
+            <span><span class="step-title" data-i18n="how.s1.title">add your plants</span><span class="step-desc" data-i18n="how.s1.desc">Search our database of 4,000+ species or snap a photo to identify your plant.</span></span>
+          </button>
+          <button type="button" class="stage-btn" data-img="IMG_7374.webp">
+            <span class="step-number">02</span>
+            <span><span class="step-title" data-i18n="how.s2.title">get your care plan</span><span class="step-desc" data-i18n="how.s2.desc">Personalized schedules for watering, fertilizing, repotting &mdash; based on your home's light and climate.</span></span>
+          </button>
+          <button type="button" class="stage-btn" data-img="IMG_7376.webp">
+            <span class="step-number">03</span>
+            <span><span class="step-title" data-i18n="how.s3.title">watch them thrive</span><span class="step-desc" data-i18n="how.s3.desc">Track growth with photos, spot problems early, and ask Planter AI anytime.</span></span>
+          </button>
         </div>
-        <div class="step-phone reveal-scale float-anim" style="transition-delay:0.2s">
-          <img src="IMG_7374.png" alt="pocket planter app" loading="lazy">
-        </div>
-        <div class="step reveal" style="transition-delay:0.3s">
-          <div class="step-number">02</div>
-          <h3 class="step-title" data-i18n="how.s2.title">get your care plan</h3>
-          <p class="step-desc" data-i18n="how.s2.desc">Personalized schedules for watering, fertilizing, repotting &mdash; based on your home's light and climate.</p>
-        </div>
-        <div class="step-phone reveal-scale float-anim" style="transition-delay:0.3s">
-          <img src="IMG_7376.png" alt="ask planter screen" loading="lazy">
-        </div>
-        <div class="step reveal" style="transition-delay:0.4s">
-          <div class="step-number">03</div>
-          <h3 class="step-title" data-i18n="how.s3.title">watch them thrive</h3>
-          <p class="step-desc" data-i18n="how.s3.desc">Track growth with photos, spot problems early, and ask Planter AI anytime.</p>
+        <div class="stage-phone float-anim">
+          <img id="stage-img" src="IMG_7375.webp" width="720" height="1565" alt="pocket planter app screen" loading="lazy">
         </div>
       </div>
     </div>
@@ -1189,7 +1476,7 @@
       <h2 class="section-title reveal" data-i18n="beta.title">be our first reviewer</h2>
       <p class="beta-subtitle reveal" data-i18n="beta.subtitle">We're looking for plant parents to test pocket planter before launch. Your feedback shapes the app.</p>
       <div class="beta-row">
-        <img src="climbing-novo.png" alt="" class="mascot-beta" loading="lazy">
+        <img src="climbing-novo.webp" width="438" height="560" alt="" class="mascot-beta" loading="lazy">
       <div class="beta-grid">
         <div class="beta-card reveal" style="transition-delay:0.1s">
           <span class="beta-card-emoji">&#127793;</span>
@@ -1208,7 +1495,7 @@
         </div>
       </div>
       </div>
-      <a href="#waitlist" class="beta-cta reveal" data-i18n="beta.cta">apply for beta access &rarr;</a>
+      <a href="#waitlist" class="beta-cta reveal" data-i18n="beta.cta">join the beta &rarr;</a>
     </div>
   </section>
 
@@ -1216,20 +1503,20 @@
   <section class="waitlist" id="waitlist">
     <div class="waitlist-inner reveal-scale">
       <h2 class="waitlist-title" data-i18n="waitlist.title">join the proud plant parents.</h2>
-      <p class="waitlist-sub" data-i18n="waitlist.sub">We're launching soon. Join the waitlist and we'll let you know when it opens.</p>
+      <p class="waitlist-sub" data-i18n="waitlist.sub">We invite testers in small groups. Leave your email and we send the TestFlight link when it is your turn.</p>
       <form class="waitlist-form" id="waitlist-form" onsubmit="return false">
         <label class="sr-only" for="waitlist-email" data-i18n="waitlist.label">your email</label>
         <input type="email" id="waitlist-email" class="waitlist-input" placeholder="your@email.com" data-i18n-attr="placeholder" data-i18n="waitlist.placeholder" required>
-        <button type="submit" id="waitlist-btn" class="btn-primary" data-i18n="waitlist.cta">join waitlist &rarr;</button>
+        <button type="submit" id="waitlist-btn" class="btn-primary" data-i18n="waitlist.cta">join the beta &rarr;</button>
       </form>
       <p class="waitlist-purpose" data-i18n="waitlist.purpose" data-i18n-html="waitlist.purpose">we'll email you about the launch, nothing else. <a href="privacy.html">privacy policy</a>.</p>
       <div class="waitlist-success" id="waitlist-success" style="display:none" data-i18n="waitlist.success">you're on the list! &#127807;</div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-logo">
@@ -1322,13 +1609,13 @@
         });
 
         if (response.status === 400) {
-          btn.textContent = 'join waitlist →';
+          btn.textContent = t('waitlist.cta');
           btn.disabled = false;
           alert(t('ok.badEmail'));
           return;
         }
         if (response.status === 429) {
-          btn.textContent = 'join waitlist →';
+          btn.textContent = t('waitlist.cta');
           btn.disabled = false;
           alert(t('ok.tooMany'));
           return;
@@ -1347,7 +1634,7 @@
 
       } catch (err) {
         console.error('Waitlist error:', err);
-        btn.textContent = 'join waitlist \u2192';
+        btn.textContent = t('waitlist.cta');
         btn.disabled = false;
         alert('Something went wrong. Please try again!');
       }
@@ -1358,14 +1645,22 @@
     // ---- I18N ----
     const translations = {
       en: {
-        "nav.waitlist": "join waitlist",
+        "nav.waitlist": "join the beta",
         "nav.skip": "skip to content",
         "nav.features": "features",
         "nav.how": "how it works",
+        "care.label": "try it",
+        "care.title": "pick a plant, see its card.",
+        "care.sub": "This is the real care card the app builds, from a catalog of 4,000+ species. Real data, not a demo.",
+        "care.labelq": "type a plant",
+        "care.placeholder": "or type yours: tomato, peony, maple...",
+        "care.miss": "Not in this sample of 320. The app has it, or builds its card on the first scan.",
+        "care.fact": "The app then shifts these days for your room's light and your local weather.",
+        "card.summer": "water in summer", "card.winter": "water in winter", "card.light": "light", "card.humidity": "humidity", "card.pets": "for cats and dogs", "card.zone": "USDA zone, outdoors",
         "hero.badge": "Coming Soon",
         "hero.headline": "every plant,<br>perfectly cared for.",
         "hero.sub": "Smart care schedules, AI plant identification, and answers to your plant questions. Everything a proud plant parent needs.",
-        "hero.cta1": "get early access \u2192",
+        "hero.cta1": "join the beta \u2192",
         "hero.cta2": "see how it works \u2193",
         "stats.1.title": "by room",
         "stats.1.label": "ORGANIZED CARE",
@@ -1409,13 +1704,13 @@
         "beta.c2.text": "Tell us what works, what doesn't, and what you wish it could do.",
         "beta.c3.title": "get rewarded",
         "beta.c3.text": "Beta testers get a thank-you when we launch, announced in the app first.",
-        "beta.cta": "apply for beta access \u2192",
+        "beta.cta": "join the beta \u2192",
         "waitlist.title": "join the proud plant parents.",
-        "waitlist.sub": "We're launching soon. Join the waitlist and we'll let you know when it opens.",
+        "waitlist.sub": "We invite testers in small groups. Leave your email and we send the TestFlight link when it is your turn.",
         "waitlist.placeholder": "your@email.com",
         "waitlist.label": "your email",
         "waitlist.purpose": "we'll email you about the launch, nothing else. <a href=\"privacy.html\">privacy policy</a>.",
-        "waitlist.cta": "join waitlist \u2192",
+        "waitlist.cta": "join the beta \u2192",
         "waitlist.success": "you're on the list! \ud83c\udf3f",
         "ok.badEmail": "that email doesn't look right.",
         "ok.tooMany": "too many tries. wait an hour and try again.",
@@ -1426,14 +1721,22 @@
         "footer.platforms": "Coming first to iPhone"
       },
       pt: {
-        "nav.waitlist": "entrar na lista",
-        "nav.skip": "pular para o conteúdo",
+        "nav.waitlist": "entrar no beta",
+        "nav.skip": "pular para o conte\u00fado",
         "nav.features": "recursos",
         "nav.how": "como funciona",
+        "care.label": "experimente",
+        "care.title": "escolha uma planta, veja a ficha.",
+        "care.sub": "Esta \u00e9 a ficha de cuidado real que o app monta, de um cat\u00e1logo com 4.000+ esp\u00e9cies. Dados reais, n\u00e3o uma demonstra\u00e7\u00e3o.",
+        "care.labelq": "digite uma planta",
+        "care.placeholder": "ou digite a sua: tomate, pe\u00f4nia, bordo...",
+        "care.miss": "N\u00e3o est\u00e1 nesta amostra de 320. O app tem, ou monta a ficha no primeiro scan.",
+        "care.fact": "O app ent\u00e3o ajusta esses dias para a luz do seu c\u00f4modo e o clima da sua cidade.",
+        "card.summer": "regar no ver\u00e3o", "card.winter": "regar no inverno", "card.light": "luz", "card.humidity": "umidade", "card.pets": "para gatos e c\u00e3es", "card.zone": "zona USDA, ao ar livre",
         "hero.badge": "Em breve",
         "hero.headline": "cada planta,<br>perfeitamente cuidada.",
         "hero.sub": "Cronograma inteligente de cuidados, identificação de plantas por IA e respostas para suas dúvidas sobre plantas. Tudo que um orgulhoso pai de plantas precisa.",
-        "hero.cta1": "acesso antecipado \u2192",
+        "hero.cta1": "entrar no beta \u2192",
         "hero.cta2": "veja como funciona \u2193",
         "stats.1.title": "por c\u00f4modo",
         "stats.1.label": "CUIDADO ORGANIZADO",
@@ -1476,14 +1779,14 @@
         "beta.c2.title": "compartilhe feedback",
         "beta.c2.text": "Nos conte o que funciona, o que n\u00e3o funciona e o que voc\u00ea gostaria que fizesse.",
         "beta.c3.title": "seja recompensado",
-        "beta.c3.text": "Quem testa ganha um agradecimento no lançamento, anunciado primeiro no app.",
-        "beta.cta": "inscreva-se no beta \u2192",
+        "beta.c3.text": "Quem testa ganha um agradecimento no lan\u00e7amento, anunciado primeiro no app. Sem cart\u00e3o de cr\u00e9dito.",
+        "beta.cta": "entrar no beta \u2192",
         "waitlist.title": "junte-se aos orgulhosos pais de plantas.",
-        "waitlist.sub": "Vamos lançar em breve. Entre na lista de espera e avisamos quando abrir.",
+        "waitlist.sub": "Convidamos em grupos pequenos. Deixe seu e-mail e mandamos o link do TestFlight quando chegar a sua vez.",
         "waitlist.placeholder": "seu@email.com",
         "waitlist.label": "seu e-mail",
         "waitlist.purpose": "vamos te enviar e-mails sobre o lançamento, nada mais. <a href=\"privacy.html\">política de privacidade</a>.",
-        "waitlist.cta": "entrar na lista \u2192",
+        "waitlist.cta": "entrar no beta \u2192",
         "waitlist.success": "voc\u00ea est\u00e1 na lista! \ud83c\udf3f",
         "ok.badEmail": "esse e-mail não parece certo.",
         "ok.tooMany": "tentativas demais. espere uma hora e tente de novo.",
@@ -1494,14 +1797,22 @@
         "footer.platforms": "Primeiro no iPhone"
       },
       es: {
-        "nav.waitlist": "\u00fanete a la lista",
+        "nav.waitlist": "unirme a la beta",
         "nav.skip": "saltar al contenido",
         "nav.features": "funciones",
         "nav.how": "c\u00f3mo funciona",
+        "care.label": "pru\u00e9balo",
+        "care.title": "elige una planta, mira su ficha.",
+        "care.sub": "Esta es la ficha de cuidado real que arma la app, de un cat\u00e1logo de 4.000+ especies. Datos reales, no una demo.",
+        "care.labelq": "escribe una planta",
+        "care.placeholder": "o escribe la tuya: tomate, peon\u00eda, arce...",
+        "care.miss": "No est\u00e1 en esta muestra de 320. La app la tiene, o arma su ficha en el primer escaneo.",
+        "care.fact": "La app luego ajusta esos d\u00edas a la luz de tu habitaci\u00f3n y al clima de tu ciudad.",
+        "card.summer": "riego en verano", "card.winter": "riego en invierno", "card.light": "luz", "card.humidity": "humedad", "card.pets": "para gatos y perros", "card.zone": "zona USDA, al aire libre",
         "hero.badge": "Pr\u00f3ximamente",
         "hero.headline": "cada planta,<br>perfectamente cuidada.",
         "hero.sub": "Horarios inteligentes de cuidado, identificación de plantas con IA y respuestas a tus dudas sobre plantas. Todo lo que un orgulloso padre de plantas necesita.",
-        "hero.cta1": "acceso anticipado \u2192",
+        "hero.cta1": "unirme a la beta \u2192",
         "hero.cta2": "mira c\u00f3mo funciona \u2193",
         "stats.1.title": "por habitaci\u00f3n",
         "stats.1.label": "CUIDADO ORGANIZADO",
@@ -1545,13 +1856,13 @@
         "beta.c2.text": "Cu\u00e9ntanos qu\u00e9 funciona, qu\u00e9 no y qu\u00e9 desear\u00edas que hiciera.",
         "beta.c3.title": "s\u00e9 recompensado",
         "beta.c3.text": "Quienes prueban reciben un agradecimiento al lanzamiento, anunciado primero en la app.",
-        "beta.cta": "aplica al acceso beta \u2192",
+        "beta.cta": "unirme a la beta \u2192",
         "waitlist.title": "\u00fanete a los orgullosos padres de plantas.",
-        "waitlist.sub": "Lanzamos pronto. Únete a la lista de espera y te avisamos cuando abra.",
+        "waitlist.sub": "Invitamos en grupos peque\u00f1os. Deja tu correo y te mandamos el enlace de TestFlight cuando sea tu turno.",
         "waitlist.placeholder": "tu@email.com",
         "waitlist.label": "tu correo",
         "waitlist.purpose": "te escribiremos sobre el lanzamiento, nada más. <a href=\"privacy.html\">política de privacidad</a>.",
-        "waitlist.cta": "\u00fanete a la lista \u2192",
+        "waitlist.cta": "unirme a la beta \u2192",
         "waitlist.success": "\u00a1est\u00e1s en la lista! \ud83c\udf3f",
         "ok.badEmail": "ese correo no parece correcto.",
         "ok.tooMany": "demasiados intentos. espera una hora e inténtalo de nuevo.",
@@ -1599,6 +1910,60 @@
     }
 
     // Init on load
+    // ---- LIVE CARE CARD (from the app's catalog) ----
+    let CARDS = [];
+    const careCard = document.getElementById('care-card');
+    const human = (x) => String(x || '').replace(/-/g, ' to ');
+    function showCard(c) {
+      if (!c) return;
+      careCard.classList.add('fade');
+      setTimeout(() => {
+        document.getElementById('c-name').textContent = c.n;
+        document.getElementById('c-sci').textContent = c.s;
+        document.getElementById('c-water').textContent = 'every ' + c.w[0] + ' days';
+        document.getElementById('c-winter').textContent = 'every ' + c.w[1] + ' days';
+        document.getElementById('c-light').textContent = c.l;
+        document.getElementById('c-hum').textContent = human(c.h);
+        document.getElementById('c-pets').textContent = (c.c || c.d) ? (c.t === 'Severe' ? 'dangerous' : 'not safe') : 'safe';
+        document.getElementById('c-zone').textContent = c.z || (c.io === 'indoor' ? 'indoors' : 'any');
+        document.getElementById('c-rule').textContent = c.r;
+        careCard.classList.remove('fade');
+      }, 160);
+    }
+    function findCard(q) {
+      const x = String(q || '').trim().toLowerCase();
+      if (!x) return null;
+      return CARDS.find((c) => c.n.toLowerCase() === x) || CARDS.find((c) => c.s.toLowerCase() === x)
+        || CARDS.find((c) => c.n.toLowerCase().startsWith(x)) || CARDS.find((c) => c.n.toLowerCase().includes(x) || c.s.toLowerCase().includes(x)) || null;
+    }
+    fetch('care-cards.json').then((r) => r.json()).then((rows) => {
+      CARDS = rows;
+      const dl = document.getElementById('plant-list');
+      rows.forEach((c) => { const o = document.createElement('option'); o.value = c.n; dl.appendChild(o); });
+    }).catch(() => {});
+    document.getElementById('care-chips').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      document.querySelectorAll('#care-chips button').forEach((x) => x.classList.toggle('active', x === b));
+      document.getElementById('care-miss').style.display = 'none';
+      const c = findCard(b.getAttribute('data-plant')); if (c) showCard(c);
+    });
+    document.getElementById('plant-q').addEventListener('input', (e) => {
+      const c = findCard(e.target.value);
+      document.getElementById('care-miss').style.display = (!c && e.target.value.length > 2) ? 'block' : 'none';
+      if (c) { showCard(c); document.querySelectorAll('#care-chips button').forEach((x) => x.classList.remove('active')); }
+    });
+
+    // ---- HOW IT WORKS: stage switcher ----
+    const stageImg = document.getElementById('stage-img');
+    document.querySelectorAll('#stage-list .stage-btn').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('#stage-list .stage-btn').forEach((x) => x.classList.toggle('active', x === b));
+      const src = b.getAttribute('data-img');
+      if (stageImg.getAttribute('src') !== src) {
+        stageImg.classList.add('fade');
+        setTimeout(() => { stageImg.src = src; stageImg.classList.remove('fade'); }, 200);
+      }
+    }));
+
     setLang(currentLang);
   </script>
 </body>
